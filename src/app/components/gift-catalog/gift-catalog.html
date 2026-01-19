@@ -33,20 +33,16 @@
                                 <div class="text-lg font-medium mt-2">{{ item.name }}</div>
                             </div>
                             <div class="bg-gray-100 p-1 rounded-full">
-                                <div
-                                    class="bg-white flex items-center gap-2 justify-center py-1 px-2 rounded-full shadow-sm">
-                                    <span class="text-gray-900 font-medium text-sm">{{ item.rating }}</span>
-                                    <i class="pi pi-star-fill text-yellow-500"></i>
-                                </div>
+
                             </div>
                         </div>
                         <div class="flex flex-col md:items-end gap-8">
                             <span class="text-xl font-semibold">{{ price | currency: 'USD' }}</span>
                             <div class="flex flex-row-reverse md:flex-row gap-2">
                                 <button pButton icon="pi pi-heart" [outlined]="true"></button>
-                                <button pButton icon="pi pi-shopping-cart" label="Buy Now"
-                                    [disabled]="item.inventoryStatus === 'OUTOFSTOCK'" severity="contrast"
-                                    class="flex-auto md:flex-initial whitespace-nowrap"></button>
+                                <button pButton icon="pi pi-shopping-cart" label="הוספה לסל"
+                                    class="flex-auto md:flex-initial whitespace-nowrap"
+                                    (click)="addToCart(item.id)"></button>
                             </div>
                         </div>
                     </div>
@@ -75,20 +71,13 @@
                                     <span class="font-medium text-gray-500 text-sm">{{ item.category }}</span>
                                     <div class="text-lg font-medium mt-1">{{ item.name }}</div>
                                 </div>
-                                <div class="bg-gray-100 p-1 rounded-full">
-                                    <div
-                                        class="bg-white flex items-center gap-2 justify-center py-1 px-2 rounded-full shadow-sm">
-                                        <span class="text-gray-900 font-medium text-sm">{{ item.rating }}</span>
-                                        <i class="pi pi-star-fill text-yellow-500"></i>
-                                    </div>
-                                </div>
+
                             </div>
                             <div class="flex flex-col gap-6 mt-6">
                                 <span class="text-2xl font-semibold">{{ price | currency: 'USD' }}</span>
                                 <div class="flex gap-2">
-                                    <button pButton icon="pi pi-shopping-cart" label="Buy Now"
-                                        [disabled]="item.inventoryStatus === 'OUTOFSTOCK'" severity="contrast"
-                                        class="flex-auto whitespace-nowrap"></button>
+                                    <button pButton icon="pi pi-shopping-cart" label="הוספה לסל"
+                                        (click)="addToCart(item.id)" class="flex-auto whitespace-nowrap"></button>
                                     <button pButton icon="pi pi-heart" [outlined]="true"></button>
                                 </div>
                             </div>

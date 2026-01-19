@@ -74,4 +74,8 @@ export class AuthService {
     this.cookieService.delete('currentUser', '/');
     this.currentUserSubject.next(null);
   }
+  // פונקציה לשליפת ה-ID של המשתמש הנוכחי (או null אם לא מחובר)
+getUserId(): number | null {
+  return this.currentUserSubject.value?.id || null;
+}
 }

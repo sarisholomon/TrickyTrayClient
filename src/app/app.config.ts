@@ -1,24 +1,30 @@
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http'; 
-import { CookieService } from 'ngx-cookie-service';  
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'; // הוספה עבור אנימציות
-import { providePrimeNG } from 'primeng/config'; // הוספה עבור הגדרות PrimeNG
-import Aura from '@primeng/themes/aura'; // ייבוא ערכת הנושא Aura
+import { provideHttpClient, withInterceptors } from '@angular/common/http'; // <--- הוספתי כאן את withInterceptors
+import { CookieService } from 'ngx-cookie-service';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
 
 import { routes } from './app.routes';
+import { authInterceptor } from './auth.interceptor'; // <--- הוספתי את הייבוא של הקובץ שיצרנו
 
 export const appConfig: ApplicationConfig = {
   providers: [
-provideRouter(routes), // מחבר את המערך שהגדרנו למעלה לאפליקציה    provideHttpClient(), 
+    provideRouter(routes),
+    
+    // השינוי החשוב: הוספת המיירט (Interceptor) ללקוח ה-HTTP
+    provideHttpClient(withInterceptors([authInterceptor])), 
+    
     CookieService,
-    // --- הגדרות חדשות עבור PrimeNG 18 ---
-    provideAnimationsAsync(), // מאפשר אנימציות חלקות ברכיבים (כמו פתיחת דרופ-דאון)
+    
+    // --- הגדרות PrimeNG (נשארו בדיוק כמו שהיו) ---
+    provideAnimationsAsync(),
     providePrimeNG({ 
         theme: {
-            preset: Aura, // קובע שכל הרכיבים ישתמשו בעיצוב Aura המודרני
+            preset: Aura,
             options: {
-                darkModeSelector: false // מבטל מעבר אוטומטי למצב לילה אם אתן לא רוצות
+                darkModeSelector: false
             }
         }
     })

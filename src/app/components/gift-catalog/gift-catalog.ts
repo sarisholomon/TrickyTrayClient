@@ -1,5 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { GiftService } from '../../services/gift-service';
+import { CartService } from '../../services/cart-service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; 
 import { ButtonModule } from 'primeng/button';
@@ -22,9 +23,10 @@ import { TicketPriceService } from '../../services/ticket-price-service';
   styleUrls: ['./gift-catalog.scss']
 }) 
 export class GiftCatalog implements OnInit {
-   private GiftService = inject(GiftService);
-      private TicketPriceService = inject(TicketPriceService);
-
+  private GiftService = inject(GiftService);
+  private CartService = inject(CartService);
+  private TicketPriceService = inject(TicketPriceService);
+  carts:string[]=[]
    gifts = signal<any>([]);
    price:number=0;
 layout: 'list' | 'grid' = 'list';
@@ -41,5 +43,8 @@ layout: 'list' | 'grid' = 'list';
         this.price=data;
     });
   }
- 
-}
+ addToCart(id:number){
+this.CartService.addCartItem(id).subscribe((data) => {
+
+})
+}}
