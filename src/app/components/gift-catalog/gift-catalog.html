@@ -1,0 +1,101 @@
+<div class="card p-4">
+    <p-dataview #dv [value]="gifts()" [layout]="layout">
+
+        <ng-template #header>
+            <div class="flex justify-end mb-4">
+                <p-selectbutton [(ngModel)]="layout" [options]="options" [allowEmpty]="false">
+                    <ng-template #item let-item>
+                        <i class="pi" [ngClass]="{ 
+               'pi-bars': item.value === 'list', 
+               'pi-table': item.value === 'grid' 
+           }">
+                        </i>
+                    </ng-template>
+                </p-selectbutton>
+            </div>
+        </ng-template>
+
+        <ng-template #list let-items>
+            <div *ngFor="let item of items; let first = first">
+                <div class="flex flex-col sm:flex-row sm:items-center p-6 gap-4"
+                    [ngClass]="{ 'border-t border-gray-200': !first }">
+
+                    <div class="md:w-40 relative">
+                        <img class="block xl:block mx-auto rounded w-full"
+                            [src]="item.imgUrl ?'https://localhost:7260'+ item.imgUrl : 'https://primefaces.org/cdn/primeng/images/demo/product/bamboo-watch.jpg'"
+                            [alt]="item.name" />
+                    </div>
+
+                    <div class="flex flex-col md:flex-row justify-between md:items-center flex-1 gap-6">
+                        <div class="flex flex-row md:flex-col justify-between items-start gap-2">
+                            <div>
+                                <span class="font-medium text-gray-500 text-sm">{{ item.category }}</span>
+                                <div class="text-lg font-medium mt-2">{{ item.name }}</div>
+                            </div>
+                            <div class="bg-gray-100 p-1 rounded-full">
+                                <div
+                                    class="bg-white flex items-center gap-2 justify-center py-1 px-2 rounded-full shadow-sm">
+                                    <span class="text-gray-900 font-medium text-sm">{{ item.rating }}</span>
+                                    <i class="pi pi-star-fill text-yellow-500"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col md:items-end gap-8">
+                            <span class="text-xl font-semibold">{{ price | currency: 'USD' }}</span>
+                            <div class="flex flex-row-reverse md:flex-row gap-2">
+                                <button pButton icon="pi pi-heart" [outlined]="true"></button>
+                                <button pButton icon="pi pi-shopping-cart" label="Buy Now"
+                                    [disabled]="item.inventoryStatus === 'OUTOFSTOCK'" severity="contrast"
+                                    class="flex-auto md:flex-initial whitespace-nowrap"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template #grid let-items>
+            <div class="grid grid-cols-12 gap-4">
+                <div *ngFor="let item of items" class="col-span-12 sm:col-span-6 md:col-span-4 xl:col-span-4 p-2">
+
+                    <div
+                        class="p-6 border border-gray-200 bg-white rounded-lg flex flex-col shadow-md hover:shadow-lg transition-shadow duration-300">
+
+                        <div class="bg-gray-50 flex justify-center rounded p-4 relative mb-4">
+                            <div class="relative mx-auto">
+                                <img class="rounded w-full"
+                                    [src]="item.imgUrl ?'https://localhost:7260'+  item.imgUrl : 'https://primefaces.org/cdn/primeng/images/demo/product/bamboo-watch.jpg'"
+                                    [alt]="item.name" style="max-width: 300px" />
+                            </div>
+                        </div>
+
+                        <div class="pt-2">
+                            <div class="flex flex-row justify-between items-start gap-2">
+                                <div>
+                                    <span class="font-medium text-gray-500 text-sm">{{ item.category }}</span>
+                                    <div class="text-lg font-medium mt-1">{{ item.name }}</div>
+                                </div>
+                                <div class="bg-gray-100 p-1 rounded-full">
+                                    <div
+                                        class="bg-white flex items-center gap-2 justify-center py-1 px-2 rounded-full shadow-sm">
+                                        <span class="text-gray-900 font-medium text-sm">{{ item.rating }}</span>
+                                        <i class="pi pi-star-fill text-yellow-500"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-6 mt-6">
+                                <span class="text-2xl font-semibold">{{ price | currency: 'USD' }}</span>
+                                <div class="flex gap-2">
+                                    <button pButton icon="pi pi-shopping-cart" label="Buy Now"
+                                        [disabled]="item.inventoryStatus === 'OUTOFSTOCK'" severity="contrast"
+                                        class="flex-auto whitespace-nowrap"></button>
+                                    <button pButton icon="pi pi-heart" [outlined]="true"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-dataview>
+</div>

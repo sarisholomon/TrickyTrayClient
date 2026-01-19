@@ -4,7 +4,6 @@ import { AuthService } from '../../services/auth-service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
-// ייבוא רכיבי PrimeNG (לוודא שאין שגיאות כתיב כאן!)
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
@@ -14,7 +13,6 @@ import { CardModule } from 'primeng/card';
 @Component({
   selector: 'app-login',
   standalone: true,
-  // 1. כאן אנחנו מזריקים את הכלים של PrimeNG לתוך הקומפוננטה
   imports: [
     CommonModule, 
     ReactiveFormsModule,
