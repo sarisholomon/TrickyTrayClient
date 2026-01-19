@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "client": {
+    "TrickyTrayClient": { 
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -31,8 +31,11 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
-            ]
+  "primeicons/primeicons.css",
+  "primeflex/primeflex.css", 
+  "src/styles.scss"
+],
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -41,11 +44,6 @@
                   "type": "initial",
                   "maximumWarning": "500kB",
                   "maximumError": "1MB"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
                 }
               ],
               "outputHashing": "all"
@@ -62,16 +60,13 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "client:build:production"
+              "buildTarget": "TrickyTrayClient:build:production"
             },
             "development": {
-              "buildTarget": "client:build:development"
+              "buildTarget": "TrickyTrayClient:build:development"
             }
           },
           "defaultConfiguration": "development"
-        },
-        "test": {
-          "builder": "@angular/build:unit-test"
         }
       }
     }

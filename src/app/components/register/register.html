@@ -1,0 +1,64 @@
+<div class="flex align-items-center justify-content-center min-h-screen bg-slate-50">
+  <p-card header="יצירת חשבון חדש" [style]="{ width: '480px' }" class="shadow-2 border-round-xl">
+    
+    <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="flex flex-column gap-3">
+      
+      <div class="flex gap-3">
+        <div class="flex flex-column gap-2 flex-1">
+          <label class="font-semibold text-700">שם פרטי</label>
+          <input pInputText formControlName="firstName" placeholder="ישראל" class="border-round-lg w-full" />
+        </div>
+        <div class="flex flex-column gap-2 flex-1">
+          <label class="font-semibold text-700">שם משפחה</label>
+          <input pInputText formControlName="lastName" placeholder="ישראלי" class="border-round-lg w-full" />
+        </div>
+      </div>
+
+      <div class="flex flex-column gap-2">
+        <label class="font-semibold text-700">כתובת אימייל</label>
+        <span class="p-input-icon-left w-full">
+          <i class="pi pi-envelope"></i>
+          <input pInputText formControlName="email" placeholder="example@mail.com" class="border-round-lg w-full" />
+        </span>
+      </div>
+
+      <div class="flex flex-column gap-2">
+        <label class="font-semibold text-700">מספר טלפון</label>
+        <p-inputMask 
+          mask="099-9999999" 
+          formControlName="phone" 
+          placeholder="050-0000000" 
+          styleClass="w-full" 
+          inputStyleClass="w-full border-round-lg">
+        </p-inputMask>
+      </div>
+
+      <div class="flex flex-column gap-2">
+        <label class="font-semibold text-700">סיסמה</label>
+        <p-password 
+          formControlName="password" 
+          [toggleMask]="true" 
+          styleClass="w-full" 
+          inputStyleClass="w-full border-round-lg"
+          placeholder="לפחות 6 תווים"
+        ></p-password>
+      </div>
+
+      <p-button 
+        label="הרשמה למערכת" 
+        type="submit" 
+        [disabled]="registerForm.invalid" 
+        styleClass="w-full p-button-raised border-round-lg mt-2"
+        icon="pi pi-user-plus"
+      ></p-button>
+
+      <p-message *ngIf="errorMessage" severity="error" [text]="errorMessage" class="mt-2 w-full"></p-message>
+
+      <div class="text-center mt-3">
+        <span class="text-600">כבר רשום? </span>
+        <!-- <a class="font-bold no-underline text-primary cursor-pointer" (click)="router.navigate(['/login'])">התחבר כאן</a> -->
+      </div>
+
+    </form>
+  </p-card>
+</div>

@@ -1,0 +1,15 @@
+/* מרכוז כל הטופס למרכז המסך */
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f9fa; /* רקע אפור בהיר ונעים */
+}
+
+/* דואג ששדה הסיסמה והאימייל יתפסו את כל רוחב הכרטיס */
+:host ::ng-deep {
+    .p-password, .p-inputtext, .p-button {
+        width: 100%;
+    }
+}

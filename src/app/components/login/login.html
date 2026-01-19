@@ -1,0 +1,55 @@
+<div class="flex align-items-center justify-content-center min-h-screen bg-slate-50">
+  
+  <p-card header="התחברות למערכת" [style]="{ width: '400px' }" class="shadow-2 border-round-xl">
+    
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-column gap-4">
+      
+      <div class="flex flex-column gap-2">
+        <label for="email" class="font-semibold text-700">כתובת אימייל</label>
+        <span class="p-input-icon-left w-full">
+          <i class="pi pi-envelope"></i>
+          <input 
+            pInputText 
+            id="email" 
+            formControlName="email" 
+            placeholder="name@company.com" 
+            class="w-full border-round-lg" 
+          />
+        </span>
+        <small *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="p-error">
+          נא להזין אימייל תקין
+        </small>
+      </div>
+
+      <div class="flex flex-column gap-2">
+        <label for="password" class="font-semibold text-700">סיסמה</label>
+        <p-password 
+          id="password" 
+          formControlName="password" 
+          [feedback]="false" 
+          [toggleMask]="true" 
+          styleClass="w-full" 
+          inputStyleClass="w-full border-round-lg"
+          placeholder="••••••••"
+        ></p-password>
+      </div>
+
+      <p-button 
+        label="התחברות" 
+        type="submit" 
+        [disabled]="loginForm.invalid" 
+        styleClass="w-full p-button-raised border-round-lg"
+        icon="pi pi-sign-in"
+      ></p-button>
+
+      <p-message *ngIf="errorMessage" severity="error" [text]="errorMessage" class="mt-2"></p-message>
+
+    </form>
+    
+    <div class="text-center mt-4">
+      <span class="text-600">עדיין אין לך חשבון? </span>
+      <!-- <a class="font-bold no-underline text-primary cursor-pointer" (click)="router.navigate(['/register'])">צור חשבון</a> -->
+    </div>
+
+  </p-card>
+</div>
