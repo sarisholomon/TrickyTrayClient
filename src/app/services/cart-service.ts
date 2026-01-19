@@ -13,6 +13,6 @@ export class CartService {
   http: HttpClient = inject(HttpClient);
   addCartItem(id: number): Observable<CartItem> {
      const userId  = this.authService.getUserId();
-    return this.http.post<CartItem>(this.apiUrl, { giftId: id, userId: userId, quantity: 1 });
+    return this.http.post<CartItem>(this.apiUrl, { userId: userId, giftId: id, quantity: 1 });
   }
 }
