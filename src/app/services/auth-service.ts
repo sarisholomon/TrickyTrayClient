@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../environments/environment';
 import { User, TypeCostumer } from '../models/models';
+import { CartService } from './cart-service';
+import { Router } from '@angular/router';
 
 // הגדרת המבנה שהשרת מחזיר ב-LoginResponseDTO
 export interface LoginResponse {
@@ -23,7 +25,7 @@ export class AuthService {
   // ניהול המשתמש המחובר בזיכרון ה-RAM של האפליקציה
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
-
+private router = inject(Router); // דורש ייבוא מ-@angular/router
   constructor(
     private http: HttpClient,
     private cookieService: CookieService
@@ -73,6 +75,9 @@ export class AuthService {
     this.cookieService.delete('token', '/');
     this.cookieService.delete('currentUser', '/');
     this.currentUserSubject.next(null);
+
+    // 3. ניווט לדף הבית כדי לרענן את תצוגת הרכיבים
+   this.router.navigate(['/login']);
   }
   // פונקציה לשליפת ה-ID של המשתמש הנוכחי (או null אם לא מחובר)
 getUserId(): number | null {

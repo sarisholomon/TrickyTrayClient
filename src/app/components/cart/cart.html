@@ -1,0 +1,69 @@
+<div class="grid dir-rtl p-4 flex align-items-start" style="direction: rtl;">    
+    <div class="col-12 md:col-8">
+        <p-dataview #dv [value]="cartItems()" layout="list">
+            <ng-template #list let-items>
+                <div class="flex flex-column gap-3">
+                    <div *ngFor="let item of items">
+                        <p-card styleClass="shadow-1">
+                            <div class="flex align-items-center justify-content-between">
+                                <div class="flex align-items-center gap-3">
+                                    <i class="pi pi-trash cursor-pointer text-red-500" 
+                                   (click)="removeItem(item.id) 
+                                    "></i>
+                                    <img 
+                                        [src]="item.gift.imgUrl ? 'https://localhost:7260' + item.gift.imgUrl : 'https://primefaces.org/cdn/primeng/images/demo/product/bamboo-watch.jpg'" 
+                                        style="width: 80px; height: 80px; object-fit: cover;" 
+                                        class="border-round shadow-1" />
+                                    <div class="product-info">
+                                        <h4 class="m-0 text-right">{{item.gift.name}}</h4>
+                                        <p class="m-0 text-secondary text-right">        {{item.quantity}}  כרטיסים   {{currentPrice()}} x ₪</p>
+                                    </div>
+                                </div>
+                                <div class="font-bold text-xl">
+                                    ₪{{currentPrice() * item.quantity}}
+                                </div>
+                            </div>
+                        </p-card>
+                    </div>
+                </div>
+            </ng-template>
+        </p-dataview>
+    </div>
+
+    <div class="col-12 md:col-4">
+        <p-card header="סיכום הזמנה" styleClass="shadow-1">
+            <div class="flex justify-content-between mb-3">
+                <span>סה"כ כרטיסים</span>
+                <span class="font-bold">{{totalQuantity()}}</span>
+            </div>
+            <p-divider></p-divider>
+            <div class="flex justify-content-between font-bold text-xl mb-4">
+                <span>סה"כ לתשלום</span>
+                <span class="text-green-600">
+                    {{totalAmount()}}
+                </span>
+            </div>
+            <p-button [disabled]="totalAmount()==0" (click)="confirm()" label="אישור רכישה" icon="pi pi-credit-card" styleClass="p-button-success w-full"></p-button>
+        </p-card>
+    </div>
+</div>
+        <div class="card flex justify-center">
+            <p-toast />
+            <p-confirmdialog #cd>
+                <ng-template #headless let-message let-onAccept="onAccept" let-onReject="onReject">
+                    @if (message) {
+                        <div class="flex flex-col items-center p-8 bg-surface-0 dark:bg-surface-900 rounded">
+                            <div class="rounded-full bg-primary text-primary-contrast inline-flex justify-center items-center h-24 w-24 -mt-20">
+                                <i class="pi pi-question !text-5xl"></i>
+                            </div>
+                            <span class="font-bold text-2xl block mb-2 mt-6">{{ message.header }}</span>
+                            <p class="mb-0">{{ message.message }}</p>
+                            <div class="flex items-center gap-2 mt-6">
+                                <p-button label="Save" (onClick)="onAccept()" styleClass="w-32"></p-button>
+                                <p-button label="Cancel" [outlined]="true" (onClick)="onReject()" styleClass="w-32"></p-button>
+                            </div>
+                        </div>
+                    }
+                </ng-template>
+            </p-confirmdialog>
+        </div>

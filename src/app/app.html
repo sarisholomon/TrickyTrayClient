@@ -1,5 +1,11 @@
-<!-- <app-login></app-login>
-<app-register></app-register> -->
-<!-- <app-gift-catalog></app-gift-catalog>  -->
-<app-menu ></app-menu>
-<router-outlet></router-outlet>
+<div class="flex h-screen surface-ground" dir="rtl">
+
+    <div class="h-full flex-shrink-0 surface-section shadow-2 z-2">
+        <app-menu></app-menu>
+    </div>
+
+    <div class="flex-1 overflow-y-auto p-5">
+        <router-outlet></router-outlet>
+    </div>
+
+</div>
