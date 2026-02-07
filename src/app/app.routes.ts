@@ -3,6 +3,9 @@ import { LoginComponent } from './components/login/login';
 import { RegisterComponent } from './components/register/register';
 import { GiftCatalog } from './components/gift-catalog/gift-catalog';
 import { Cart } from './components/cart/cart';
+import { Purchases } from './components/purchases/purchases';
+import { Donors } from './components/donors/donors';
+
 // 1. הגדרת מערך הנתיבים של האפליקציה
 export const routes: Routes = [
   // 2. נתיב ברירת המחדל - מה רואים כשנכנסים לדף הבית
@@ -14,6 +17,8 @@ export const routes: Routes = [
 
   { path: 'gifts', component: GiftCatalog },
   { path: 'cart', component: Cart },
+  { path: 'purchases', component: Purchases },
+  { path: 'donors', component: Donors },
 
   // 4. נתיב "תפיסת כל השאר" - אם המשתמש הקליד כתובת שלא קיימת
   { path: '**', redirectTo: 'login' }

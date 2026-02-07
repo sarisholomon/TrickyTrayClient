@@ -6,8 +6,8 @@
 // --- Enums ---
 
 export enum TypeCostumer {
-    User = 0,
-    Admin = 1
+    Admin = 'Admin',
+    User = 'User' // או Customer, לפי מה שמופיע ב-Console
 }
 
 // --- Core Entities ---
@@ -19,7 +19,7 @@ export interface User {
     email: string | null;
     passwordHash: string;
     phoneNumber: string;
-    typeCostumer: TypeCostumer;
+    type: TypeCostumer;
     cartItems?: CartItem[];
 }
 
@@ -27,8 +27,9 @@ export interface Donor {
     id: number;
     name: string | null;
     email: string | null;
-    phoneNumber: string;
-    gifts: Gift[];
+    phoneNumber?: string;
+    gifts?: Gift[];
+    giftsString?:string | "";
 }
 
 export interface Category {
@@ -61,23 +62,38 @@ export interface CartItem {
     user?: User;
 }
 
-export interface Purchase {
-    id: number;
-    userId: number;
-    user?: User;
-    purchaseItems: PurchaseItem[];
-    price: number;
-    date: Date | string;
+// export interface Purchase {
+//     id: number;
+//     userId: number;
+//     user?: User;
+//     purchaseItems: PurchaseItem[];
+//     price: number;
+//     date: Date | string;
+// }
+// מודל עבור הפריט הבודד (המתנה בתוך הקניה)
+export interface PurchasedGiftItem {
+    giftId: number;
+    giftName: string;
+    imgUrl: string;
+    quantity: number;
 }
 
-export interface PurchaseItem {
-    id: number;
-    giftId: number;
-    gift?: Gift;
-    isWinner: boolean;
-    userId: number;
-    user?: User;
+// מודל עבור הקניה כולה
+export interface UserPurchase {
+    purchaseId: number;
+    date: Date;        // בדרך כלל מגיע כ-string מהשרת, אך נגדיר כ-Date לשימוש נוח
+    totalPrice: number;
+    totalTickets: number;
+    items: PurchasedGiftItem[]; // מערך של הפריטים למעלה
 }
+// export interface PurchaseItem {
+//     id: number;
+//     giftId: number;
+//     gift?: Gift;
+//     isWinner: boolean;
+//     userId: number;
+//     user?: User;
+// }
 
 export interface TicketPrice {
     id: number;

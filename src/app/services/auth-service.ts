@@ -67,7 +67,8 @@ private router = inject(Router); // דורש ייבוא מ-@angular/router
   // בדיקה האם המשתמש הוא אדמין
   isAdmin(): boolean {
     const user = this.currentUserSubject.value;
-    return user?.typeCostumer === TypeCostumer.Admin;
+    
+    return user?.type == TypeCostumer.Admin;
   }
 
   // התנתקות - מחיקת כל המידע מהדפדפן
