@@ -129,22 +129,28 @@ this.giftService.random().subscribe()
     this.CartService.addCartItem(id).subscribe();
   }
   showDialog(gift?: any) {
-    this.visible = true;
-
-    if (gift) {
-      this.isEditMode = true;
-      this.currentGift = { ...gift };
-    } else {
-      this.isEditMode = false;
-      this.currentGift = {
-        id: 0,
-        name: '',
-        description: '',
-        categoryId: null,
-        donorId: null,
-        imgUrl: ''
-      };
-      this.selectedFile = null; 
-    }
+  this.visible = true;
+  
+  if (gift) {
+    this.isEditMode = true;
+    // יצירת עותק של המתנה והבטחה שה-ID של הקטגוריה והתורם מושמים נכון
+    this.currentGift = { 
+      ...gift,
+      categoryId: gift.categoryId || (gift.category ? gift.category.id : null),
+      donorId: gift.donorId || (gift.donor ? gift.donor.id : null)
+    };
+    console.log('Editing gift:', this.currentGift);
+  } else {
+    this.isEditMode = false;
+    this.currentGift = { 
+      id: 0, 
+      name: '', 
+      description: '', 
+      categoryId: null, 
+      donorId: null, 
+      imgUrl: '' 
+    };
+    this.selectedFile = null;
   }
+}
 }
