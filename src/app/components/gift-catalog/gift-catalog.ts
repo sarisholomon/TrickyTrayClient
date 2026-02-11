@@ -15,6 +15,10 @@ import { DialogModule } from 'primeng/dialog';
 import { CategoryService } from '../../services/category-service';
 import { DonorService } from '../../services/donor-service';
 import { SelectModule } from 'primeng/select';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-gift-catalog',
   standalone: true,
@@ -27,8 +31,9 @@ import { SelectModule } from 'primeng/select';
     DataViewModule,
     DialogModule,
     InputTextModule,
-    SelectModule
+    SelectModule,ButtonModule, ConfirmDialogModule, ToastModule
   ],
+  providers: [ConfirmationService, MessageService],
   templateUrl: './gift-catalog.html',
   styleUrls: ['./gift-catalog.scss']
 })
@@ -126,6 +131,10 @@ this.giftService.random().subscribe()
   }
 
   addToCart(id: number) {
+if(!this.authService.isLoggedIn()){
+  this.confirm();
+  return;
+}
     this.CartService.addCartItem(id).subscribe();
   }
   showDialog(gift?: any) {
@@ -136,8 +145,9 @@ this.giftService.random().subscribe()
     // יצירת עותק של המתנה והבטחה שה-ID של הקטגוריה והתורם מושמים נכון
     this.currentGift = { 
       ...gift,
-      categoryId: gift.categoryId || (gift.category ? gift.category.id : null),
-      donorId: gift.donorId || (gift.donor ? gift.donor.id : null)
+      // המרה מפורשת למספר כדי לוודא התאמה לערכי ה-Select
+      categoryId: gift.categoryId ? Number(gift.categoryId) : (gift.category?.id ? Number(gift.category.id) : null),
+      donorId: gift.donorId ? Number(gift.donorId) : (gift.donor?.id ? Number(gift.donor.id) : null)
     };
     console.log('Editing gift:', this.currentGift);
   } else {
@@ -153,4 +163,24 @@ this.giftService.random().subscribe()
     this.selectedFile = null;
   }
 }
+private confirmationService = inject(ConfirmationService);
+    private messageService = inject(MessageService);
+private router = inject(Router); // הזרקת שירות הניווט
+    confirm() {
+        this.confirmationService.confirm({
+            header: 'אין אפשרות להוסיף מתנה לסל ללא התחברות',
+            message: 'רוצה להתחבר עכשיו?',
+            accept: () => {
+this.router.navigate(['/login']);
+            },
+            reject: () => {
+                this.messageService.add({ 
+                    severity: 'error', 
+                    summary: 'Rejected', 
+                    detail: 'הפריט לא נוסף לסל ', 
+                    life: 3000 
+                });
+            }
+        });
+    }
 }

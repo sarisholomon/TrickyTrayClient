@@ -19,6 +19,7 @@ export interface LoginResponse {
   providedIn: 'root'
 })
 export class AuthService {
+ 
   // כתובת ה-API שמפנה ל-AuthController בשרת שלך
   private apiUrl = `${environment.apiUrl}/Auth`; 
 
@@ -67,7 +68,6 @@ private router = inject(Router); // דורש ייבוא מ-@angular/router
   // בדיקה האם המשתמש הוא אדמין
   isAdmin(): boolean {
     const user = this.currentUserSubject.value;
-    
     return user?.type == TypeCostumer.Admin;
   }
 
@@ -84,4 +84,7 @@ private router = inject(Router); // דורש ייבוא מ-@angular/router
 getUserId(): number | null {
   return this.currentUserSubject.value?.id || null;
 }
+ isLoggedIn(): boolean {
+    return this.currentUserSubject.value !== null;
+  }
 }
