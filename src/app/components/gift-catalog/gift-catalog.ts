@@ -128,25 +128,28 @@ currentGift: any = { id: 0, name: '', description: '', categoryId: 0, donorId: 0
     this.CartService.addCartItem(id).subscribe();
   }
   showDialog(gift?: any) {
-    this.visible = true;
-    
-    if (gift) {
-      // מצב עריכה - מעתיקים את הנתונים הקיימים לאובייקט הנוכחי
-      this.isEditMode = true;
-      // משתמשים ב-spread operator כדי לא לשנות את האובייקט המקורי ברשימה לפני השמירה
-      this.currentGift = { ...gift };
-    } else {
-      // מצב הוספה - מאפסים את השדות
-      this.isEditMode = false;
-      this.currentGift = { 
-        id: 0, 
-        name: '', 
-        description: '', 
-        categoryId: null, 
-        donorId: null, 
-        imgUrl: '' 
-      };
-      this.selectedFile = null; // איפוס בחירת הקובץ
-    }
+  this.visible = true;
+  
+  if (gift) {
+    this.isEditMode = true;
+    // יצירת עותק של המתנה והבטחה שה-ID של הקטגוריה והתורם מושמים נכון
+    this.currentGift = { 
+      ...gift,
+      categoryId: gift.categoryId || (gift.category ? gift.category.id : null),
+      donorId: gift.donorId || (gift.donor ? gift.donor.id : null)
+    };
+    console.log('Editing gift:', this.currentGift);
+  } else {
+    this.isEditMode = false;
+    this.currentGift = { 
+      id: 0, 
+      name: '', 
+      description: '', 
+      categoryId: null, 
+      donorId: null, 
+      imgUrl: '' 
+    };
+    this.selectedFile = null;
   }
+}
 }
