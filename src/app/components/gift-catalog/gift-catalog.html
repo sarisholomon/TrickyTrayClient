@@ -33,13 +33,15 @@
                             <div>
                                 <span class="font-medium text-gray-500 text-sm">{{ item.category }}</span>
                                 <div class="text-lg font-medium mt-2">{{ item.name }}</div>
+                                                                 <div class="text-lg font-medium mt-1">{{ item.winnerName }}</div>
+
                             </div>
                         </div>
                         <div class="flex flex-col md:items-end gap-8">
                             <span class="text-xl font-semibold">{{ price | currency: 'USD' }}</span>
                             <div class="flex flex-row-reverse md:flex-row gap-2">
-                                <button *ngIf="this.authService.isAdmin()" (click)="showDialog(item)" pButton icon="pi pi-pencil" [outlined]="true" class="p-button-rounded"></button>
-                                <button *ngIf="this.authService.isAdmin()" (click)="deleteGift(item.id)" pButton icon="pi pi-trash" severity="danger" [outlined]="true" class="p-button-rounded"></button>
+                                <button *ngIf="this.authService.isAdmin() && item.winnerEmail===null" (click)="showDialog(item)" pButton icon="pi pi-pencil" [outlined]="true" class="p-button-rounded"></button>
+                                <button *ngIf="this.authService.isAdmin() && item.winnerEmail===null" (click)="deleteGift(item.id)" pButton icon="pi pi-trash" severity="danger" [outlined]="true" class="p-button-rounded"></button>
                                 
                                 <button *ngIf="!this.authService.isAdmin()" pButton icon="pi pi-shopping-cart" label="הוספה לסל"
                                     class="flex-auto md:flex-initial whitespace-nowrap"
@@ -68,8 +70,12 @@
                                 <div>
                                     <span class="font-medium text-gray-500 text-sm">{{ item.category }}</span>
                                     <div class="text-lg font-medium mt-1">{{ item.name }}</div>
+                                 <div class="text-lg font-medium mt-1">{{ item.winnerName }}</div>
+
                                 </div>
-                                <button *ngIf="this.authService.isAdmin()" (click)="showDialog(item)" pButton icon="pi pi-pencil" [rounded]="true" [text]="true"></button>
+                                <button *ngIf="this.authService.isAdmin() && item.winnerEmail===null" (click)="showDialog(item)" pButton icon="pi pi-pencil" [rounded]="true" [text]="true"></button>
+                                <button *ngIf="this.authService.isAdmin() && item.winnerEmail===null" (click)="deleteGift(item.id)" pButton icon="pi pi-trash" severity="danger" [outlined]="true" class="p-button-rounded"></button>
+
                             </div>
                             <div class="flex flex-col gap-6 mt-6">
                                 <span class="text-2xl font-semibold">{{ price | currency: 'USD' }}</span>
@@ -102,6 +108,7 @@
             <label for="description" class="font-semibold">תיאור *</label>
             <input pInputText id="description" [(ngModel)]="currentGift.description" class="w-full" />
         </div>
+     
 
         <div class="flex flex-col gap-2">
     <label class="font-semibold">קטגוריה *</label>
@@ -139,3 +146,6 @@
         <p-button [label]="isEditMode ? 'עדכן' : 'שמור'" (click)="saveGift()" icon="pi pi-check" />
     </div>
 </p-dialog>
+    <div class="flex justify-start mb-4" *ngIf="authService.isAdmin()">                               
+<button pButton (click)="random()">הגרלה</button></div>
+

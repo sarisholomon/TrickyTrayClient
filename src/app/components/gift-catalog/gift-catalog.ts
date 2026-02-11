@@ -3,11 +3,11 @@ import { GiftService } from '../../services/gift-service';
 import { CartService } from '../../services/cart-service';
 import { Category, Gift } from '../../models/models';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
-import { SelectButtonModule } from 'primeng/selectbutton'; 
-import { DataViewModule } from 'primeng/dataview'; 
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { DataViewModule } from 'primeng/dataview';
 import { TicketPriceService } from '../../services/ticket-price-service';
 import { AuthService } from '../../services/auth-service';
 import { InputTextModule } from 'primeng/inputtext';
@@ -31,31 +31,30 @@ import { SelectModule } from 'primeng/select';
   ],
   templateUrl: './gift-catalog.html',
   styleUrls: ['./gift-catalog.scss']
-}) 
+})
 export class GiftCatalog implements OnInit {
   public giftService = inject(GiftService);
   private CartService = inject(CartService);
   private TicketPriceService = inject(TicketPriceService);
   public authService = inject(AuthService);
-    public categoryService = inject(CategoryService);
+  public categoryService = inject(CategoryService);
   public donorService = inject(DonorService);
 
   gifts = signal<Gift[]>([]);
   categories = signal<Category[]>([]);
-donors = signal<any[]>([]);
+  donors = signal<any[]>([]);
   price: number = 0;
   layout: 'list' | 'grid' = 'list';
   options: any[] = [
     { label: 'List', value: 'list', icon: 'pi pi-bars' },
     { label: 'Grid', value: 'grid', icon: 'pi pi-th-large' }
   ];
-  
+
   visible: boolean = false;
   isEditMode: boolean = false;
-  
-  // אובייקט מתנה מעודכן לפי השדות בתמונה
-currentGift: any = { id: 0, name: '', description: '', categoryId: 0, donorId: 0, imgUrl: '' }; 
-  selectedFile: File | null = null; // משתנה לשמירת הקובץ הנבחר
+
+  currentGift: any = { id: 0, name: '', description: '', categoryId: 0, donorId: 0, imgUrl: '' };
+  selectedFile: File | null = null; 
 
   ngOnInit() {
     this.loadGifts();
@@ -64,44 +63,46 @@ currentGift: any = { id: 0, name: '', description: '', categoryId: 0, donorId: 0
     });
 
     this.categoryService.getAll().subscribe(data => this.categories.set(data));
-  this.donorService.getAll().subscribe(data => this.donors.set(data));
-  
-  this.TicketPriceService.getAll().subscribe((data) => {
-    this.price = data;
-  });
+    this.donorService.getAll().subscribe(data => this.donors.set(data));
+
+    this.TicketPriceService.getAll().subscribe((data) => {
+      this.price = data;
+    });
   }
 
   loadGifts() {
     this.giftService.getAll().subscribe((data) => {
       this.gifts.set([...data]);
-    });
-  }
+          console.log(data);
 
+    });
+    
+  }
+random(){
+  
+this.giftService.random().subscribe()
+}
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
   }
 
-// למעלה בהגדרת המשתנה
-
-
   saveGift() {
-  const formData = new FormData();
+    const formData = new FormData();
     formData.append('Name', this.currentGift.name);
     formData.append('Description', this.currentGift.description);
     formData.append('CategoryId', this.currentGift.categoryId.toString());
     formData.append('DonorId', this.currentGift.donorId.toString()); // השורה החדשה
-    
+
     if (this.selectedFile) {
-        formData.append('ImageFile', this.selectedFile);
+      formData.append('ImageFile', this.selectedFile);
     }
-    
-    
+
+
     if (this.selectedFile) {
       formData.append('ImageFile', this.selectedFile);
     }
 
     if (this.isEditMode) {
-      // שליחת ה-ID בנפרד עבור ה-Path Parameters וה-formData עבור ה-Body
       this.giftService.updateGift(this.currentGift.id, formData).subscribe({
         next: () => {
           this.visible = false;
@@ -129,24 +130,21 @@ currentGift: any = { id: 0, name: '', description: '', categoryId: 0, donorId: 0
   }
   showDialog(gift?: any) {
     this.visible = true;
-    
+
     if (gift) {
-      // מצב עריכה - מעתיקים את הנתונים הקיימים לאובייקט הנוכחי
       this.isEditMode = true;
-      // משתמשים ב-spread operator כדי לא לשנות את האובייקט המקורי ברשימה לפני השמירה
       this.currentGift = { ...gift };
     } else {
-      // מצב הוספה - מאפסים את השדות
       this.isEditMode = false;
-      this.currentGift = { 
-        id: 0, 
-        name: '', 
-        description: '', 
-        categoryId: null, 
-        donorId: null, 
-        imgUrl: '' 
+      this.currentGift = {
+        id: 0,
+        name: '',
+        description: '',
+        categoryId: null,
+        donorId: null,
+        imgUrl: ''
       };
-      this.selectedFile = null; // איפוס בחירת הקובץ
+      this.selectedFile = null; 
     }
   }
 }
