@@ -49,6 +49,7 @@ export interface Gift {
     winnerId?: number | null;
     winner?: User | null;
     users: User[];
+    canDelete?: boolean; // שדה עזר להצגת כפתור מחיקה בממשק הניהול
 }
 
 // --- Cart & Purchase Entities ---

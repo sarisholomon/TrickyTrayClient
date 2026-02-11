@@ -41,9 +41,9 @@
                             <span class="text-xl font-semibold">{{ price | currency: 'USD' }}</span>
                             <div class="flex flex-row-reverse md:flex-row gap-2">
                                 <button *ngIf="this.authService.isAdmin() && item.winnerEmail===null" (click)="showDialog(item)" pButton icon="pi pi-pencil" [outlined]="true" class="p-button-rounded"></button>
-                                <button *ngIf="this.authService.isAdmin() && item.winnerEmail===null" (click)="deleteGift(item.id)" pButton icon="pi pi-trash" severity="danger" [outlined]="true" class="p-button-rounded"></button>
+                                <button *ngIf="this.authService.isAdmin() && item.winnerEmail===null && item.canDelete" (click)="deleteGift(item.id)" pButton icon="pi pi-trash" severity="danger" [outlined]="true" class="p-button-rounded"></button>
                                 
-                                <button *ngIf="!this.authService.isAdmin()" pButton icon="pi pi-shopping-cart" label="הוספה לסל"
+                                <button *ngIf="!this.authService.isAdmin() && item.winnerEmail===null" pButton icon="pi pi-shopping-cart" label="הוספה לסל"
                                     class="flex-auto md:flex-initial whitespace-nowrap"
                                     (click)="addToCart(item.id)"></button>
                             </div>
@@ -74,14 +74,14 @@
 
                                 </div>
                                 <button *ngIf="this.authService.isAdmin() && item.winnerEmail===null" (click)="showDialog(item)" pButton icon="pi pi-pencil" [rounded]="true" [text]="true"></button>
-                                <button *ngIf="this.authService.isAdmin() && item.winnerEmail===null" (click)="deleteGift(item.id)" pButton icon="pi pi-trash" severity="danger" [outlined]="true" class="p-button-rounded"></button>
+                                <button *ngIf="this.authService.isAdmin() && item.winnerEmail===null && item.canDelete" (click)="deleteGift(item.id)" pButton icon="pi pi-trash" severity="danger" [outlined]="true" class="p-button-rounded"></button>
 
                             </div>
                             <div class="flex flex-col gap-6 mt-6">
                                 <span class="text-2xl font-semibold">{{ price | currency: 'USD' }}</span>
                                 <div class="flex gap-2">
                                     <button pButton icon="pi pi-shopping-cart" label="הוספה לסל"
-                                        (click)="addToCart(item.id)" class="flex-auto whitespace-nowrap"></button>
+                                     *ngIf="!this.authService.isAdmin() && item.winnerEmail===null"   (click)="addToCart(item.id)" class="flex-auto whitespace-nowrap"></button>
                                     <button pButton icon="pi pi-heart" [outlined]="true"></button>
                                 </div>
                             </div>
