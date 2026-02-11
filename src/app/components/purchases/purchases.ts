@@ -11,6 +11,7 @@ import { MessageService } from 'primeng/api';
 import { UserPurchase } from '../../models/models';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
+import { AuthService } from '../../services/auth-service';
 // import { Customer } from '@/domain/customer'; // הוספתי בהערה כי לא נעשה בו שימוש בקוד
 
 @Component({
@@ -28,6 +29,7 @@ export class Purchases implements OnInit {
     expandedRows: any = {};
 
     ngOnInit() {
+
        this.purchaseService.getAllByUser().subscribe({
         next: (data) => {
             this.purchases = data;

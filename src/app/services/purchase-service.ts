@@ -13,8 +13,11 @@ export class PurchaseService {
 http: HttpClient = inject(HttpClient);
 private authService=inject(AuthService)
     getAllByUser(): Observable<UserPurchase[]>{
-          const userId  = this.authService.getUserId();
+if(this.authService.isAdmin()){
+    return this.http.get<UserPurchase[]>(this.apiUrl);
 
+}
+          const userId  = this.authService.getUserId();
   return this.http.get<UserPurchase[]>(this.apiUrl+"/ByUser/"+userId);
   }
 }
