@@ -14,6 +14,8 @@
                 <th pSortableColumn="date">Date <p-sortIcon field="date" /></th>
                 <th pSortableColumn="totalTickets">Total Tickets <p-sortIcon field="totalTickets" /></th>
                 <th pSortableColumn="totalPrice">Total Price <p-sortIcon field="totalPrice" /></th>
+                <th pSortableColumn="userName">User Name <p-sortIcon field="userName" /></th>
+
             </tr>
         </ng-template>
 
@@ -26,6 +28,7 @@
                 <td>{{ purchase.date | date: 'dd/MM/yyyy HH:mm' }}</td>
                 <td>{{ purchase.totalTickets }}</td>
                 <td>{{ purchase.totalPrice | currency: 'ILS' }}</td>
+                <td>{{ purchase.userName }}</td>
             </tr>
         </ng-template>
 
