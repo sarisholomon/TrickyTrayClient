@@ -22,57 +22,64 @@ export class Menu {
     private cartService = inject(CartService);
 
     // <--- 2. המרת ה-Observable ל-Signal כדי שנוכל להשתמש בו בתוך computed
-userSignal = toSignal<User | null>(this.authService.currentUser$);
+    userSignal = toSignal<User | null>(this.authService.currentUser$);
     // הופכים את items לסיגנל מחושב שמגיב לשינויים אוטומטית
-   items = computed<MenuItem[]>(() => {
-    // 1. קריאה לסיגנלים בתחילת הפונקציה כדי להירשם לשינויים
-    const user = this.userSignal();
-    const cartCount = this.cartService.totalQuantity();
-    
-    // const isAdmin = user?.type == TypeCostumer.Admin;
-    console.log(this.authService.isAdmin());
-    
+    items = computed<MenuItem[]>(() => {
+        // 1. קריאה לסיגנלים בתחילת הפונקציה כדי להירשם לשינויים
+        const user = this.userSignal();
+        const cartCount = this.cartService.totalQuantity();
 
-    return [
-        { separator: true },
-        {
-            label: 'Menu',
-            items: [
-                {
-                    label: 'מתנות',
-                    icon: 'pi pi-gift',
-                    routerLink: ['/gifts']
-                },
-                  {
-                    label: 'תורמים',
-                    icon: 'pi pi-users',
-                    routerLink: ['/donors'],
-                    visible: this.authService.isAdmin() 
-                },
-                {
-                    label: 'סל קניות',
-                    icon: 'pi pi-shopping-bag',
-                    badge: cartCount.toString(),
-                    routerLink: ['/cart'],
-                    // כאן אנחנו מוודאים שהתנאי מחושב מחדש
-                    visible: user !== null && !this.authService.isAdmin() 
-                },
-                {
-                    label: 'רכישות',
-                    icon: 'pi pi-shopping-cart',
-                    routerLink: ['/purchases'],
-                    visible: user !== null
-                },
-                   
-                {
-                    label:user !== null? 'Logout':"Login",
-                    icon:user !== null? 'pi pi-sign-out':'pi pi-sign-in' ,
-                    command: () => this.logout()
-                }
-            ]
-        }
-    ];
-});
+        // const isAdmin = user?.type == TypeCostumer.Admin;
+        console.log(this.authService.isAdmin());
+
+
+        return [
+            { separator: true },
+            {
+                label: 'Menu',
+                items: [
+                    {
+                        label: 'לוח בקרה',
+                        icon: 'pi pi-th-large',
+                        routerLink: ['/dashboard'],
+                        visible: user !== null && this.authService.isAdmin()
+
+                    },
+                    {
+                        label: 'מתנות',
+                        icon: 'pi pi-gift',
+                        routerLink: ['/gifts']
+                    },
+                    {
+                        label: 'תורמים',
+                        icon: 'pi pi-users',
+                        routerLink: ['/donors'],
+                        visible: this.authService.isAdmin()
+                    },
+                    {
+                        label: 'סל קניות',
+                        icon: 'pi pi-shopping-bag',
+                        badge: cartCount.toString(),
+                        routerLink: ['/cart'],
+                        // כאן אנחנו מוודאים שהתנאי מחושב מחדש
+                        visible: user !== null && !this.authService.isAdmin()
+                    },
+                    {
+                        label: 'רכישות',
+                        icon: 'pi pi-shopping-cart',
+                        routerLink: ['/purchases'],
+                        visible: user !== null
+                    },
+
+                    {
+                        label: user !== null ? 'Logout' : "Login",
+                        icon: user !== null ? 'pi pi-sign-out' : 'pi pi-sign-in',
+                        command: () => this.logout()
+                    }
+                ]
+            }
+        ];
+    });
 
     logout() {
         this.authService.logout();
