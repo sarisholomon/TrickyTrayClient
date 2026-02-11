@@ -27,9 +27,14 @@ return this.http.get<Gift[]>(this.apiUrl);
       
       return this.http.delete<void>(`${this.apiUrl}/${id}`);
     }
-  
+    
+    random(): Observable<Gift> {  
+        console.log("dd");   
+      return this.http.get<Gift>(`${this.apiUrl}/random`);
+    }
 // עדכון פונקציית ההוספה
 addGift(formData: FormData): Observable<Gift> {
+  
   return this.http.post<Gift>(this.apiUrl, formData);
 }
 
