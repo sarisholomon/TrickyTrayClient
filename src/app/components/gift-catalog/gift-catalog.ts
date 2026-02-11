@@ -14,7 +14,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
 import { CategoryService } from '../../services/category-service';
 import { DonorService } from '../../services/donor-service';
-import { DropdownModule } from 'primeng/dropdown';
+import { SelectModule } from 'primeng/select';
 @Component({
   selector: 'app-gift-catalog',
   standalone: true,
@@ -27,7 +27,7 @@ import { DropdownModule } from 'primeng/dropdown';
     DataViewModule,
     DialogModule,
     InputTextModule,
-    DropdownModule
+    SelectModule
   ],
   templateUrl: './gift-catalog.html',
   styleUrls: ['./gift-catalog.scss']

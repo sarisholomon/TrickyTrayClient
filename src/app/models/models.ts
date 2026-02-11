@@ -34,7 +34,7 @@ export interface Donor {
 
 export interface Category {
     id: number;
-    name: string;
+    name: string | null;
 }
 
 export interface Gift {

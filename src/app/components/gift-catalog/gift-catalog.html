@@ -105,26 +105,26 @@
 
         <div class="flex flex-col gap-2">
     <label class="font-semibold">קטגוריה *</label>
-    <p-dropdown 
+    <p-select 
         [options]="categories()" 
         [(ngModel)]="currentGift.categoryId" 
         optionLabel="name" 
         optionValue="id" 
         placeholder="בחר קטגוריה"
         class="w-full">
-    </p-dropdown>
+    </p-select>
 </div>
 
 <div class="flex flex-col gap-2">
     <label class="font-semibold">תורם *</label>
-    <p-dropdown 
+    <p-select 
         [options]="donors()" 
         [(ngModel)]="currentGift.donorId" 
         optionLabel="name" 
         optionValue="id" 
         placeholder="בחר תורם"
         class="w-full">
-    </p-dropdown>
+    </p-select>
 </div>
 
         <div class="flex flex-col gap-2 border-t pt-4 mt-2">
