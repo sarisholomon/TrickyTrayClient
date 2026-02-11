@@ -61,8 +61,9 @@ userSignal = toSignal<User | null>(this.authService.currentUser$);
                     label: 'רכישות',
                     icon: 'pi pi-inbox',
                     routerLink: ['/purchases'],
-                    //visible: user !== null && !this.authService.isAdmin() 
+                    visible: user !== null
                 },
+                   
                 {
                     label:user !== null? 'Logout':"Login",
                     icon:user !== null? 'pi pi-sign-out':'pi pi-sign-in' ,
