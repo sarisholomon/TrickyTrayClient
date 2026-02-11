@@ -45,13 +45,13 @@ userSignal = toSignal<User | null>(this.authService.currentUser$);
                 },
                   {
                     label: 'תורמים',
-                    icon: 'pi pi-gift',
+                    icon: 'pi pi-users',
                     routerLink: ['/donors'],
                     visible: this.authService.isAdmin() 
                 },
                 {
                     label: 'סל קניות',
-                    icon: 'pi pi-shopping-cart',
+                    icon: 'pi pi-shopping-bag',
                     badge: cartCount.toString(),
                     routerLink: ['/cart'],
                     // כאן אנחנו מוודאים שהתנאי מחושב מחדש
@@ -59,7 +59,7 @@ userSignal = toSignal<User | null>(this.authService.currentUser$);
                 },
                 {
                     label: 'רכישות',
-                    icon: 'pi pi-inbox',
+                    icon: 'pi pi-shopping-cart',
                     routerLink: ['/purchases'],
                     visible: user !== null
                 },
