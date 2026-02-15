@@ -1,1 +1,76 @@
-<p>dashboard works!</p>
+<div class="header">
+    <h1>לוח בקרה</h1>
+    <small>ניהול המכירה הסינית</small>
+</div>
+
+<div class="stats-container">
+    <div class="stat-card">
+        <div class="icon-box bg-green">$</div>
+        <div class="stat-info">
+            <span class="stat-label">הכנסות</span>
+            <span class="stat-value">₪{{ totalIncome() }}</span>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="icon-box bg-orange">🎫</div>
+        <div class="stat-info">
+            <span class="stat-label">כרטיסים נמכרו</span>
+            <span class="stat-value">{{ ticketsSold() }}</span>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="icon-box bg-blue">👥</div>
+        <div class="stat-info">
+            <span class="stat-label">תורמים</span>
+            <span class="stat-value">{{ totalDonors() }}</span>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="icon-box bg-purple">🎁</div>
+        <div class="stat-info">
+            <span class="stat-label">סה"כ מתנות</span>
+            <span class="stat-value">{{ totalGifts() }}</span>
+        </div>
+    </div>
+</div>
+
+<div class="main-grid">
+    <div class="content-card">
+        <div class="card-title">מתנות מובילות 📈</div>
+        
+        <div *ngFor="let gift of topGifts(); let i = index" class="item-row">
+            <div style="text-align: right;">
+                <strong>{{ gift.name }}</strong><br>
+                <small>{{ gift.users.length || 0 }} כרטיסים</small>
+            </div>
+            <div class="rank-badge" [ngClass]="{'bg-orange': i === 0, 'bg-blue': i === 1, 'bg-purple': i === 2}">
+                {{ i + 1 }}
+            </div>
+        </div>
+        
+        <div *ngIf="topGifts().length === 0" style="text-align: center; color: #999; padding: 20px;">
+            אין נתוני מכירות כרגע
+        </div>
+    </div>
+
+    <div class="content-card">
+        <div class="card-title">סטטוס ההגרלה 🏆</div>
+        
+        <div class="status-row">
+            <span>מתנות שהוגרלו</span>
+            <span style="color: #9b59b6; font-weight: bold;">0 / {{ totalGifts() }}</span>
+        </div>
+
+        <div class="status-row" style="border: none;">
+            <span>סטטוס</span>
+            <span [style.color]="totalGifts() > 0 ? '#27ae60' : '#e74c3c'" style="font-weight: bold;">
+                {{ totalGifts() > 0 ? 'מוכן להגרלה' : 'ממתין לנתונים' }}
+            </span>
+        </div>
+
+        <button class="btn-action" (click)="goToRaffle()">מעבר למסך הגרלה 🏆</button>
+    </div>
+</div>

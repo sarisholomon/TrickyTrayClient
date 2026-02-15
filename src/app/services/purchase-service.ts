@@ -20,4 +20,7 @@ if(this.authService.isAdmin()){
           const userId  = this.authService.getUserId();
   return this.http.get<UserPurchase[]>(this.apiUrl+"/ByUser/"+userId);
   }
+getAll(): Observable<UserPurchase[]> {
+  return this.http.get<UserPurchase[]>(this.apiUrl+"Item");
+}
 }
