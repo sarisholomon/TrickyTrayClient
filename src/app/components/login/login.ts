@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
 import { Router } from '@angular/router';
@@ -28,11 +28,10 @@ import { CardModule } from 'primeng/card';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup; // המשתנה שמנהל את הטופס
   errorMessage: string = ''; // הודעת שגיאה שתגיע מהשרת
-
+public router = inject(Router);
   constructor(
     private fb: FormBuilder,        
     private authService: AuthService, 
-    private router: Router          
   ) {}
 
   ngOnInit(): void {

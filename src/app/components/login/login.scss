@@ -13,3 +13,24 @@
         width: 100%;
     }
 }
+/* דריסת צבע הפוקוס של שדות הקלט (Focus Ring) כדי שיתאים לאינדיגו של המותג */
+:host ::ng-deep .p-inputtext:focus,
+:host ::ng-deep .p-inputtext:enabled:focus,
+:host ::ng-deep .p-password-input:focus {
+    border-color: #4f46e5 !important;
+    box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.15) !important;
+}
+
+/* הכרחת שדה הסיסמה של PrimeNG לתפוס 100% רוחב */
+:host ::ng-deep .p-password {
+    width: 100%;
+    display: block;
+}
+:host ::ng-deep .p-password-input {
+    width: 100%;
+}
+
+/* ריכוך ההתראות (Messages) של PrimeNG למראה מודרני יותר */
+:host ::ng-deep .p-message {
+    border-radius: 8px !important;
+}

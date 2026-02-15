@@ -1,0 +1,12 @@
+/* הכרחת הדירוג והאינפוט של הסיסמה לעבוד ב-100% רוחב */
+:host ::ng-deep .p-password, 
+:host ::ng-deep .p-password-input {
+    width: 100% !important;
+}
+
+/* ביטול מסגרת ירוקה בפוקוס */
+:host ::ng-deep .p-inputtext:focus,
+:host ::ng-deep .p-inputmask-input:focus {
+    border-color: #4f46e5 !important;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1) !important;
+}

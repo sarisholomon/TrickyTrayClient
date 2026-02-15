@@ -24,6 +24,7 @@ import { AuthService } from '../../services/auth-service';
 export class Purchases implements OnInit {
     private purchaseService = inject(PurchaseService);
     private messageService = inject(MessageService);
+    public authService = inject(AuthService);
     private cdr = inject(ChangeDetectorRef);
     purchases: UserPurchase[]=[];
     expandedRows: any = {};
