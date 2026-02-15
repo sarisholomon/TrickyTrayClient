@@ -19,6 +19,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-gift-catalog',
   standalone: true,
@@ -31,20 +32,28 @@ import { Router } from '@angular/router';
     DataViewModule,
     DialogModule,
     InputTextModule,
-    SelectModule,ButtonModule, ConfirmDialogModule, ToastModule
+    SelectModule,
+    ButtonModule, 
+    ConfirmDialogModule, 
+    ToastModule
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './gift-catalog.html',
   styleUrls: ['./gift-catalog.scss']
 })
 export class GiftCatalog implements OnInit {
+  // הזרקת שירותים (Services)
   public giftService = inject(GiftService);
   private CartService = inject(CartService);
   private TicketPriceService = inject(TicketPriceService);
   public authService = inject(AuthService);
   public categoryService = inject(CategoryService);
   public donorService = inject(DonorService);
+  private confirmationService = inject(ConfirmationService);
+  private messageService = inject(MessageService);
+  private router = inject(Router);
 
+  // משתני State
   gifts = signal<Gift[]>([]);
   categories = signal<Category[]>([]);
   donors = signal<any[]>([]);
@@ -59,17 +68,17 @@ export class GiftCatalog implements OnInit {
   isEditMode: boolean = false;
 
   currentGift: any = { id: 0, name: '', description: '', categoryId: 0, donorId: 0, imgUrl: '' };
+  
+  // משתני העלאת תמונה
   selectedFile: File | null = null; 
+  previewUrl: string | ArrayBuffer | null = null; // משתנה חדש שאחראי על התצוגה המקדימה!
 
   ngOnInit() {
     this.loadGifts();
-    this.TicketPriceService.getAll().subscribe((data) => {
-      this.price = data;
-    });
-
+    
+    // שליפת נתוני הבסיס
     this.categoryService.getAll().subscribe(data => this.categories.set(data));
     this.donorService.getAll().subscribe(data => this.donors.set(data));
-
     this.TicketPriceService.getAll().subscribe((data) => {
       this.price = data;
     });
@@ -78,17 +87,34 @@ export class GiftCatalog implements OnInit {
   loadGifts() {
     this.giftService.getAll().subscribe((data) => {
       this.gifts.set([...data]);
-          console.log(data);
-
     });
-    
   }
-random(){
-  
-this.giftService.random().subscribe()
-}
+
+  random() {
+    this.giftService.random().subscribe();
+  }
+
+  // הפונקציה המעודכנת שטוענת את התמונה לתצוגה מקדימה לפני השמירה בשרת
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      
+      // יצירת תצוגה מקדימה באמצעות FileReader
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target?.result) {
+          this.previewUrl = e.target.result;
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  // פונקציה חדשה למחיקת התמונה שנבחרה (הכפתור x מעל התמונה ב-HTML)
+  clearImage() {
+    this.previewUrl = null;
+    this.selectedFile = null;
   }
 
   saveGift() {
@@ -96,12 +122,7 @@ this.giftService.random().subscribe()
     formData.append('Name', this.currentGift.name);
     formData.append('Description', this.currentGift.description);
     formData.append('CategoryId', this.currentGift.categoryId.toString());
-    formData.append('DonorId', this.currentGift.donorId.toString()); // השורה החדשה
-
-    if (this.selectedFile) {
-      formData.append('ImageFile', this.selectedFile);
-    }
-
+    formData.append('DonorId', this.currentGift.donorId.toString());
 
     if (this.selectedFile) {
       formData.append('ImageFile', this.selectedFile);
@@ -131,56 +152,70 @@ this.giftService.random().subscribe()
   }
 
   addToCart(id: number) {
-if(!this.authService.isLoggedIn()){
-  this.confirm();
-  return;
-}
+    if (!this.authService.isLoggedIn()) {
+    // במקום alert('נא להתחבר') - שלחי הודעה מעוצבת:
+    this.messageService.add({ 
+      severity: 'info', 
+      summary: 'התחברות נדרשת', 
+      detail: 'כדי להוסיף מתנות לסל, עליך להתחבר למערכת',
+      life: 3000 // ההודעה תיעלם אחרי 3 שניות
+    });
+    
+    // אופציונלי: להעביר אותו לדף התחברות אחרי שניה
+   setTimeout(() => this.router.navigate(['/login']), 1500);
+    return;
+    }
     this.CartService.addCartItem(id).subscribe();
   }
+
   showDialog(gift?: any) {
-  this.visible = true;
-  
-  if (gift) {
-    this.isEditMode = true;
-    // יצירת עותק של המתנה והבטחה שה-ID של הקטגוריה והתורם מושמים נכון
-    this.currentGift = { 
-      ...gift,
-      // המרה מפורשת למספר כדי לוודא התאמה לערכי ה-Select
-      categoryId: gift.categoryId ? Number(gift.categoryId) : (gift.category?.id ? Number(gift.category.id) : null),
-      donorId: gift.donorId ? Number(gift.donorId) : (gift.donor?.id ? Number(gift.donor.id) : null)
-    };
-    console.log('Editing gift:', this.currentGift);
-  } else {
-    this.isEditMode = false;
-    this.currentGift = { 
-      id: 0, 
-      name: '', 
-      description: '', 
-      categoryId: null, 
-      donorId: null, 
-      imgUrl: '' 
-    };
-    this.selectedFile = null;
-  }
-}
-private confirmationService = inject(ConfirmationService);
-    private messageService = inject(MessageService);
-private router = inject(Router); // הזרקת שירות הניווט
-    confirm() {
-        this.confirmationService.confirm({
-            header: 'אין אפשרות להוסיף מתנה לסל ללא התחברות',
-            message: 'רוצה להתחבר עכשיו?',
-            accept: () => {
-this.router.navigate(['/login']);
-            },
-            reject: () => {
-                this.messageService.add({ 
-                    severity: 'error', 
-                    summary: 'Rejected', 
-                    detail: 'הפריט לא נוסף לסל ', 
-                    life: 3000 
-                });
-            }
-        });
+    this.visible = true;
+    
+    if (gift) {
+      this.isEditMode = true;
+      this.currentGift = { 
+        ...gift,
+        categoryId: gift.categoryId ? Number(gift.categoryId) : (gift.category?.id ? Number(gift.category.id) : null),
+        donorId: gift.donorId ? Number(gift.donorId) : (gift.donor?.id ? Number(gift.donor.id) : null)
+      };
+      
+      // טעינת תמונה קיימת לתצוגה המקדימה (אם יש למתנה תמונה קודמת)
+      this.previewUrl = gift.imgUrl ? 'https://localhost:7260' + gift.imgUrl : null;
+      this.selectedFile = null;
+
+    } else {
+      // מצב מתנה חדשה
+      this.isEditMode = false;
+      this.currentGift = { 
+        id: 0, 
+        name: '', 
+        description: '', 
+        categoryId: null, 
+        donorId: null, 
+        imgUrl: '' 
+      };
+      
+      // איפוס מוחלט של התמונות בדיאלוג נקי
+      this.selectedFile = null;
+      this.previewUrl = null; 
     }
+  }
+
+  confirm() {
+    this.confirmationService.confirm({
+      header: 'אין אפשרות להוסיף מתנה לסל ללא התחברות',
+      message: 'רוצה להתחבר עכשיו?',
+      accept: () => {
+        this.router.navigate(['/login']);
+      },
+      reject: () => {
+        this.messageService.add({ 
+          severity: 'error', 
+          summary: 'Rejected', 
+          detail: 'הפריט לא נוסף לסל ', 
+          life: 3000 
+        });
+      }
+    });
+  }
 }

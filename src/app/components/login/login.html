@@ -1,55 +1,36 @@
-<div class="flex align-items-center justify-content-center min-h-screen bg-slate-50">
-  
-  <p-card header="התחברות למערכת" [style]="{ width: '400px' }" class="shadow-2 border-round-xl">
+<div class="flex items-center justify-center min-h-screen bg-slate-50 p-4" dir="rtl" style="display: flex; align-items: center; justify-content: center; background-color: #f8fafc; height: 100vh;">
     
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-column gap-4">
-      
-      <div class="flex flex-column gap-2">
-        <label for="email" class="font-semibold text-700">כתובת אימייל</label>
-        <span class="p-input-icon-left w-full">
-          <i class="pi pi-envelope"></i>
-          <input 
-            pInputText 
-            id="email" 
-            formControlName="email" 
-            placeholder="name@company.com" 
-            class="w-full border-round-lg" 
-          />
-        </span>
-        <small *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="p-error">
-          נא להזין אימייל תקין
-        </small>
-      </div>
+    <div style="width: 100%; max-width: 400px; background: white; padding: 2.5rem; border-radius: 1rem; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8f0;">
+        
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <i class="pi pi-lock" style="font-size: 2.5rem; color: #4f46e5; margin-bottom: 1rem;"></i>
+            <h2 style="margin: 0; font-size: 1.5rem; color: #1e293b; font-weight: 800;">התחברות</h2>
+        </div>
 
-      <div class="flex flex-column gap-2">
-        <label for="password" class="font-semibold text-700">סיסמה</label>
-        <p-password 
-          id="password" 
-          formControlName="password" 
-          [feedback]="false" 
-          [toggleMask]="true" 
-          styleClass="w-full" 
-          inputStyleClass="w-full border-round-lg"
-          placeholder="••••••••"
-        ></p-password>
-      </div>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" style="display: flex; flex-direction: column; gap: 1.5rem;">
+            
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <label style="font-size: 0.875rem; font-weight: 700; color: #475569;">אימייל</label>
+                <input pInputText formControlName="email" placeholder="email@example.com" 
+                       style="width: 100%; padding: 0.75rem; border-radius: 0.5rem;" />
+            </div>
 
-      <p-button 
-        label="התחברות" 
-        type="submit" 
-        [disabled]="loginForm.invalid" 
-        styleClass="w-full p-button-raised border-round-lg"
-        icon="pi pi-sign-in"
-      ></p-button>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <label style="font-size: 0.875rem; font-weight: 700; color: #475569;">סיסמה</label>
+                <p-password formControlName="password" [feedback]="false" [toggleMask]="true" 
+                            styleClass="w-full" inputStyleClass="w-full" style="width: 100%;"></p-password>
+            </div>
 
-      <p-message *ngIf="errorMessage" severity="error" [text]="errorMessage" class="mt-2"></p-message>
+            <p-button label="כניסה למערכת" type="submit" [disabled]="loginForm.invalid" 
+                      [style]="{'width': '100%', 'background': '#4f46e5', 'border': 'none', 'padding': '0.75rem', 'border-radius': '0.5rem'}">
+            </p-button>
 
-    </form>
-    
-    <div class="text-center mt-4">
-      <span class="text-600">עדיין אין לך חשבון? </span>
-      <!-- <a class="font-bold no-underline text-primary cursor-pointer" (click)="router.navigate(['/register'])">צור חשבון</a> -->
+            <p-message *ngIf="errorMessage" severity="error" [text]="errorMessage"></p-message>
+        </form>
+        
+        <div style="text-align: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #f1f5f9;">
+            <span style="color: #64748b; font-size: 0.875rem;">חדש כאן? </span>
+            <a style="color: #4f46e5; font-weight: 700; cursor: pointer; text-decoration: none;" (click)="router.navigate(['/register'])">צרו חשבון</a>
+        </div>
     </div>
-
-  </p-card>
 </div>

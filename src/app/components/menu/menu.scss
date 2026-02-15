@@ -1,0 +1,70 @@
+::ng-deep {
+    .main-sidebar.p-menu {
+        width: 260px !important;
+        border-radius: 1.25rem !important;
+        background: #ffffff;
+        border: 1px solid #f1f5f9 !important;
+        display: flex;
+        flex-direction: column;
+        min-height: 580px; /* נותן גובה יציב לתפריט */
+    }
+
+    /* קו מפריד דק מאוד - לא בולט מדי */
+    .divider {
+        height: 1px;
+        background-color: #f8fafc;
+    }
+
+    .nav-item {
+        color: #64748b;
+        text-decoration: none;
+    }
+
+    .nav-item:hover {
+        background-color: #f8faff !important;
+        color: #6366f1 !important;
+    }
+
+    /* עיצוב האווטאר והפרופיל */
+    .user-profile {
+        border: 1px solid transparent;
+    }
+    
+    .user-profile:hover {
+        border-color: #f1f5f9;
+    }
+
+    .p-avatar {
+        flex-shrink: 0; /* מונע מהאווטאר להתכווץ */
+    }
+}
+::ng-deep {
+    .user-profile {
+        display: flex;
+        align-items: center;
+        width: 100%; /* מבטיח שהבלוק יתפוס את כל הרוחב */
+    }
+
+    .user-profile .p-avatar {
+        width: 40px !important;    /* גודל קבוע */
+        height: 40px !important;   /* גודל קבוע */
+        min-width: 40px !important; /* מונע מעיכה */
+        flex-shrink: 0 !important;  /* הוראה מפורשת ל-Flexbox לא לגעת ברוחב */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* סידור הטקסט ליד האווטאר שלא ימחץ אותו */
+    .user-info-container {
+        flex-grow: 1;
+        overflow: hidden; /* מבטיח שהמייל לא יחרוג מהמסגרת */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .badge{
+                background-color: #6366f1 !important;
+
+    }
+}

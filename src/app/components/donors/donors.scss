@@ -1,0 +1,118 @@
+:host ::ng-deep {
+    /* מיכל ראשי - נקי, רך וצף בעדינות */
+    .card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 2.5rem;
+        box-shadow: 0 4px 24px -4px rgba(15, 23, 42, 0.03);
+        margin: 1.5rem;
+    }
+
+    /* יישור ותיקון ה-Toolbar המובנה */
+    .p-toolbar {
+        background: transparent;
+        border: none;
+        padding: 0 0 2rem 0;
+    }
+
+    /* ---- המהפך של הטבלה ---- */
+    .p-datatable {
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+        overflow: hidden; /* שומר על הפינות המעוגלות */
+
+        /* שורת הכותרות - אפור בהיר, טקסט עדין וברור */
+        .p-datatable-thead > tr > th {
+            background-color: #f8fafc;
+            color: #64748b;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 1.25rem 1.5rem;
+            border: none;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: right; /* קריטי ל-RTL */
+        }
+
+        /* שורות התוכן */
+        .p-datatable-tbody > tr {
+            transition: background-color 0.2s ease;
+            
+            > td {
+                padding: 1.25rem 1.5rem;
+                color: #334155;
+                font-size: 0.95rem;
+                border: none;
+                border-bottom: 1px solid #f1f5f9;
+                text-align: right;
+            }
+
+            /* הובר אלגנטי ולא צועק */
+            &:hover {
+                background-color: #fbfbfc;
+            }
+        }
+    }
+
+    /* ---- כפתורים ותיבות טקסט ---- */
+    
+    /* שדה חיפוש מודרני */
+    .p-inputtext {
+        border-radius: 8px;
+        border: 1px solid #cbd5e1;
+        padding: 0.75rem 1rem 0.75rem 2.5rem; /* מקום לאייקון בצד ימין ב-RTL */
+        font-family: inherit;
+        transition: all 0.2s;
+        width: 280px;
+
+        &:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+    }
+
+    /* כפתור הוספת תורם - חייב להיות מותאם למותג (סגול/אינדיגו, לא ירוק גנרי) */
+    .p-button {
+        border-radius: 8px;
+        font-weight: 500;
+        padding: 0.75rem 1.5rem;
+        transition: transform 0.1s, box-shadow 0.2s;
+        
+        /* כפתור ראשי */
+        &:not(.p-button-secondary):not(.p-button-danger):not(.p-button-text) {
+            background-color: #4f46e5;
+            border: none;
+            
+            &:hover {
+                background-color: #4338ca;
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+            }
+        }
+
+        /* כפתור ייצוא (משני) */
+        &.p-button-secondary {
+            background-color: #ffffff;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+            
+            &:hover {
+                background-color: #f8fafc;
+                color: #0f172a;
+            }
+        }
+    }
+
+    /* תגית מתנה מעוצבת (Badge) */
+    .gift-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #eef2ff;
+        color: #4f46e5;
+        padding: 0.35rem 0.75rem;
+        border-radius: 999px; /* כדורי לחלוטין */
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+}

@@ -48,7 +48,7 @@ export interface Gift {
     category?: Category | null;
     winnerId?: number | null;
     winner?: User | null;
-    users: User[];
+    ticketsSold: number;
     canDelete?: boolean; // שדה עזר להצגת כפתור מחיקה בממשק הניהול
 }
 

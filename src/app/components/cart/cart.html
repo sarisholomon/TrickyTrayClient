@@ -1,69 +1,104 @@
-<div class="grid dir-rtl p-4 flex align-items-start" style="direction: rtl;">    
-    <div class="col-12 md:col-8">
-        <p-dataview #dv [value]="cartItems()" layout="list">
-            <ng-template #list let-items>
-                <div class="flex flex-column gap-3">
-                    <div *ngFor="let item of items">
-                        <p-card styleClass="shadow-1">
-                            <div class="flex align-items-center justify-content-between">
-                                <div class="flex align-items-center gap-3">
-                                    <i class="pi pi-trash cursor-pointer text-red-500" 
-                                   (click)="removeItem(item.id) 
-                                    "></i>
-                                    <img 
-                                        [src]="item.gift.imgUrl ? 'https://localhost:7260' + item.gift.imgUrl : 'https://primefaces.org/cdn/primeng/images/demo/product/bamboo-watch.jpg'" 
-                                        style="width: 80px; height: 80px; object-fit: cover;" 
-                                        class="border-round shadow-1" />
-                                    <div class="product-info">
-                                        <h4 class="m-0 text-right">{{item.gift.name}}</h4>
-                                        <p class="m-0 text-secondary text-right">        {{item.quantity}}  כרטיסים   {{currentPrice()}} x ₪</p>
-                                    </div>
-                                </div>
-                                <div class="font-bold text-xl">
-                                    ₪{{currentPrice() * item.quantity}}
-                                </div>
-                            </div>
-                        </p-card>
-                    </div>
-                </div>
-            </ng-template>
-        </p-dataview>
+<div class="card p-5" dir="rtl">
+    <p-toast></p-toast>
+    
+    <div class="mb-6">
+        <h2 class="m-0 text-2xl font-bold text-slate-800">עגלת קניות</h2>
+        <span class="text-sm font-medium text-slate-500">סקירה ואישור של הכרטיסים שבחרת</span>
     </div>
 
-    <div class="col-12 md:col-4">
-        <p-card header="סיכום הזמנה" styleClass="shadow-1">
-            <div class="flex justify-content-between mb-3">
-                <span>סה"כ כרטיסים</span>
-                <span class="font-bold">{{totalQuantity()}}</span>
-            </div>
-            <p-divider></p-divider>
-            <div class="flex justify-content-between font-bold text-xl mb-4">
-                <span>סה"כ לתשלום</span>
-                <span class="text-green-600">
-                    {{totalAmount()}}
-                </span>
-            </div>
-            <p-button [disabled]="totalAmount()==0" (click)="confirm()" label="אישור רכישה" icon="pi pi-credit-card" styleClass="p-button-success w-full"></p-button>
-        </p-card>
-    </div>
-</div>
-        <div class="card flex justify-center">
-            <p-toast />
-            <p-confirmdialog #cd>
-                <ng-template #headless let-message let-onAccept="onAccept" let-onReject="onReject">
-                    @if (message) {
-                        <div class="flex flex-col items-center p-8 bg-surface-0 dark:bg-surface-900 rounded">
-                            <div class="rounded-full bg-primary text-primary-contrast inline-flex justify-center items-center h-24 w-24 -mt-20">
-                                <i class="pi pi-question !text-5xl"></i>
+    <div class="flex flex-col lg:flex-row gap-8 align-items-start">
+        
+        <div class="w-full lg:w-2/3">
+            <p-dataview #dv [value]="cartItems()" layout="list">
+                <ng-template #list let-items>
+                    <div class="flex flex-col gap-4 w-full">
+                        
+                        <div *ngIf="items.length === 0" class="text-center p-10 bg-slate-50 rounded-2xl border border-slate-200">
+                            <i class="pi pi-shopping-cart text-4xl text-slate-400 mb-3 block"></i>
+                            <span class="text-lg font-medium text-slate-600">העגלה שלך ריקה כרגע.</span>
+                        </div>
+
+                        <div *ngFor="let item of items" class="bg-white border border-slate-200 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between hover:shadow-md transition-shadow">
+                            
+                            <div class="flex items-center gap-5 w-full sm:w-auto">
+                                <div class="bg-slate-50 p-2 rounded-lg border border-slate-100 flex-shrink-0">
+                                    <img [src]="item.gift.imgUrl ? 'https://localhost:7260' + item.gift.imgUrl : 'https://primefaces.org/cdn/primeng/images/demo/product/bamboo-watch.jpg'" 
+                                         [alt]="item.gift.name" 
+                                         class="w-20 h-20 object-cover rounded-md" />
+                                </div>
+                                
+                                <div class="flex flex-col gap-1">
+                                    <h4 class="m-0 text-lg font-bold text-slate-800">{{item.gift.name}}</h4>
+                                    <div class="flex items-center gap-2 text-sm font-medium text-slate-500">
+                                        <span class="bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-md">{{item.quantity}} כרטיסים</span>
+                                        <span>•</span>
+                                        <span>{{currentPrice()}} ₪ לכרטיס</span>
+                                    </div>
+                                </div>
                             </div>
-                            <span class="font-bold text-2xl block mb-2 mt-6">{{ message.header }}</span>
-                            <p class="mb-0">{{ message.message }}</p>
-                            <div class="flex items-center gap-2 mt-6">
-                                <p-button label="Save" (onClick)="onAccept()" styleClass="w-32"></p-button>
-                                <p-button label="Cancel" [outlined]="true" (onClick)="onReject()" styleClass="w-32"></p-button>
+
+                            <div class="flex items-center justify-between sm:justify-end gap-6 w-full sm:w-auto mt-4 sm:mt-0 pt-4 sm:pt-0 border-t sm:border-t-0 border-slate-100">
+                                <div class="font-black text-2xl text-slate-800">
+                                    ₪{{currentPrice() * item.quantity}}
+                                </div>
+                                <button (click)="removeItem(item.id)" 
+                                        class="text-slate-400 hover:text-red-500 hover:bg-red-50 p-3 rounded-full transition-colors flex items-center justify-center border border-transparent hover:border-red-100"
+                                        pTooltip="הסר מהעגלה" tooltipPosition="top">
+                                    <i class="pi pi-trash text-xl"></i>
+                                </button>
                             </div>
                         </div>
-                    }
+                        
+                    </div>
                 </ng-template>
-            </p-confirmdialog>
+            </p-dataview>
         </div>
+
+        <div class="w-full lg:w-1/3">
+            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 sticky top-6 shadow-sm">
+                <h3 class="m-0 text-xl font-bold text-slate-800 mb-5">סיכום הזמנה</h3>
+                
+                <div class="flex justify-between items-center mb-3 text-slate-600">
+                    <span class="font-medium">סה"כ כרטיסים:</span>
+                    <span class="font-bold text-slate-800">{{totalQuantity()}}</span>
+                </div>
+                
+                <div class="border-t border-slate-200 my-4"></div>
+                
+                <div class="flex justify-between items-center mb-6">
+                    <span class="font-bold text-slate-800 text-lg">סה"כ לתשלום:</span>
+                    <span class="font-black text-3xl text-indigo-600">
+                        ₪{{totalAmount()}}
+                    </span>
+                </div>
+                
+                <p-button [disabled]="totalAmount() == 0" 
+                          (click)="confirm()" 
+                          label="אישור רכישה" 
+                          icon="pi pi-credit-card" 
+                          styleClass="w-full bg-indigo-600 border-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 text-lg shadow-md transition-transform hover:-translate-y-0.5">
+                </p-button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card flex justify-center">
+    <p-confirmdialog #cd>
+        <ng-template #headless let-message let-onAccept="onAccept" let-onReject="onReject">
+            @if (message) {
+                <div class="flex flex-col items-center p-8 bg-white rounded-2xl shadow-xl border border-slate-100" dir="rtl">
+                    <div class="rounded-full bg-indigo-50 text-indigo-600 inline-flex justify-center items-center h-20 w-20 mb-4">
+                        <i class="pi pi-question text-4xl"></i>
+                    </div>
+                    <span class="font-bold text-2xl text-slate-800 block mb-2">{{ message.header }}</span>
+                    <p class="text-slate-500 text-center mb-6">{{ message.message }}</p>
+                    <div class="flex items-center gap-3 w-full">
+                        <p-button label="לא, ביטול" [outlined]="true" severity="secondary" (onClick)="onReject()" class="flex-1" styleClass="w-full"></p-button>
+                        <p-button label="כן, המשך" (onClick)="onAccept()" class="flex-1" styleClass="w-full bg-indigo-600 border-indigo-600 hover:bg-indigo-700 text-white"></p-button>
+                    </div>
+                </div>
+            }
+        </ng-template>
+    </p-confirmdialog>
+</div>

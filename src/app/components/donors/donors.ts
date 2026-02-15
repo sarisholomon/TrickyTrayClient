@@ -24,7 +24,9 @@ import { Donor } from '../../models/models';
         TableModule, ToastModule, ToolbarModule, InputTextModule
     ],
     providers: [DonorService, MessageService, ConfirmationService],
-    templateUrl: './donors.html'
+    templateUrl: './donors.html',
+      styleUrls: ['./donors.scss']
+
 })
 export class Donors implements OnInit {
     // הזרקת התלויות החדשה (Angular 14+)

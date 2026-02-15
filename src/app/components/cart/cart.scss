@@ -1,0 +1,17 @@
+/* איפוס העיצוב הפנימי והרקע של DataView כדי לא להתנגש עם העיצוב שלנו */
+:host ::ng-deep .p-dataview-content {
+    background: transparent !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+/* העלמת מסגרות לא רצויות מדיאלוג האישור */
+:host ::ng-deep .p-dialog {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+:host ::ng-deep .p-dialog .p-dialog-content {
+    padding: 0 !important;
+    border-radius: 1rem;
+}
