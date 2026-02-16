@@ -1,11 +1,20 @@
-<div class="flex h-screen surface-ground" dir="rtl">
+<div class="flex flex-col h-screen surface-ground" dir="rtl">
 
-    <div class="h-full flex-shrink-0 surface-section shadow-2 z-2">
-        <app-menu></app-menu>
+    <!-- ניווט מובייל/טאבלט: בר עליון עם תפריט המבורגר -->
+    <div class="lg:hidden">
+        <app-menu layout="mobile"></app-menu>
     </div>
 
-    <div class="flex-1 overflow-y-auto p-5">
-        <router-outlet></router-outlet>
+    <div class="flex flex-1 min-h-0">
+        <!-- סיידבר דסקטופ: מוצג רק במסכים רחבים -->
+        <div class="h-full flex-shrink-0 surface-section shadow-2 z-2 hidden lg:block">
+            <app-menu layout="desktop"></app-menu>
+        </div>
+
+        <!-- אזור התוכן הראשי -->
+        <div class="flex-1 overflow-y-auto p-5">
+            <router-outlet></router-outlet>
+        </div>
     </div>
 
 </div>

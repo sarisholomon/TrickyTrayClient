@@ -14,10 +14,11 @@ import { TicketPriceService } from '../../services/ticket-price-service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
+import { PaymentComponent } from "../payment-component/payment-component";
 @Component({
   selector: 'app-cart',   
   standalone: true,
-  imports: [ButtonModule, RatingModule, TableModule, TagModule, FormsModule,DividerModule,CurrencyPipe,Card,DataViewModule,CommonModule, ConfirmDialogModule, ToastModule],
+  imports: [ButtonModule, RatingModule, TableModule, TagModule, FormsModule, DividerModule, CurrencyPipe, Card, DataViewModule, CommonModule, ConfirmDialogModule, ToastModule, PaymentComponent],
     providers: [ConfirmationService, MessageService]
     ,  templateUrl: './cart.html',
   styleUrl: './cart.scss',
@@ -40,6 +41,9 @@ export class Cart implements OnInit {
   totalAmount = computed(() => {
     return this.totalQuantity() * this.currentPrice();
   });
+
+  // דגל לסיום תשלום בתוך הדיאלוג
+  paymentFinished = false;
 removeItem(id:number){  
   console.log(id);
   this.cartService.removeCartItem(id).subscribe();
@@ -59,21 +63,26 @@ removeItem(id:number){
     });
   }
   confirm() {
+        this.paymentFinished = false;
         this.confirmationService?.confirm({
             header: 'האם אתה בטוח?',
-            message: 'לאחר האישור, הכרטיסים יכנסו למערכת ולא ניתן יהיה לבטל את הפעולה. להמשיך לתשלום?',
-            accept: () => {                
-                 this.cartService.checkOut().subscribe();   
-                 this.cartItems.set([])          
-            },
+        message: 'לאחר האישור, הכרטיסים יכנסו למערכת ולא ניתן יהיה לבטל את הפעולה. להמשיך לתשלום?',
             reject: () => {
-                this.messageService.add({ 
-                    severity: 'error', 
-                    summary: 'Rejected', 
-                    detail: 'הפעולה בוטלה', 
-                    life: 3000 
-                });
+          if (!this.paymentFinished) {
+            this.messageService.add({ 
+              severity: 'error', 
+              summary: 'Rejected', 
+              detail: 'הפעולה בוטלה', 
+              life: 3000 
+            });
+          }
             }
         });
+    }
+
+    // נקרא כאשר התשלום הסתיים בהצלחה בתוך קומפוננטת התשלום
+    onPurchaseCompleted() {
+      this.cartItems.set([]);
+      this.paymentFinished = true;
     }
 }

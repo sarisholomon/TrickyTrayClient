@@ -225,3 +225,83 @@
     /* הפעלת האנימציה על הכפתור העגול */
     animation: jellyPopCircle 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) forwards !important;
 }
+@media (max-width: 626px) {
+    /* צמצום המרווחים של הכרטיס הראשי */
+    :host ::ng-deep .p-dataview-list .flex-row {
+        padding: 0.75rem !important;
+        gap: 0.75rem !important;
+    }
+
+    /* הקטנת התמונה משמעותית */
+    :host ::ng-deep .w-40.h-28 {
+        width: 80px !important;
+        height: 60px !important;
+        border-radius: 8px !important;
+        flex-shrink: 0 !important;
+    }
+
+    /* התאמת הטקסט - שיהיה קומפקטי */
+    :host ::ng-deep .flex-1.flex-col {
+        gap: 0.25rem !important;
+        
+        h3 {
+            font-size: 0.95rem !important;
+            line-height: 1.2 !important;
+        }
+
+        span.text-\[11px\] {
+            font-size: 10px !important;
+        }
+    }
+
+    /* סידור המחיר והכפתורים - גרסה קטנה במיוחד */
+    :host ::ng-deep .flex-col.items-end {
+        flex-direction: column !important;
+        align-items: flex-end !important;
+        gap: 0.25rem !important; /* צמצום רווח בין מחיר לכפתור */
+        min-width: fit-content;
+
+        span.text-xl {
+            font-size: 1rem !important; /* מחיר קטן יותר */
+            margin: 0 !important;
+        }
+
+        /* הקטנת כפתור "לסל" / "נוסף" */
+        p-button::ng-deep .p-button {
+            padding: 0.25rem 0.5rem !important; /* ריפוד מינימלי */
+            height: 28px !important;            /* גובה נמוך מאוד */
+            min-width: 50px !important;
+            border-radius: 6px !important;
+
+            .p-button-label {
+                font-size: 0.7rem !important;   /* טקסט קטן */
+                font-weight: 700 !important;
+            }
+            .p-button-icon {
+                font-size: 0.65rem !important;  /* אייקון קטן */
+                margin-left: 4px !important;
+            }
+        }
+
+        /* הקטנת כפתורי אדמין (עריכה/מחיקה) */
+        .flex.gap-2 {
+            gap: 0.25rem !important;
+            
+            p-button::ng-deep .p-button.p-button-rounded {
+                width: 26px !important;  /* כפתורים עגולים זעירים */
+                height: 26px !important;
+                flex: 0 0 26px !important;
+                
+                .p-button-icon {
+                    font-size: 0.7rem !important;
+                }
+            }
+        }
+    }
+    
+    /* תיקון לזוכה */
+    :host ::ng-deep .text-xs.font-medium.text-amber-700 {
+        font-size: 9px !important;
+        padding: 1px 4px !important;
+    }
+}
