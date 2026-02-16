@@ -20,6 +20,8 @@ export interface User {
     passwordHash: string;
     phoneNumber: string;
     type: TypeCostumer;
+    googleId?: string | null;
+    lastLoginAt?: Date | string | null;
     cartItems?: CartItem[];
 }
 
