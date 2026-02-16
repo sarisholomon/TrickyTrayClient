@@ -73,3 +73,155 @@
         color: #4f46e5 !important;
     }
 }
+/* עיצוב מודרני לכפתור המעבר בין תצוגות */
+:host ::ng-deep .p-selectbutton {
+    background: #f1f5f9; /* רקע אפור-תכלת עדין */
+    border-radius: 12px; /* פינות עגולות */
+    padding: 4px; /* מרווח פנימי קטן */
+    border: 1px solid #e2e8f0; /* מסגרת עדינה */
+    display: inline-flex;
+
+    .p-button {
+        background: transparent;
+        border: none;
+        color: #64748b; /* צבע אייקון לא נבחר (אפור) */
+        transition: all 0.2s ease-in-out;
+        border-radius: 10px; /* פינות עגולות לכפתורים הפנימיים */
+        padding: 0.5rem 1rem; /* ריווח פנימי */
+        
+        &:not(:last-child) {
+            margin-left: 2px; /* מרווח קטן בין הכפתורים */
+        }
+
+        &:hover:not(.p-highlight) {
+            background: #e2e8f0; /* רקע בהיר במעבר עכבר */
+            color: #475569;
+        }
+
+        /* עיצוב המצב הנבחר (הפעיל) */
+        &.p-highlight {
+            background: #ffffff; /* רקע לבן */
+            color: #4f46e5; /* צבע אינדיגו לאייקון הנבחר */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* צללית עדינה */
+            font-weight: bold;
+        }
+
+        /* הסרת מסגרת הפוקוס של הדפדפן */
+        &:focus {
+            box-shadow: none;
+        }
+    }
+}
+/* עיצוב קפסולה "צפה" ואלסטית */
+:host ::ng-deep .super-cool-toggle.p-selectbutton {
+    background: #f1f5f9; /* רקע אפור בהיר מאוד לקפסולה כולה */
+    padding: 4px;
+    border-radius: 999px; /* עיגול מלא (Pill shape) */
+    border: 1px solid #e2e8f0;
+    display: inline-flex;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+
+    .p-button {
+        background: transparent;
+        border: none;
+        color: #94a3b8; /* צבע אייקון לא פעיל */
+        width: 44px;  /* כפתורים עגולים */
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px !important; /* חובה לעגל גם את הכפתור הפנימי */
+        
+        /* הקסם: אנימציית קפיץ אלסטית */
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+        /* מצב הובר על כפתור לא פעיל */
+        &:hover:not(.p-highlight) {
+            color: #4f46e5;
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        /* המצב הנבחר (החתיך!) */
+        &.p-highlight {
+            background: #ffffff; /* הכפתור עצמו הופך ללבן */
+            color: #4f46e5 !important; /* האייקון לאינדיגו */
+            /* צללית רכה שנותנת תחושת ריחוף */
+            box-shadow: 0 4px 12px -2px rgba(79, 70, 229, 0.2), 
+                        0 2px 6px -1px rgba(0, 0, 0, 0.08);
+            transform: scale(1.05); /* קפיצה קטנה החוצה */
+            
+            i {
+                filter: drop-shadow(0 2px 4px rgba(79, 70, 229, 0.2));
+            }
+        }
+
+        /* ביטול פוקוס מכוער */
+        &:focus {
+            box-shadow: none !important;
+        }
+        
+        /* הסתרת טקסט אם נשאר */
+        .p-button-label { display: none; }
+    }
+}
+/* --- אנימציית הוספה לסל מתוקנת (עיגול מושלם) --- */
+
+/* הגדרת תנועת הג'לי - קופצנית ועדינה יותר */
+@keyframes jellyPop {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.2); box-shadow: 0 0 20px rgba(16, 185, 129, 0.5); } /* גדל וזוהר */
+    60% { transform: scale(0.9); } /* מתכווץ */
+    80% { transform: scale(1.05); } /* באונס קטן */
+    100% { transform: scale(1); box-shadow: none; }
+}
+
+/* קלאס להצלחה ברשימה (כפתור רחב) */
+:host ::ng-deep .add-to-cart-success button.p-button {
+    background-color: #10b981 !important; /* ירוק הצלחה */
+    border-color: #10b981 !important;
+    /* מוודאים שהאנימציה חלה על הכפתור עצמו */
+    animation: jellyPop 0.7s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+
+    .p-button-label, .p-button-icon {
+        color: white !important;
+    }
+}
+
+/* עיצוב כפתור עגול חסין כיווץ */
+:host ::ng-deep .p-button.p-button-rounded {
+    /* השילוש הקדוש למניעת עיוות */
+    flex: 0 0 48px !important;    /* 0 growth, 0 shrink, 48px basis */
+    width: 48px !important;       /* רוחב קשיח */
+    height: 48px !important;      /* גובה קשיח */
+    
+    /* מוודאים עיגול מושלם */
+    border-radius: 50% !important; 
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+
+    /* מרכזים את האייקון */
+    .p-button-icon {
+        margin: 0 !important;
+        font-size: 1.25rem !important;
+        line-height: 1 !important;
+    }
+}
+
+/* התאמת האנימציה כדי שלא תשבור את העיגול */
+@keyframes jellyPopCircle {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.2, 0.9); }
+    50% { transform: scale(0.9, 1.2); }
+    100% { transform: scale(1); }
+}
+
+:host ::ng-deep .add-to-cart-success-grid button.p-button {
+    background-color: #10b981 !important;
+    border-color: #10b981 !important;
+    border-radius: 50% !important;
+    /* הפעלת האנימציה על הכפתור העגול */
+    animation: jellyPopCircle 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) forwards !important;
+}

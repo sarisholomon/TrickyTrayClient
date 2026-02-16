@@ -12,7 +12,8 @@ import { UserPurchase } from '../../models/models';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
 import { AuthService } from '../../services/auth-service';
-// import { Customer } from '@/domain/customer'; // הוספתי בהערה כי לא נעשה בו שימוש בקוד
+import { ViewChild } from '@angular/core';
+import { Table } from 'primeng/table';
 
 @Component({
     selector: 'app-table-row-expansion-demo',
@@ -28,7 +29,7 @@ export class Purchases implements OnInit {
     private cdr = inject(ChangeDetectorRef);
     purchases: UserPurchase[]=[];
     expandedRows: any = {};
-
+@ViewChild('dt') table!: Table;
     ngOnInit() {
 
        this.purchaseService.getAllByUser().subscribe({
@@ -45,7 +46,17 @@ export class Purchases implements OnInit {
     console.log(this.purchases);
     
     }
+cols = [
+    { field: 'userName', header: 'שם משתמש' },
+    { field: 'date', header: 'תאריך הזמנה' },
+    { field: 'totalTickets', header: 'מספר כרטיסים' },
+    { field: 'totalPrice', header: 'סכום כולל' }
+];
 
+// 3. פונקציית הייצוא
+exportCSV() {
+    this.table.exportCSV();
+}
   
     expandAll() {
     this.expandedRows = this.purchases.reduce((acc, p) => {

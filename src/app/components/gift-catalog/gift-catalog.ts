@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject, signal } from '@angular/core';
 import { GiftService } from '../../services/gift-service';
 import { CartService } from '../../services/cart-service';
 import { Category, Gift } from '../../models/models';
@@ -58,12 +58,12 @@ export class GiftCatalog implements OnInit {
   categories = signal<Category[]>([]);
   donors = signal<any[]>([]);
   price: number = 0;
-  layout: 'list' | 'grid' = 'list';
+  layout: 'grid' | 'list' = 'grid';
   options: any[] = [
     { label: 'List', value: 'list', icon: 'pi pi-bars' },
     { label: 'Grid', value: 'grid', icon: 'pi pi-th-large' }
   ];
-
+addingToCartId: number | null = null;
   visible: boolean = false;
   isEditMode: boolean = false;
 
@@ -92,7 +92,7 @@ export class GiftCatalog implements OnInit {
 
  // הוסיפי משתנה חדש למחלקה
 isRaffling = signal<boolean>(false);
-
+private cdr = inject(ChangeDetectorRef); // הזרקה
 random() {
   this.isRaffling.set(true); // הפעלת אנימציית טעינה בכפתור
   
@@ -201,7 +201,22 @@ random() {
       setTimeout(() => this.router.navigate(['/login']), 1500);
       return;
     }
+    this.addingToCartId = id;
     this.CartService.addCartItem(id).subscribe();
+    setTimeout(() => {
+        console.log(`Gift ${id} added to cart!`);
+        // TODO: Call your actual cart service here
+        
+        // סיום האנימציה אחרי שניה וחצי (כדי שהמשתמש ייהנה מהאפקט)
+     setTimeout(() => {
+        // 3. מכבים את האנימציה - המשתנה חוזר להיות ריק
+        this.addingToCartId = null;
+        
+        // מעדכנים את התצוגה
+        this.cdr.detectChanges(); 
+    }, 3000);
+        
+    }, 500); //
   }
 
   showDialog(gift?: any) {
