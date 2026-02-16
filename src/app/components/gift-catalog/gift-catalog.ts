@@ -53,6 +53,7 @@ export class GiftCatalog implements OnInit {
   private messageService = inject(MessageService);
   private router = inject(Router);
 
+
   // משתני State
   gifts = signal<Gift[]>([]);
   categories = signal<Category[]>([]);
