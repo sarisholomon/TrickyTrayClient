@@ -9,6 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 import { MessageModule } from 'primeng/message';
 import { CardModule } from 'primeng/card';
+import { GoogleLoginComponent } from '../google-login/google-login';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ import { CardModule } from 'primeng/card';
     ButtonModule, 
     PasswordModule, 
     MessageModule, 
-    CardModule
+    CardModule,
+    GoogleLoginComponent
   ],
   templateUrl: './login.html', 
   styleUrls: ['./login.scss'] 

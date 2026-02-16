@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 import { User, TypeCostumer } from '../models/models';
 import { CartService } from './cart-service';
 import { Router } from '@angular/router';
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 
 // הגדרת המבנה שהשרת מחזיר ב-LoginResponseDTO
 export interface LoginResponse {
@@ -27,6 +28,7 @@ export class AuthService {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 private router = inject(Router); // דורש ייבוא מ-@angular/router
+private socialAuthService = inject(SocialAuthService);
   constructor(
     private http: HttpClient,
     private cookieService: CookieService
@@ -55,6 +57,11 @@ private router = inject(Router); // דורש ייבוא מ-@angular/router
     );
   }
 
+  // פונקציה ציבורית לשמירת מידע התחברות שמגיע ממקורות אחרים (למשל Google)
+  handleLoginResponse(response: LoginResponse): void {
+    this.setSession(response);
+  }
+
   // פונקציית עזר פנימית לשמירת המידע לאחר הצלחה
   private setSession(response: LoginResponse): void {
     // שמירת ה-Token (לצורך אימות עתידי מול השרת)
@@ -76,6 +83,13 @@ private router = inject(Router); // דורש ייבוא מ-@angular/router
     this.cookieService.delete('token', '/');
     this.cookieService.delete('currentUser', '/');
     this.currentUserSubject.next(null);
+
+    // ניתוק גם מחשבון ה-Google (אם המשתמש התחבר דרכו)
+    try {
+      this.socialAuthService.signOut();
+    } catch (e) {
+      console.error('Social logout failed', e);
+    }
 
     // 3. ניווט לדף הבית כדי לרענן את תצוגת הרכיבים
    this.router.navigate(['/login']);

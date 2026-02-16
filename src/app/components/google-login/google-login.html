@@ -1,0 +1,11 @@
+<asl-google-signin-button
+  type="standard"
+  size="large"
+  text="signin_with"
+  shape="rectangular"
+  theme="outline"
+  logo_alignment="left"
+></asl-google-signin-button>
+
+<p *ngIf="isLoading" class="loading-text">מתחבר לגוגל...</p>
+<p *ngIf="error" class="error-text">{{ error }}</p>
