@@ -31,11 +31,15 @@ export const appConfig: ApplicationConfig = {
         autoLogin: false,
         providers: [
           {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              environment.secretPassword
-            ),
-          },
+  id: GoogleLoginProvider.PROVIDER_ID,
+  provider: new GoogleLoginProvider(
+    environment.secretPassword,
+    {
+      oneTapEnabled: true, // מאפשר את ה-One Tap החדש
+      prompt: 'select_account', // מבטיח בחירת חשבון נקייה
+    }
+  ),
+},
         ],
         onError: (err: unknown) => {
           console.error('Google social login error', err);
