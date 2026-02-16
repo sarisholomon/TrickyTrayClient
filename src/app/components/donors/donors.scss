@@ -116,3 +116,38 @@
         font-weight: 500;
     }
 }
+/* עיצוב ומירכוז הפוטר של דיאלוג המחיקה */
+:host ::ng-deep .custom-confirm-dialog .p-dialog-footer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding-bottom: 1.5rem;
+    border-top: none; /* מסיר את הקו האפור כדי לתת מראה נקי יותר */
+}
+
+/* מסיר שוליים מיותרים שהרכיב שם כברירת מחדל */
+:host ::ng-deep .custom-confirm-dialog .p-dialog-footer button {
+    margin: 0 !important;
+}
+/* עיצוב פס גלילה מודרני ודק */
+::ng-deep .p-datatable-wrapper {
+    &::-webkit-scrollbar {
+        height: 6px; /* גובה פס הגלילה האופקי */
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #f1f5f9; /* צבע המסילה - אפור בהיר מאוד */
+        border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #cbd5e1; /* צבע ה"ידית" - אפור עדין */
+        border-radius: 10px;
+        transition: background 0.3s;
+
+        &:hover {
+            background: #94a3b8; /* מתכהה מעט במעבר עכבר */
+        }
+    }
+}

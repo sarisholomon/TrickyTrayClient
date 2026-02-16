@@ -33,8 +33,8 @@ import { Router } from '@angular/router';
     DialogModule,
     InputTextModule,
     SelectModule,
-    ButtonModule, 
-    ConfirmDialogModule, 
+    ButtonModule,
+    ConfirmDialogModule,
     ToastModule
   ],
   providers: [ConfirmationService, MessageService],
@@ -68,14 +68,14 @@ export class GiftCatalog implements OnInit {
   isEditMode: boolean = false;
 
   currentGift: any = { id: 0, name: '', description: '', categoryId: 0, donorId: 0, imgUrl: '' };
-  
+
   // משתני העלאת תמונה
-  selectedFile: File | null = null; 
+  selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null; // משתנה חדש שאחראי על התצוגה המקדימה!
 
   ngOnInit() {
     this.loadGifts();
-    
+
     // שליפת נתוני הבסיס
     this.categoryService.getAll().subscribe(data => this.categories.set(data));
     this.donorService.getAll().subscribe(data => this.donors.set(data));
@@ -90,16 +90,53 @@ export class GiftCatalog implements OnInit {
     });
   }
 
-  random() {
-    this.giftService.random().subscribe();
-  }
+ // הוסיפי משתנה חדש למחלקה
+isRaffling = signal<boolean>(false);
+
+random() {
+  this.isRaffling.set(true); // הפעלת אנימציית טעינה בכפתור
+  
+  // הצגת הודעה שההגרלה מתחילה
+  this.messageService.add({
+    severity: 'info',
+    summary: 'מבצע הגרלה',
+    detail: 'המערכת בוחרת זוכים, נא להמתין...',
+    life: 2000
+  });
+
+  this.giftService.random().subscribe({
+    next: () => {
+      // רענון הנתונים אוטומטית מהשרת לאחר הצלחה
+      this.loadGifts(); 
+      this.isRaffling.set(false);
+      
+      // הודעת הצלחה
+      this.messageService.add({
+        severity: 'success',
+        summary: 'ההגרלה הסתיימה',
+        detail: 'הזוכים עודכנו בהצלחה!',
+        life: 3000
+      });
+    },
+    error: (err) => {
+      this.isRaffling.set(false);
+      this.messageService.add({
+        severity: 'error',
+        summary: 'שגיאה',
+        detail: 'אירעה תקלה בביצוע ההגרלה',
+        life: 3000
+      });
+      console.error('Raffle failed:', err);
+    }
+  });
+}
 
   // הפונקציה המעודכנת שטוענת את התמונה לתצוגה מקדימה לפני השמירה בשרת
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
       this.selectedFile = file;
-      
+
       // יצירת תצוגה מקדימה באמצעות FileReader
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -153,51 +190,47 @@ export class GiftCatalog implements OnInit {
 
   addToCart(id: number) {
     if (!this.authService.isLoggedIn()) {
-    // במקום alert('נא להתחבר') - שלחי הודעה מעוצבת:
-    this.messageService.add({ 
-      severity: 'info', 
-      summary: 'התחברות נדרשת', 
-      detail: 'כדי להוסיף מתנות לסל, עליך להתחבר למערכת',
-      life: 3000 // ההודעה תיעלם אחרי 3 שניות
-    });
-    
-    // אופציונלי: להעביר אותו לדף התחברות אחרי שניה
-   setTimeout(() => this.router.navigate(['/login']), 1500);
-    return;
+      // במקום alert('נא להתחבר') - שלחי הודעה מעוצבת:
+      this.messageService.add({
+        severity: 'info',
+        summary: 'התחברות נדרשת',
+        detail: 'כדי להוסיף מתנות לסל, עליך להתחבר למערכת',
+        life: 3000
+      });
+
+      setTimeout(() => this.router.navigate(['/login']), 1500);
+      return;
     }
     this.CartService.addCartItem(id).subscribe();
   }
 
   showDialog(gift?: any) {
     this.visible = true;
-    
+
     if (gift) {
       this.isEditMode = true;
-      this.currentGift = { 
+      this.currentGift = {
         ...gift,
         categoryId: gift.categoryId ? Number(gift.categoryId) : (gift.category?.id ? Number(gift.category.id) : null),
         donorId: gift.donorId ? Number(gift.donorId) : (gift.donor?.id ? Number(gift.donor.id) : null)
       };
-      
-      // טעינת תמונה קיימת לתצוגה המקדימה (אם יש למתנה תמונה קודמת)
+
       this.previewUrl = gift.imgUrl ? 'https://localhost:7260' + gift.imgUrl : null;
       this.selectedFile = null;
 
     } else {
-      // מצב מתנה חדשה
       this.isEditMode = false;
-      this.currentGift = { 
-        id: 0, 
-        name: '', 
-        description: '', 
-        categoryId: null, 
-        donorId: null, 
-        imgUrl: '' 
+      this.currentGift = {
+        id: 0,
+        name: '',
+        description: '',
+        categoryId: null,
+        donorId: null,
+        imgUrl: ''
       };
-      
-      // איפוס מוחלט של התמונות בדיאלוג נקי
+
       this.selectedFile = null;
-      this.previewUrl = null; 
+      this.previewUrl = null;
     }
   }
 
@@ -209,11 +242,11 @@ export class GiftCatalog implements OnInit {
         this.router.navigate(['/login']);
       },
       reject: () => {
-        this.messageService.add({ 
-          severity: 'error', 
-          summary: 'Rejected', 
-          detail: 'הפריט לא נוסף לסל ', 
-          life: 3000 
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Rejected',
+          detail: 'הפריט לא נוסף לסל ',
+          life: 3000
         });
       }
     });

@@ -1,17 +1,14 @@
-/* מבנה הכרטיס הכללי - תואם לתורמים */
 :host ::ng-deep .card {
     background: #ffffff;
     border: 1px solid #e2e8f0;
     border-radius: 12px;
 }
 
-/* איפוס DataView כדי שהרקע הלבן שלו לא יתנגש לנו עם העיצוב */
 :host ::ng-deep .p-dataview-content {
     background: transparent !important;
     padding: 0 !important;
     border: none !important;
 }
-/* הכפתור הסגול הספציפי שדורס כל Theme קיים */
 :host ::ng-deep .custom-purple-btn {
     background-color: #4f46e5 !important; /* הצבע הסגול-כחול של התורמים */
     border-color: #4f46e5 !important;
@@ -20,10 +17,9 @@
 }
 
 :host ::ng-deep .custom-purple-btn:hover {
-    background-color: #4338ca !important; /* צבע מעט כהה יותר במעבר עכבר */
+    background-color: #4338ca !important; 
     border-color: #4338ca !important;
 }
-/* דריסת צבע הפוקוס הירוק של PrimeNG והחלפתו בצבע המותג */
 :host ::ng-deep .p-inputtext:focus,
 :host ::ng-deep .p-inputtext:enabled:focus,
 :host ::ng-deep .p-inputtext:enabled:hover,
@@ -32,7 +28,6 @@
     border-color: #4f46e5 !important;
     box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.15) !important;
 }
-/* כפתור ה-Toggle (List/Grid) - מראה נקי יותר */
 :host ::ng-deep .p-selectbutton {
     background: #f8fafc;
     border-radius: 8px;
@@ -48,4 +43,33 @@
     background: #ffffff;
     color: #4f46e5;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+/* --- דריסה חזקה לפג'ינציה של PrimeNG --- */
+:host ::ng-deep .p-paginator {
+    /* עדכון משתני ה-CSS למקרה שה-Theme מסתמך עליהם */
+    --highlight-bg: #eef2ff !important;
+    --highlight-text-color: #4f46e5 !important;
+    --primary-color: #4f46e5 !important;
+
+    /* דריסה ישירה של כפתור העמוד הפעיל */
+    .p-paginator-pages .p-paginator-page.p-highlight {
+        background-color: #eef2ff !important;
+        background: #eef2ff !important;
+        border-color: #eef2ff !important;
+        color: #4f46e5 !important;
+        font-weight: bold !important;
+        box-shadow: none !important;
+    }
+
+    /* עיצוב במעבר עכבר (Hover) על העמוד הפעיל כדי שלא יחזור לירוק */
+    .p-paginator-pages .p-paginator-page.p-highlight:hover {
+        background-color: #e0e7ff !important;
+        color: #4338ca !important;
+    }
+
+    /* עיצוב במעבר עכבר על כפתורים רגילים */
+    .p-paginator-pages .p-paginator-page:not(.p-highlight):hover {
+        background-color: #f8fafc !important; 
+        color: #4f46e5 !important;
+    }
 }

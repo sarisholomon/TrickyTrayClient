@@ -1,27 +1,19 @@
 <div class="card" dir="rtl">
-    <p-toast />
-    
+    <p-toast></p-toast>
+
     <p-toolbar class="mb-6">
         <ng-template #start>
-            <p-button label="הוספת תורם" icon="pi pi-plus" class="ml-2" (onClick)="openNew()" />
+            <p-button label="הוספת תורם" icon="pi pi-plus" class="ml-2" (onClick)="openNew()"></p-button>
         </ng-template>
         <ng-template #end>
-            <p-button label="ייצוא" icon="pi pi-upload" severity="secondary" (onClick)="dt.exportCSV()" />
+            <p-button label="ייצוא" icon="pi pi-upload" severity="secondary" (onClick)="exportCSV($event)" />
         </ng-template>
     </p-toolbar>
 
-    <p-table
-        #dt
-        [value]="donors"
-        [rows]="10"
-        [paginator]="true"
-        [globalFilterFields]="['name', 'email', 'phoneNumber', 'giftsString']"
-        [tableStyle]="{ 'min-width': '75rem' }"
-        [rowHover]="true"
-        dataKey="id"
-        currentPageReportTemplate="מציג {first} עד {last} מתוך {totalRecords} תורמים"
-        [showCurrentPageReport]="true"
-    >
+    <p-table #dt [value]="donors" [columns]="cols" [rows]="10" [paginator]="true"
+        [globalFilterFields]="['name', 'email', 'phoneNumber', 'giftsString']" [tableStyle]="{ 'min-width': '100%' }"
+        [rowHover]="true" dataKey="id" currentPageReportTemplate="מציג {first} עד {last} מתוך {totalRecords} תורמים"
+        [showCurrentPageReport]="true">
         <ng-template #caption>
             <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-2">
                 <div class="flex flex-col gap-1">
@@ -30,20 +22,22 @@
                         {{donors.length}} תורמים רשומים במערכת
                     </span>
                 </div>
-                
+
                 <p-iconfield iconPosition="left">
-                    <p-inputicon class="pi pi-search text-slate-400" />
-                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="חיפוש לפי שם או טלפון..." class="w-72" />
+                    <p-inputicon class="pi pi-search text-slate-400"></p-inputicon>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                        placeholder="חיפוש לפי שם או טלפון..." class="w-72" />
                 </p-iconfield>
             </div>
         </ng-template>
-        
+
         <ng-template #header>
             <tr>
-                <th pSortableColumn="name" style="min-width:14rem">שם <p-sortIcon field="name" /></th>
-                <th pSortableColumn="phoneNumber" style="min-width:10rem">טלפון <p-sortIcon field="phoneNumber" /></th>
-                <th pSortableColumn="email" style="min-width:14rem">מייל <p-sortIcon field="email" /></th>
-                <th style="min-width:16rem">מתנות</th>
+                <th field="name" pSortableColumn="name" style="min-width:14rem">שם <p-sortIcon field="name" /></th>
+                <th field="phoneNumber" pSortableColumn="phoneNumber" style="min-width:10rem">טלפון <p-sortIcon
+                        field="phoneNumber" /></th>
+                <th field="email" pSortableColumn="email" style="min-width:14rem">מייל <p-sortIcon field="email" /></th>
+                <th field="giftsString" style="min-width:16rem">מתנות</th>
                 <th style="width: 8rem">פעולות</th>
             </tr>
         </ng-template>
@@ -53,53 +47,73 @@
                 <td class="font-bold text-slate-800">{{ donor.name }}</td>
                 <td>
                     <span class="flex items-center gap-2 text-slate-600">
-                        <i class="pi pi-phone text-slate-400"></i> {{ donor.phoneNumber }} 
+                        <i class="pi pi-phone text-slate-400"></i> {{ donor.phoneNumber }}
                     </span>
                 </td>
                 <td>
                     <span class="flex items-center gap-2 text-slate-600">
-                        <i class="pi pi-envelope text-slate-400"></i> {{ donor.email }} 
+                        <i class="pi pi-envelope text-slate-400"></i> {{ donor.email }}
                     </span>
                 </td>
-                <td>
-                    <span class="gift-badge" *ngIf="donor.giftsString">
-                        <i class="pi pi-gift"></i> 
-                        {{ donor.giftsString }}
-                    </span>
+                 <td style="max-width: 250px;"> <span class="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-lg text-sm font-medium border border-indigo-100 whitespace-normal leading-relaxed" *ngIf="donor.giftsString">
+        <i class="pi pi-gift"></i> 
+        {{ donor.giftsString }}
+    </span>
                 </td>
                 <td>
                     <div class="flex gap-2">
-                        <p-button icon="pi pi-pencil" [rounded]="true" [outlined]="true" severity="secondary" (click)="editDonor(donor)" />
-                        <p-button [disabled]="donor.giftsString !== ''" icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (click)="deleteDonor(donor)" />
+                        <p-button icon="pi pi-pencil" [rounded]="true" [text]="true"
+                            styleClass="bg-indigo-50 text-indigo-600 hover:bg-indigo-100"
+                            (onClick)="editDonor(donor)"></p-button>
+                        <p-button [disabled]="donor.giftsString !== ''" icon="pi pi-trash" severity="danger"
+                            [rounded]="true" [text]="true"
+                            styleClass="bg-red-50 text-red-600 hover:bg-red-100 disabled:bg-slate-100 disabled:text-slate-400"
+                            (onClick)="deleteDonor(donor)"></p-button>
                     </div>
                 </td>
             </tr>
         </ng-template>
     </p-table>
 
-    <p-dialog [(visible)]="donorDialog" [style]="{ width: '450px' }" [header]="donor.id === 0 ? 'תורם חדש' : 'עריכת תורם'" [modal]="true" styleClass="p-fluid">
-        <ng-template #content>
-            <div class="flex flex-col gap-5 mt-2">
-                <div>
-                    <label for="name" class="block font-bold mb-2 text-slate-700">שם מלא</label>
-                    <input type="text" pInputText id="name" [(ngModel)]="donor.name" required autofocus fluid />
-                    <small class="text-red-500 mt-1 block" *ngIf="submitted && !donor.name">שם הוא שדה חובה.</small>
-                </div>
-                <div>
-                    <label for="email" class="block font-bold mb-2 text-slate-700">מייל</label>
-                    <input type="email" pInputText id="email" [(ngModel)]="donor.email" fluid />
-                </div>
-                <div>
-                    <label for="phone" class="block font-bold mb-2 text-slate-700">טלפון</label>
-                    <input type="text" pInputText id="phone" [(ngModel)]="donor.phoneNumber" fluid />
-                </div>
+    <p-dialog [(visible)]="donorDialog" [style]="{ width: '450px' }"
+        [header]="donor.id === 0 ? 'תורם חדש' : 'עריכת תורם'" [modal]="true" styleClass="p-fluid">
+        <div class="flex flex-col gap-5 mt-2">
+            <div>
+                <label for="name" class="block font-bold mb-2 text-slate-700">שם מלא</label>
+                <input type="text" pInputText id="name" [(ngModel)]="donor.name" required autofocus fluid />
+                <small class="text-red-500 mt-1 block" *ngIf="submitted && !donor.name">שם הוא שדה חובה.</small>
             </div>
-        </ng-template>
-        <ng-template #footer>
-            <p-button label="ביטול" icon="pi pi-times" [text]="true" severity="secondary" (click)="hideDialog()" />
-            <p-button label="שמור" icon="pi pi-check" (click)="saveDonor()" />
+            <div>
+                <label for="email" class="block font-bold mb-2 text-slate-700">מייל</label>
+                <input type="email" pInputText id="email" [(ngModel)]="donor.email" fluid />
+            </div>
+            <div>
+                <label for="phone" class="block font-bold mb-2 text-slate-700">טלפון</label>
+                <input type="text" pInputText id="phone" [(ngModel)]="donor.phoneNumber" fluid />
+            </div>
+        </div>
+        <ng-template pTemplate="footer">
+            <p-button label="ביטול" icon="pi pi-times" [text]="true" severity="secondary"
+                (onClick)="hideDialog()"></p-button>
+            <p-button label="שמור" icon="pi pi-check" (onClick)="saveDonor()"></p-button>
         </ng-template>
     </p-dialog>
 
-    <p-confirmdialog [style]="{ width: '450px' }" />
+    <p-confirmdialog [style]="{ width: '400px' }" styleClass="custom-confirm-dialog" acceptLabel="כן, מחק תורם"
+        rejectLabel="לא, ביטול" acceptIcon="" rejectIcon=""
+        acceptButtonStyleClass="bg-red-600 border-red-600 hover:bg-red-700 text-white font-bold px-6 py-2.5 rounded-xl shadow-sm transition-colors"
+        rejectButtonStyleClass="p-button-text p-button-secondary font-bold text-slate-600 hover:bg-slate-100 px-6 py-2.5 rounded-xl transition-colors">
+
+        <ng-template pTemplate="message" let-message>
+            <div class="flex flex-col items-center text-center w-full gap-3 pt-5 pb-2">
+                <div class="w-20 h-20 rounded-full bg-red-50 flex items-center justify-center mb-2">
+                    <i class="pi pi-trash text-4xl text-red-500"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-800 m-0">מחיקת תורם</h3>
+                <p class="text-slate-600 text-lg m-0 px-4 leading-relaxed" dir="rtl">
+                    {{ message.message }}
+                </p>
+            </div>
+        </ng-template>
+    </p-confirmdialog>
 </div>

@@ -41,6 +41,13 @@ export class Donors implements OnInit {
     selectedDonors!: Donor[] | null;
     submitted: boolean = false;
     donorDialog: boolean = false;
+    // הוסיפי את המשתנה הזה בתוך המחלקה, מעל ה-ngOnInit
+cols = [
+    { field: 'name', header: 'שם' },
+    { field: 'phoneNumber', header: 'טלפון' },
+    { field: 'email', header: 'מייל' },
+    { field: 'giftsString', header: 'מתנות' }
+];
 @ViewChild('dt') table!: Table;
     ngOnInit() {
         this.loadDonors();
@@ -82,27 +89,44 @@ export class Donors implements OnInit {
         this.donorDialog = true;
     }
 
-    saveDonor() {
+   saveDonor() {
         this.submitted = true;
 
         if (this.donor.name?.trim()) {
             if (this.donor.id !== 0) {
                 // עדכון תורם קיים
-                this.donorService.updateDonor(this.donor.id, this.donor).subscribe(() => {
-                    this.messageService.add({ severity: 'success', summary: 'הצלחה', detail: 'הפרטים עודכנו בהצלחה', life: 3000 });
-                    this.loadDonors(); // רענון הטבלה
+                this.donorService.updateDonor(this.donor.id, this.donor).subscribe({
+                    next: () => {
+                        this.messageService.add({ severity: 'success', summary: 'הצלחה', detail: 'הפרטים עודכנו בהצלחה', life: 3000 });
+                        this.loadDonors(); // רענון הטבלה
+                        this.closeDialog(); // סגירה ואיפוס רק אחרי הצלחה!
+                    },
+                    error: (err) => {
+                        this.messageService.add({ severity: 'error', summary: 'שגיאה', detail: 'אירעה שגיאה בעת העדכון', life: 3000 });
+                        console.error('Update failed:', err);
+                    }
                 });
             } else {
                 // יצירת תורם חדש
-                this.donorService.addDonor(this.donor).subscribe(() => {
-                    this.messageService.add({ severity: 'success', summary: 'הצלחה', detail: 'תורם חדש נוצר', life: 3000 });
-                    this.loadDonors(); // רענון הטבלה
+                this.donorService.addDonor(this.donor).subscribe({
+                    next: () => {
+                        this.messageService.add({ severity: 'success', summary: 'הצלחה', detail: 'תורם חדש נוצר', life: 3000 });
+                        this.loadDonors(); // רענון הטבלה
+                        this.closeDialog(); // סגירה ואיפוס רק אחרי הצלחה!
+                    },
+                    error: (err) => {
+                        this.messageService.add({ severity: 'error', summary: 'שגיאה', detail: 'אירעה שגיאה בעת יצירת התורם', life: 3000 });
+                        console.error('Creation failed:', err);
+                    }
                 });
             }
-
-            this.donorDialog = false;
-            this.donor = this.createEmptyDonor();
         }
+    }
+
+    private closeDialog() {
+        this.donorDialog = false;
+        this.donor = this.createEmptyDonor();
+        this.submitted = false;
     }
 
     deleteDonor(donor: Donor) {

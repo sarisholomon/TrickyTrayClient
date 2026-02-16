@@ -22,12 +22,12 @@ import { CardModule } from 'primeng/card';
     MessageModule, 
     CardModule
   ],
-  templateUrl: './login.html', // לוודא ששם הקובץ במערכת שלך הוא אכן login.html
-  styleUrls: ['./login.scss']  // לוודא ששם הקובץ במערכת שלך הוא אכן login.scss
+  templateUrl: './login.html', 
+  styleUrls: ['./login.scss'] 
 })
 export class LoginComponent implements OnInit {
-  loginForm!: FormGroup; // המשתנה שמנהל את הטופס
-  errorMessage: string = ''; // הודעת שגיאה שתגיע מהשרת
+  loginForm!: FormGroup; 
+  errorMessage: string = ''; 
 public router = inject(Router);
   constructor(
     private fb: FormBuilder,        
@@ -35,7 +35,6 @@ public router = inject(Router);
   ) {}
 
   ngOnInit(): void {
-    // הגדרת השדות: אימייל (חובה + מבנה אימייל) וסיסמה (חובה)
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
@@ -47,10 +46,14 @@ public router = inject(Router);
       const { email, password } = this.loginForm.value;
       this.authService.login(email, password).subscribe({
         next: (response) => {
-          this.router.navigate(['/']); // הצלחה! עוברים דף
+          if(this.authService.isAdmin())
+          this.router.navigate(['/dashboard']); 
+        else          
+         this.router.navigate(['/gifts']); 
+
         },
         error: (err) => {
-          this.errorMessage = 'פרטי התחברות שגויים'; // כישלון
+          this.errorMessage = 'פרטי התחברות שגויים';
         }
       });
     }

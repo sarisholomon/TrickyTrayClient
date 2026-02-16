@@ -16,3 +16,51 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* צל עדין מאוד */
   border: 1px solid #f1f5f9;
 }
+/* --- עיצוב פג'ינציה גלובלי לצבע אינדיגו --- */
+/* --- העלמה סופית של הירוק מכל רכיבי הפג'ינציה --- */
+
+/* מעבר עכבר (Hover) על מספרי העמודים ועל חצי הניווט (קדימה/אחורה) */
+.p-paginator .p-paginator-pages .p-paginator-page:hover,
+.p-paginator .p-paginator-first:hover,
+.p-paginator .p-paginator-prev:hover,
+.p-paginator .p-paginator-next:hover,
+.p-paginator .p-paginator-last:hover {
+    background-color: #eef2ff !important;
+    color: #4f46e5 !important;
+    border-color: transparent !important;
+}
+
+/* מצב בחירה/פוקוס (Focus) - זה מה שגורם לירוק להופיע מיד אחרי הלחיצה */
+.p-paginator .p-paginator-pages .p-paginator-page:focus,
+.p-paginator .p-paginator-first:focus,
+.p-paginator .p-paginator-prev:focus,
+.p-paginator .p-paginator-next:focus,
+.p-paginator .p-paginator-last:focus {
+    background-color: #eef2ff !important;
+    color: #4f46e5 !important;
+    box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.15) !important; /* צללית קלה בצבע אינדיגו */
+}
+
+/* העמוד הנוכחי הפעיל */
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    background-color: #eef2ff !important;
+    color: #4f46e5 !important;
+    font-weight: bold !important;
+    border-color: transparent !important;
+}
+/* --- הגדרת פונט גלובלי לכל המערכת --- */
+html, body {
+    font-family: 'Assistant', sans-serif;
+}
+
+/* דריסת הפונט המובנה של PrimeNG כדי שגם הכפתורים והאינפוטים ישתמשו בו */
+.p-component,
+.p-inputtext,
+.p-button {
+    font-family: 'Assistant', sans-serif !important;
+}
+
+/* התאמה ל-Tailwind (אופציונלי, מוודא שכל אלמנט יורש את הפונט) */
+* {
+    font-family: inherit;
+}
