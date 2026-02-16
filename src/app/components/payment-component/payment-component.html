@@ -1,0 +1,100 @@
+<div class="payment-container" dir="rtl">
+  <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+    <div class="form-error-note" *ngIf="submitted && paymentForm.invalid">
+      <span class="icon">!</span>
+      <div class="text">
+        <div class="title">יש שדות שחסרים או לא תקינים</div>
+        <div class="subtitle">נא לבדוק שמילאת את כל הפרטים בצורה נכונה.</div>
+      </div>
+    </div>
+    
+    <section>
+      <h3>פרטי תשלום</h3>
+      
+      <div class="form-group">
+        <input type="email" formControlName="email" placeholder="אימייל לקבלת קבלה">
+        <div class="field-error" *ngIf="hasError('email')">
+          נא להזין אימייל תקין לקבלת הקבלה.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input type="text" formControlName="cardHolderName" placeholder="שם בעל/ת הכרטיס">
+        <div class="field-error" *ngIf="hasError('cardHolderName')">
+          נא להזין את שם בעל/ת הכרטיס.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input type="text" formControlName="cardNumber" placeholder="מספר כרטיס">
+        <div class="field-error" *ngIf="hasError('cardNumber')">
+          מספר הכרטיס צריך להכיל 16 ספרות.
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="half field-column">
+          <input type="text" formControlName="expiryDate" placeholder="תוקף (MM/YY)">
+          <div class="field-error" *ngIf="hasError('expiryDate')">
+            נא להזין תוקף חוקי בפורמט MM/YY.
+          </div>
+        </div>
+        <div class="half field-column">
+          <input type="text" formControlName="cvv" placeholder="CVV">
+          <div class="field-error" *ngIf="hasError('cvv')">
+            קוד האבטחה צריך להכיל 3–4 ספרות.
+          </div>
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="saveCard" formControlName="saveCard">
+        <label for="saveCard">שמור כרטיס לתשלומים עתידיים</label>
+      </div>
+    </section>
+
+    <hr>
+
+    <section>
+      <h3>כתובת לחיוב</h3>
+      
+      <div class="row">
+        <div class="half field-column">
+          <input type="text" formControlName="country" placeholder="Israel">
+        </div>
+        <div class="half field-column">
+          <input type="text" formControlName="city" placeholder="עיר">
+          <div class="field-error" *ngIf="hasError('city')">
+            נא להזין עיר.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input type="text" formControlName="address" placeholder="כתובת">
+        <div class="field-error" *ngIf="hasError('address')">
+          נא להזין כתובת מלאה.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input type="text" formControlName="zipCode" placeholder="מיקוד" class="half">
+        <div class="field-error" *ngIf="hasError('zipCode')">
+          נא להזין מיקוד.
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <div class="checkbox-row">
+          <input type="checkbox" id="agreeTerms" formControlName="agreeTerms">
+          <label for="agreeTerms">אני מאשר/ת תנאי שימוש ומדיניות פרטיות</label>
+        </div>
+        <div class="field-error" *ngIf="hasError('agreeTerms')">
+          יש לאשר את תנאי השימוש ומדיניות הפרטיות.
+        </div>
+      </div>
+    </section>
+
+    <button type="submit" [disabled]="paymentForm.invalid" class="submit-btn">בצע תשלום</button>
+  </form>
+</div>

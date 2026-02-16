@@ -1,0 +1,113 @@
+/* payment-component.scss */
+.payment-container {
+  max-width: 500px;
+  margin: 0 auto; /* איפוס Margin כדי שלא יתפוס מקום מיותר בדיאלוג */
+  padding: 10px;
+  font-family: sans-serif;
+  color: #333;
+  
+  /* חשוב: מאפשר גלילה פנימית אם הדיאלוג קטן מדי */
+  overflow-y: visible; 
+  height: auto;
+}
+
+.form-error-note {
+  margin-bottom: 15px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background-color: #fff4f4;
+  border: 1px solid #f5c2c7;
+  color: #842029;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.9rem;
+
+  .icon {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-top: 2px;
+  }
+
+  .text {
+    .title {
+      font-weight: bold;
+      margin-bottom: 2px;
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+    }
+  }
+}
+h3 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+input[type="text"],
+input[type="email"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #dce4ec;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background-color: #f9fbff;
+}
+
+.row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.half {
+  flex: 1;
+}
+
+.field-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkbox-group {
+  margin: 15px 0;
+  font-size: 0.9rem;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.field-error {
+  color: #b3261e;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin: 25px 0;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.submit-btn:disabled {
+  background-color: #ccc;
+}

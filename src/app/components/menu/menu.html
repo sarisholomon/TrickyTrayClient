@@ -1,6 +1,7 @@
-<div class="card flex justify-center p-3">
+<!-- מצב דסקטופ: סיידבר מלא -->
+<div *ngIf="layout === 'desktop'" class="card flex justify-center p-3 h-full">
     <p-menu [model]="items()" styleClass="main-sidebar border-none shadow-md">
-        
+
         <ng-template #start>
             <div class="flex flex-col items-center py-7 px-5">
                 <div class="logo-wrapper mb-3">
@@ -24,7 +25,7 @@
 
         <ng-template #item let-item>
             <div class="px-3 mb-0.5">
-                <a pRipple class="nav-item flex items-center px-4 py-2.5 cursor-pointer transition-all rounded-lg" 
+                <a pRipple class="nav-item flex items-center px-4 py-2.5 cursor-pointer transition-all rounded-lg"
                    [routerLink]="item.routerLink" [class]="item.linkClass">
                     <span [class]="item.icon" class="text-lg opacity-60"></span>
                     <span class="mr-3.5 font-medium text-[14px]">{{ item.label }}</span>
@@ -37,8 +38,8 @@
             <div *ngIf="userSignal() as currentUser" class="mt-auto px-3 pb-4">
                 <div class="divider mb-4 mx-3"></div>
                 <div class="user-profile flex items-center px-3 py-2 rounded-xl hover:bg-slate-50 transition-all cursor-pointer">
-                    <p-avatar [label]="(currentUser.firstName?.charAt(0)?.toUpperCase())" 
-                              shape="circle" 
+                    <p-avatar [label]="(currentUser.firstName?.charAt(0)?.toUpperCase())"
+                              shape="circle"
                               styleClass="bg-indigo-500 text-white text-sm font-bold w-9 h-9">
                     </p-avatar>
                     <div class="flex flex-col text-right mr-3 overflow-hidden">
@@ -50,4 +51,100 @@
             </div>
         </ng-template>
     </p-menu>
+</div>
+
+<!-- מצב מובייל/טאבלט: בר עליון + תפריט המבורגר ו-Drawer -->
+<div *ngIf="layout === 'mobile'" class="relative">
+    <!-- בר עליון עם לוגו וכפתור המבורגר -->
+    <div class="flex items-center justify-between px-4 py-3 bg-white shadow-md">
+        <div class="flex items-center gap-2">
+            <div class="logo-wrapper">
+                <svg width="28" height="28" viewBox="0 0 31 33" fill="none">
+                    <path d="M15.1934 0L0.0391235 5.38288L2.35052 25.3417L15.1934 32.427L28.0364 25.3417L30.3478 5.38288L15.1934 0Z" fill="#6366F1" />
+                </svg>
+            </div>
+            <div class="text-right">
+                <h2 class="text-base font-bold text-slate-800 m-0 tracking-tight">מכירה <span class="text-indigo-600">סינית</span></h2>
+                <p class="text-[11px] text-slate-400 font-medium mt-0.5">ניהול מכירות חכם</p>
+            </div>
+        </div>
+
+        <button type="button"
+            class="hamburger-btn inline-flex items-center justify-center px-2.5 py-1.5 rounded-full bg-indigo-500 text-white shadow-md border border-indigo-500 hover:bg-indigo-600 hover:shadow-lg active:scale-95 transition-transform transition-shadow"
+                [class.open]="isMobileMenuOpen"
+                (click)="toggleMobileMenu()"
+                aria-label="תפריט ניווט">
+            <i class="pi text-base md:text-lg"
+               [ngClass]="{ 'pi-bars': !isMobileMenuOpen, 'pi-times': isMobileMenuOpen }"></i>
+        </button>
+    </div>
+
+    <!-- שכבת רקע כהה -->
+    <div *ngIf="isMobileMenuOpen"
+         class="fixed inset-0 bg-slate-900/40 z-40"
+         (click)="closeMobileMenu()">
+    </div>
+
+    <!-- Drawer צדדי -->
+    <div class="fixed top-0 right-0 h-screen w-64 max-w-[80%] bg-white shadow-2 z-50 transform transition-transform duration-300 flex flex-col"
+         [class.translate-x-full]="!isMobileMenuOpen"
+         [class.translate-x-0]="isMobileMenuOpen">
+
+        <!-- כותרת Drawer -->
+        <div class="flex items-center justify-between px-4 py-3 border-b border-slate-100">
+            <div class="flex items-center gap-2">
+                <div class="logo-wrapper">
+                    <svg width="24" height="24" viewBox="0 0 31 33" fill="none">
+                        <path d="M15.1934 0L0.0391235 5.38288L2.35052 25.3417L15.1934 32.427L28.0364 25.3417L30.3478 5.38288L15.1934 0Z" fill="#6366F1" />
+                    </svg>
+                </div>
+                <span class="text-sm font-bold text-slate-800">תפריט ניווט</span>
+            </div>
+
+            <button type="button"
+                    class="inline-flex items-center justify-center w-8 h-8 rounded-full border border-slate-200 bg-white text-slate-500 hover:bg-slate-50"
+                    (click)="closeMobileMenu()">
+                <i class="pi pi-times text-sm"></i>
+            </button>
+        </div>
+
+        <!-- רשימת ניווט בתוך ה-Drawer -->
+        <div class="flex-1 overflow-y-auto p-2">
+            <p-menu [model]="items()" styleClass="mobile-menu border-none shadow-none">
+                <ng-template #submenuheader let-item>
+                    <div class="px-4 pt-3 pb-1">
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-slate-300">{{ item.label }}</span>
+                    </div>
+                </ng-template>
+
+                <ng-template #item let-item>
+                    <div class="px-2 mb-0.5">
+                        <a pRipple class="nav-item flex items-center px-3 py-2.5 cursor-pointer transition-all rounded-lg"
+                           [routerLink]="item.routerLink" [class]="item.linkClass" (click)="closeMobileMenu()">
+                            <span [class]="item.icon" class="text-base opacity-60"></span>
+                            <span class="mr-3 font-medium text-[14px]">{{ item.label }}</span>
+                            <p-badge *ngIf="item.badge" class="badge mr-auto" [value]="item.badge" />
+                        </a>
+                    </div>
+                </ng-template>
+
+                <ng-template #end>
+                    <div *ngIf="userSignal() as currentUser" class="mt-4 px-3 pb-4">
+                        <div class="divider mb-3 mx-1"></div>
+                        <div class="user-profile flex items-center px-3 py-2 rounded-xl hover:bg-slate-50 transition-all cursor-pointer">
+                            <p-avatar [label]="(currentUser.firstName?.charAt(0)?.toUpperCase())"
+                                      shape="circle"
+                                      styleClass="bg-indigo-500 text-white text-sm font-bold w-9 h-9">
+                            </p-avatar>
+                            <div class="flex flex-col text-right mr-3 overflow-hidden">
+                                <span class="font-bold text-slate-700 text-[13.5px] truncate leading-tight">{{ currentUser.firstName }}</span>
+                                <span class="text-[11.5px] text-slate-400 truncate">{{ currentUser.email }}</span>
+                            </div>
+                            <i class="pi pi-chevron-down mr-auto text-[10px] text-slate-300"></i>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-menu>
+        </div>
+    </div>
 </div>

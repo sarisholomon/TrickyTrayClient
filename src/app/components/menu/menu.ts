@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, Input, computed, inject } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { AvatarModule } from 'primeng/avatar';
 import { BadgeModule } from 'primeng/badge';
@@ -20,6 +20,10 @@ import { TypeCostumer, User } from '../../models/models'
 export class Menu {
     private authService = inject(AuthService);
     private cartService = inject(CartService);
+
+    @Input() layout: 'desktop' | 'mobile' = 'desktop';
+
+    isMobileMenuOpen = false;
 
     // <--- 2. המרת ה-Observable ל-Signal כדי שנוכל להשתמש בו בתוך computed
     userSignal = toSignal<User | null>(this.authService.currentUser$);
@@ -83,5 +87,13 @@ export class Menu {
 
     logout() {
         this.authService.logout();
+    }
+
+    toggleMobileMenu() {
+        this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    }
+
+    closeMobileMenu() {
+        this.isMobileMenuOpen = false;
     }
 }
