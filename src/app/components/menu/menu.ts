@@ -27,7 +27,7 @@ export class Menu {
     items = computed<MenuItem[]>(() => {
         // 1. קריאה לסיגנלים בתחילת הפונקציה כדי להירשם לשינויים
         const user = this.userSignal();
-        const cartCount = this.cartService.totalQuantity();
+        const cartCount = user !== null ? this.cartService.totalQuantity() : 0;
 
         // const isAdmin = user?.type == TypeCostumer.Admin;
         console.log(this.authService.isAdmin());
