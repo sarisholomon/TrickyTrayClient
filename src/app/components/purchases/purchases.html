@@ -1,79 +1,100 @@
 <div class="card p-5" dir="rtl">
     <p-toast></p-toast>
     
-    <div class="flex flex-col gap-1 mb-6">
-        <h2 class="m-0 text-2xl font-bold text-slate-800">היסטוריית רכישות</h2>
-        <span class="text-sm font-medium text-slate-500">מעקב אחר הזמנות וכרטיסים במערכת</span>
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 border-b border-slate-100 pb-4">
+        <div class="flex flex-col gap-1 text-right">
+            <h2 class="m-0 text-3xl font-extrabold text-slate-800 tracking-tight">היסטוריית רכישות</h2>
+            <span class="text-sm font-medium text-slate-500">מעקב אחר הזמנות וכרטיסים במערכת</span>
+        </div>
+        
+        <p-button 
+            label="ייצוא לאקסל" 
+            icon="pi pi-file-excel" 
+            severity="secondary" 
+            [outlined]="true"
+            (onClick)="exportCSV()"
+            styleClass="rounded-xl font-bold px-4 py-2.5 shadow-sm border-slate-200 hover:bg-slate-50">
+        </p-button>
     </div>
-<p-table *ngIf="purchases" [value]="purchases" dataKey="purchaseId" 
-        [tableStyle]="{ 'min-width': '60rem' }" styleClass="p-datatable-lg"
-        [expandedRowKeys]="expandedRows" (onRowExpand)="onRowExpand($event)" (onRowCollapse)="onRowCollapse($event)">
 
-        <ng-template #header>
+    <p-table #dt *ngIf="purchases" 
+        [value]="purchases" 
+        [columns]="cols" 
+        dataKey="purchaseId" 
+        [tableStyle]="{ 'min-width': '60rem' }" 
+        styleClass="p-datatable-lg"
+        [expandedRowKeys]="expandedRows">
+
+        <ng-template pTemplate="header">
             <tr>
                 <th style="width: 4rem"></th>
-                <th *ngIf="authService.isAdmin()" pSortableColumn="userName">שם משתמש <p-sortIcon field="userName" /></th>
-                <th pSortableColumn="date">תאריך הזמנה <p-sortIcon field="date" /></th>
-                <th pSortableColumn="totalTickets">מספר כרטיסים <p-sortIcon field="totalTickets" /></th>
-                <th pSortableColumn="totalPrice">סכום כולל <p-sortIcon field="totalPrice" /></th>
+                <th *ngIf="authService.isAdmin()" pSortableColumn="userName" field="userName">שם משתמש <p-sortIcon field="userName" /></th>
+                <th pSortableColumn="date" field="date">תאריך הזמנה <p-sortIcon field="date" /></th>
+                <th pSortableColumn="totalTickets" field="totalTickets">מספר כרטיסים <p-sortIcon field="totalTickets" /></th>
+                <th pSortableColumn="totalPrice" field="totalPrice">סכום כולל <p-sortIcon field="totalPrice" /></th>
             </tr>
         </ng-template>
 
-        <ng-template #body let-purchase let-expanded="expanded">
+        <ng-template pTemplate="body" let-purchase let-expanded="expanded">
             <tr [class.bg-slate-50]="expanded" class="transition-colors">
                 <td>
                     <p-button type="button" pRipple [pRowToggler]="purchase" [text]="true" 
                         [rounded]="true" [icon]="expanded ? 'pi pi-chevron-up' : 'pi pi-chevron-down'" 
                         styleClass="text-indigo-500 hover:bg-indigo-50" />
                 </td>
-                <td *ngIf="authService.isAdmin()" class="font-bold text-slate-800">{{ purchase.userName }}</td>
-                <td class="text-slate-600 font-medium">{{ purchase.date | date: 'dd/MM/yyyy HH:mm' }}</td>
-                <td>
+                <td *ngIf="authService.isAdmin()" class="font-bold text-slate-800 text-right">{{ purchase.userName }}</td>
+                <td class="text-slate-600 font-medium text-right">{{ purchase.date | date: 'dd/MM/yyyy HH:mm' }}</td>
+                <td class="text-right">
                     <span class="bg-indigo-50 text-indigo-600 font-bold px-3 py-1.5 rounded-full text-sm">
                         {{ purchase.totalTickets }} כרטיסים
                     </span>
                 </td>
-                <td class="font-black text-lg text-slate-800">{{ purchase.totalPrice | currency: 'ILS':'symbol':'1.0-0' }}</td>
+                <td class="font-black text-lg text-slate-800 text-right">₪{{ purchase.totalPrice }}</td>
             </tr>
         </ng-template>
 
-        <ng-template #expandedrow let-purchase>
+        <ng-template pTemplate="expandedrow" let-purchase>
             <tr>
                 <td [attr.colspan]="authService.isAdmin() ? 5 : 4" class="p-0 border-b border-slate-200">
                     <div class="bg-slate-50 p-6 border-t border-slate-100 shadow-inner">
-                        <div class="flex items-center gap-2 mb-4">
+                        <div class="flex items-center gap-2 mb-4 text-right">
                             <i class="pi pi-receipt text-indigo-500 text-xl"></i>
                             <h5 class="m-0 text-slate-700 font-bold">פירוט הזמנה #{{ purchase.purchaseId }}</h5>
                         </div>
                         
                         <p-table [value]="purchase.items" dataKey="giftId" styleClass="p-datatable-sm bg-white rounded-xl shadow-sm overflow-hidden border border-slate-200">
-                            <ng-template #header>
+                            <ng-template pTemplate="header">
                                 <tr>
-                                    <th style="width: 80px" class="bg-slate-100">תמונה</th>
-                                    <th pSortableColumn="giftName" class="bg-slate-100">שם המתנה <p-sortIcon field="giftName" /></th>
-                                    <th pSortableColumn="quantity" class="bg-slate-100">כמות <p-sortIcon field="quantity" /></th>
+                                    <th style="width: 80px" class="bg-slate-100 text-right">תמונה</th>
+                                    <th pSortableColumn="giftName" class="bg-slate-100 text-right">שם המתנה <p-sortIcon field="giftName" /></th>
+                                    <th pSortableColumn="quantity" class="bg-slate-100 text-right">כמות <p-sortIcon field="quantity" /></th>
                                 </tr>
                             </ng-template>
                             
-                            <ng-template #body let-item>
+                            <ng-template pTemplate="body" let-item>
                                 <tr>
-                                    <td>
+                                    <td class="text-right">
                                         <div class="bg-slate-50 rounded-lg p-1 flex justify-center items-center h-12 w-12 border border-slate-100">
-                                            <img [src]="item.imgUrl ? 'https://localhost:7260/' + item.imgUrl : 'https://primefaces.org/cdn/primeng/images/demo/product/bamboo-watch.jpg'" 
+                                            <img [src]="item.imgUrl ? 'https://localhost:7260' + item.imgUrl : 'https://primefaces.org/cdn/primeng/images/demo/product/bamboo-watch.jpg'" 
                                                  [alt]="item.giftName" class="max-h-full object-contain" />
                                         </div>
                                     </td>
-                                    <td class="font-bold text-slate-700">{{ item.giftName }}</td>
-                                    <td class="font-black text-indigo-600 text-lg">{{ item.quantity }}x</td>
-                                </tr>
-                            </ng-template>
-                            
-                            <ng-template #emptymessage>
-                                <tr>
-                                    <td colspan="3" class="text-center p-5 text-slate-500 font-medium">לא נמצאו פריטים מקושרים להזמנה זו.</td>
+                                    <td class="font-bold text-slate-700 text-right">{{ item.giftName }}</td>
+                                    <td class="font-black text-indigo-600 text-lg text-right">{{ item.quantity }}x</td>
                                 </tr>
                             </ng-template>
                         </p-table>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td [attr.colspan]="authService.isAdmin() ? 5 : 4" class="text-center py-20 text-slate-500">
+                    <div class="flex flex-col items-center gap-3">
+                        <i class="pi pi-receipt text-4xl opacity-20"></i>
+                        <span class="font-bold text-xl">לא נמצאו רכישות במערכת</span>
                     </div>
                 </td>
             </tr>

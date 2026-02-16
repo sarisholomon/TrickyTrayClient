@@ -9,65 +9,70 @@
             <h2 [style]="{'margin': '0', 'font-size': '1.75rem', 'color': '#1e293b', 'font-weight': '800'}">יצירת חשבון חדש</h2>
         </div>
 
-        <form [formGroup]="registerForm" (ngSubmit)="onRegister()" [style]="{'display': 'flex', 'flex-direction': 'column', 'gap': '1.25rem'}">
-            
-            <div [style]="{'display': 'flex', 'gap': '1rem'}">
-                <div [style]="{'flex': '1', 'display': 'flex', 'flex-direction': 'column', 'gap': '0.5rem'}">
-                    <label [style]="{'font-size': '0.875rem', 'font-weight': '700', 'color': '#475569'}">שם פרטי</label>
-                    <input pInputText formControlName="firstName" placeholder="ישראל" 
-                           [style]="{'width': '100%', 'padding': '0.75rem', 'border-radius': '0.6rem'}" />
-                </div>
-                <div [style]="{'flex': '1', 'display': 'flex', 'flex-direction': 'column', 'gap': '0.5rem'}">
-                    <label [style]="{'font-size': '0.875rem', 'font-weight': '700', 'color': '#475569'}">שם משפחה</label>
-                    <input pInputText formControlName="lastName" placeholder="ישראלי" 
-                           [style]="{'width': '100%', 'padding': '0.75rem', 'border-radius': '0.6rem'}" />
-                </div>
+       <form [formGroup]="registerForm" (ngSubmit)="onRegister()" [style]="{'display': 'flex', 'flex-direction': 'column', 'gap': '1.25rem'}">
+    
+    <div [style]="{'display': 'flex', 'gap': '1rem'}">
+        <div [style]="{'flex': '1', 'display': 'flex', 'flex-direction': 'column', 'gap': '0.5rem'}">
+            <label [style]="{'font-size': '0.875rem', 'font-weight': '700', 'color': '#475569'}">שם פרטי</label>
+            <input pInputText formControlName="firstName" placeholder="ישראל" 
+                   [style]="{'width': '100%', 'padding': '0.75rem', 'border-radius': '0.6rem'}" />
+            <div *ngIf="registerForm.get('firstName')?.touched && registerForm.get('firstName')?.invalid">
+                <small class="text-red-500 block" *ngIf="registerForm.get('firstName')?.errors?.['required']">שם פרטי הוא שדה חובה</small>
+                <small class="text-red-500 block" *ngIf="registerForm.get('firstName')?.errors?.['minlength']">השם חייב להכיל לפחות 2 אותיות</small>
             </div>
+        </div>
 
-            <div [style]="{'display': 'flex', 'flex-direction': 'column', 'gap': '0.5rem'}">
-                <label [style]="{'font-size': '0.875rem', 'font-weight': '700', 'color': '#475569'}">כתובת אימייל</label>
-                <input pInputText formControlName="email" placeholder="example@mail.com" 
-                       [style]="{'width': '100%', 'padding': '0.75rem', 'border-radius': '0.6rem'}" />
+        <div [style]="{'flex': '1', 'display': 'flex', 'flex-direction': 'column', 'gap': '0.5rem'}">
+            <label [style]="{'font-size': '0.875rem', 'font-weight': '700', 'color': '#475569'}">שם משפחה</label>
+            <input pInputText formControlName="lastName" placeholder="ישראלי" 
+                   [style]="{'width': '100%', 'padding': '0.75rem', 'border-radius': '0.6rem'}" />
+            <div *ngIf="registerForm.get('lastName')?.touched && registerForm.get('lastName')?.invalid">
+                <small class="text-red-500 block" *ngIf="registerForm.get('lastName')?.errors?.['required']">שם משפחה הוא שדה חובה</small>
+                <small class="text-red-500 block" *ngIf="registerForm.get('lastName')?.errors?.['minlength']">השם חייב להכיל לפחות 2 אותיות</small>
             </div>
+        </div>
+    </div>
 
-            <div [style]="{'display': 'flex', 'flex-direction': 'column', 'gap': '0.5rem'}">
-                <label [style]="{'font-size': '0.875rem', 'font-weight': '700', 'color': '#475569'}">מספר טלפון</label>
-                <p-inputMask 
-                    mask="099-9999999" 
-                    formControlName="phone" 
-                    placeholder="050-0000000" 
-                    styleClass="w-full" 
-                    inputStyleClass="w-full"
-                    [style]="{'width': '100%'}">
-                </p-inputMask>
-            </div>
+    <div [style]="{'display': 'flex', 'flex-direction': 'column', 'gap': '0.5rem'}">
+        <label [style]="{'font-size': '0.875rem', 'font-weight': '700', 'color': '#475569'}">כתובת אימייל</label>
+        <input pInputText formControlName="email" placeholder="example@mail.com" 
+               [style]="{'width': '100%', 'padding': '0.75rem', 'border-radius': '0.6rem'}" />
+        <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid">
+            <small class="text-red-500 block" *ngIf="registerForm.get('email')?.errors?.['required']">אימייל הוא שדה חובה</small>
+            <small class="text-red-500 block" *ngIf="registerForm.get('email')?.errors?.['email']">נא להזין כתובת אימייל תקינה</small>
+        </div>
+    </div>
 
-            <div [style]="{'display': 'flex', 'flex-direction': 'column', 'gap': '0.5rem'}">
-                <label [style]="{'font-size': '0.875rem', 'font-weight': '700', 'color': '#475569'}">סיסמה</label>
-                <p-password 
-                    formControlName="password" 
-                    [toggleMask]="true" 
-                    styleClass="w-full" 
-                    inputStyleClass="w-full" 
-                    [style]="{'width': '100%'}"
-                    placeholder="לפחות 6 תווים">
-                </p-password>
-            </div>
+    <div [style]="{'display': 'flex', 'flex-direction': 'column', 'gap': '0.5rem'}">
+        <label [style]="{'font-size': '0.875rem', 'font-weight': '700', 'color': '#475569'}">מספר טלפון</label>
+        <p-inputMask mask="099-9999999" formControlName="phone" placeholder="050-0000000" styleClass="w-full"></p-inputMask>
+        <small class="text-red-500" *ngIf="registerForm.get('phone')?.touched && registerForm.get('phone')?.errors?.['required']">מספר טלפון הוא חובה</small>
+    </div>
 
-            <p-message *ngIf="errorMessage" severity="error" [text]="errorMessage"></p-message>
+    <div [style]="{'display': 'flex', 'flex-direction': 'column', 'gap': '0.5rem'}">
+        <label [style]="{'font-size': '0.875rem', 'font-weight': '700', 'color': '#475569'}">סיסמה</label>
+        <p-password formControlName="password" [toggleMask]="true" styleClass="w-full" inputStyleClass="w-full" placeholder="לפחות 6 תווים"></p-password>
+        <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid">
+            <small class="text-red-500 block" *ngIf="registerForm.get('password')?.errors?.['required']">סיסמה היא שדה חובה</small>
+            <small class="text-red-500 block" *ngIf="registerForm.get('password')?.errors?.['minlength']">הסיסמה חייבת להכיל לפחות 6 תווים</small>
+            <small class="text-red-500 block" *ngIf="registerForm.get('password')?.errors?.['pattern']">חובה: אות גדולה, אות קטנה ומספר</small>
+        </div>
+    </div>
 
-            <p-button 
-                label="הרשמה למערכת" 
-                type="submit" 
-                [disabled]="registerForm.invalid" 
-                [style]="{'width': '100%', 'background': '#4f46e5', 'border': 'none', 'padding': '1rem', 'border-radius': '0.75rem', 'font-weight': '700', 'color': 'white'}">
-            </p-button>
+    <p-message *ngIf="errorMessage" severity="error" [text]="errorMessage" styleClass="w-full mt-2"></p-message>
 
-        </form>
-        
+    <p-button 
+        label="הרשמה למערכת" 
+        type="submit" 
+        [disabled]="registerForm.invalid" 
+        [style]="{'width': '100%', 'background': '#4f46e5', 'border': 'none', 'padding': '1rem', 'border-radius': '0.75rem', 'font-weight': '700', 'color': 'white'}">
+    </p-button>
+
+</form>
         <div [style]="{'text-align': 'center', 'margin-top': '1.5rem', 'padding-top': '1.5rem', 'border-top': '1px solid #f1f5f9'}">
             <span [style]="{'color': '#64748b', 'font-size': '0.875rem'}">כבר יש לך חשבון? </span>
             <a [style]="{'color': '#4f46e5', 'font-weight': '700', 'cursor': 'pointer', 'text-decoration': 'none'}" (click)="router.navigate(['/login'])">התחברו כאן</a>
         </div>
     </div>
+    
 </div>

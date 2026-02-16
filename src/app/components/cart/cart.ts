@@ -61,11 +61,8 @@ removeItem(id:number){
   confirm() {
         this.confirmationService?.confirm({
             header: 'האם אתה בטוח?',
-            message: 'שים לב שפעולה זו תמחוק את הפריט מהעגלה.',
-            accept: () => {
-                // כאן אתה קורא לפונקציה שכתבנו קודם!
-                console.log("ggg");
-                
+            message: 'לאחר האישור, הכרטיסים יכנסו למערכת ולא ניתן יהיה לבטל את הפעולה. להמשיך לתשלום?',
+            accept: () => {                
                  this.cartService.checkOut().subscribe();   
                  this.cartItems.set([])          
             },

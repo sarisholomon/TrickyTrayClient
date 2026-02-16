@@ -37,17 +37,39 @@ public router = inject(Router);
     private authService: AuthService, 
   ) {}
 
-  ngOnInit(): void {
-    this.registerForm = this.fb.group({
-      // התאמה לשדות ב-CreateUserAsync בשרת
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      phone: ['', [Validators.required]] // השדה נקרא phone ב-DTO שלך
-    });
-  }
-
+  // ngOnInit(): void {
+  //   this.registerForm = this.fb.group({
+  //     // התאמה לשדות ב-CreateUserAsync בשרת
+  //     firstName: ['', [Validators.required]],
+  //     lastName: ['', [Validators.required]],
+  //     email: ['', [Validators.required, Validators.email]],
+  //     password: ['', [Validators.required, Validators.minLength(6)]],
+  //     phone: ['', [Validators.required]] // השדה נקרא phone ב-DTO שלך
+  //   });
+  // }
+// הוספנו את ה-Validators המורחבים
+ngOnInit(): void {
+  this.registerForm = this.fb.group({
+    firstName: ['', [
+      Validators.required, 
+      Validators.minLength(2), 
+      Validators.pattern('^[a-zA-Zא-ת ]+$') // רק אותיות (עברית/אנגלית)
+    ]],
+    lastName: ['', [
+      Validators.required, 
+      Validators.minLength(2), 
+      Validators.pattern('^[a-zA-Zא-ת ]+$')
+    ]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [
+      Validators.required, 
+      Validators.minLength(6),
+      // ולידציה לסיסמה: לפחות אות גדולה, אות קטנה ומספר
+      Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$')
+    ]],
+    phone: ['', [Validators.required]]
+  });
+}
   onRegister(): void {
     if (this.registerForm.valid) {
       // שליחת הנתונים ל-API
