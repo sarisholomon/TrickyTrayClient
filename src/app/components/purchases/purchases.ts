@@ -20,7 +20,9 @@ import { Table } from 'primeng/table';
     templateUrl: './purchases.html', // הפניה לקובץ ה-HTML
     standalone: true,
     imports: [CommonModule,ButtonModule, RatingModule, TableModule, TagModule, ToastModule, RippleModule, FormsModule],
-    providers: [PurchaseService, MessageService]
+    providers: [PurchaseService, MessageService],
+    styleUrls: ['./purchases.scss'],
+
 })
 export class Purchases implements OnInit {
     private purchaseService = inject(PurchaseService);
