@@ -36,21 +36,64 @@
             </p-button>
         </div>
     </div>
-<div class="flex justify-end mb-6">
-    <p-selectbutton 
-        [(ngModel)]="layout" 
-        [options]="options" 
-        [allowEmpty]="false" 
-        styleClass="super-cool-toggle"> <ng-template pTemplate="item" let-item>
-            <i class="pi" 
-               [ngClass]="item.value === 'list' ? 'pi-bars' : 'pi-th-large'" 
-               style="font-size: 1.1rem"></i>
-        </ng-template>
-    </p-selectbutton>
+
+<!-- סינונים וחיפוש -->
+<div class="flex flex-col md:flex-row gap-4 mb-6" dir="rtl">
+    <div class="flex-1">
+        <div class="relative">
+            <i class="pi pi-search absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input 
+                type="text" 
+                pInputText 
+                [(ngModel)]="searchText"
+                (input)="onSearchChange()"
+                placeholder="חיפוש לפי שם מתנה..."
+                class="w-full pr-10 pl-4 py-2 border border-slate-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
+            />
+        </div>
+    </div>
+    
+    <div class="md:w-56">
+        <p-select 
+            [options]="categoryOptions" 
+            [(ngModel)]="selectedCategoryId"
+            (onChange)="onCategoryChange()"
+            optionLabel="label" 
+            optionValue="value"
+            placeholder="סנן לפי קטגוריה"
+            styleClass="w-full category-filter"
+            [showClear]="true">
+        </p-select>
+    </div>
+    
+    <div class="md:w-56">
+        <p-select 
+            [options]="raffleStatusOptions" 
+            [(ngModel)]="selectedRaffleStatus"
+            (onChange)="onRaffleStatusChange()"
+            optionLabel="label" 
+            optionValue="value"
+            placeholder="סנן לפי סטטוס"
+            styleClass="w-full category-filter">
+        </p-select>
+    </div>
+    
+    <div class="flex items-center">
+        <p-selectbutton 
+            [(ngModel)]="layout" 
+            [options]="options" 
+            [allowEmpty]="false" 
+            styleClass="view-toggle">
+            <ng-template pTemplate="item" let-item>
+                <i class="pi" 
+                   [ngClass]="item.value === 'list' ? 'pi-bars' : 'pi-th-large'"></i>
+            </ng-template>
+        </p-selectbutton>
+    </div>
 </div>
 
     <p-dataview #dv 
-    [value]="gifts()" 
+    [value]="filteredGifts()" 
     [layout]="layout" 
     [paginator]="true" 
     [rows]="6" 

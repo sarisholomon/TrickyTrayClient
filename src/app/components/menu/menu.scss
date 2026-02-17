@@ -1,41 +1,122 @@
 ::ng-deep {
     .main-sidebar.p-menu {
-        width: 260px !important;
-        border-radius: 1.25rem !important;
+        width: 320px !important;
+        border-radius: 0 !important;
         background: #ffffff;
-        border: 1px solid #f1f5f9 !important;
+        border: none !important;
         display: flex;
         flex-direction: column;
-        min-height: 100%; /* התפריט בדסקטופ מתפרש על כל גובה הקונטיינר */
+        min-height: 100%;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08),
+                    0 2px 8px rgba(0, 0, 0, 0.06);
+        position: relative;
+        overflow: hidden;
+        
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #7c3aed 0%, #6366f1 100%);
+        }
     }
 
-    /* קו מפריד דק מאוד - לא בולט מדי */
+    /* קו מפריד מעוצב */
     .divider {
         height: 1px;
-        background-color: #f8fafc;
+        background: linear-gradient(90deg, transparent 0%, #e2e8f0 50%, transparent 100%);
     }
 
     .nav-item {
         color: #64748b;
         text-decoration: none;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        
+        &::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 0;
+            background: linear-gradient(180deg, #7c3aed 0%, #6366f1 100%);
+            border-radius: 0;
+            transition: height 0.3s ease;
+        }
     }
 
     .nav-item:hover {
-        background-color: #f8faff !important;
-        color: #6366f1 !important;
+        background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%) !important;
+        color: #7c3aed !important;
+        transform: translateX(-3px);
+        box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+        
+        &::before {
+            height: 70%;
+        }
+        
+        .pi {
+            transform: scale(1.1);
+            opacity: 1 !important;
+        }
+    }
+    
+    .nav-item .pi {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    /* עיצוב הלוגו */
+    .logo-wrapper {
+        animation: float 3s ease-in-out infinite;
+        
+        svg {
+            filter: drop-shadow(0 4px 8px rgba(124, 58, 237, 0.3));
+        }
     }
 
     /* עיצוב האווטאר והפרופיל */
     .user-profile {
         border: 1px solid transparent;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border-radius: 0;
+        
+        &::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, rgba(99, 102, 241, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
     }
     
     .user-profile:hover {
-        border-color: #f1f5f9;
+        border-color: rgba(124, 58, 237, 0.2);
+        box-shadow: 0 4px 12px rgba(124, 58, 237, 0.1);
+        
+        &::before {
+            opacity: 1;
+        }
     }
 
     .p-avatar {
-        flex-shrink: 0; /* מונע מהאווטאר להתכווץ */
+        flex-shrink: 0;
+        box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-5px);
     }
 }
 
@@ -51,42 +132,147 @@
     .mobile-menu.p-menu .p-menu-list {
         padding-block: 0.25rem;
     }
+    
+    .mobile-menu .nav-item {
+        &::before {
+            right: auto;
+            left: 0;
+            border-radius: 0;
+        }
+        
+        &:hover {
+            transform: translateX(3px);
+        }
+    }
 }
+
 ::ng-deep {
     .user-profile {
         display: flex;
         align-items: center;
-        width: 100%; /* מבטיח שהבלוק יתפוס את כל הרוחב */
+        width: 100%;
     }
 
     .user-profile .p-avatar {
-        width: 40px !important;    /* גודל קבוע */
-        height: 40px !important;   /* גודל קבוע */
-        min-width: 40px !important; /* מונע מעיכה */
-        flex-shrink: 0 !important;  /* הוראה מפורשת ל-Flexbox לא לגעת ברוחב */
+        width: 40px !important;
+        height: 40px !important;
+        min-width: 40px !important;
+        flex-shrink: 0 !important;
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
-    /* סידור הטקסט ליד האווטאר שלא ימחץ אותו */
     .user-info-container {
         flex-grow: 1;
-        overflow: hidden; /* מבטיח שהמייל לא יחרוג מהמסגרת */
+        overflow: hidden;
         display: flex;
         flex-direction: column;
         justify-content: center;
     }
-    .badge{
-                background-color: #6366f1 !important;
+    
+    .badge {
+        background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%) !important;
+        box-shadow: 0 2px 8px rgba(124, 58, 237, 0.4);
+        animation: pulse 2s ease-in-out infinite;
+    }
+}
 
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
     }
 }
 
 .hamburger-btn {
-    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(124, 58, 237, 0.4);
+        
+        &::before {
+            opacity: 1;
+        }
+    }
+    
+    &:active {
+        transform: scale(0.95);
+    }
 }
 
 .hamburger-btn.open {
-    box-shadow: 0 0 0 2px #e0e7ff, 0 10px 15px -3px rgba(15, 23, 42, 0.25);
+    background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2), 0 8px 20px rgba(124, 58, 237, 0.3);
+}
+
+/* עיצוב ה-Drawer */
+.fixed.top-0.right-0 {
+    background: #ffffff;
+    backdrop-filter: blur(10px);
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(180deg, #7c3aed 0%, #6366f1 100%);
+    }
+}
+
+/* עיצוב תפריט הפרופיל */
+.profile-dropdown {
+    animation: slideDown 0.2s ease-out;
+    overflow: hidden;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.profile-menu-item {
+    transition: all 0.2s ease;
+    text-align: right;
+    direction: rtl;
+    outline: none;
+    
+    &:hover {
+        background: #fef2f2 !important;
+        
+        .pi-sign-out {
+            transform: scale(1.1);
+        }
+    }
+    
+    &:active {
+        transform: scale(0.98);
+    }
+    
+    &:focus {
+        outline: 2px solid #6366f1;
+        outline-offset: 2px;
+    }
 }

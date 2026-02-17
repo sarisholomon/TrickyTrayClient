@@ -1,33 +1,152 @@
-:host ::ng-deep .card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 16px;
-    box-shadow: 0 4px 24px -4px rgba(15, 23, 42, 0.03);
+:host ::ng-deep {
+    .card {
+        background: #f8fafc;
+        border: none;
+        border-radius: 24px;
+        margin: 1rem;
+        padding: 2rem !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        position: relative;
+        overflow: hidden;
+        
+        &::before {
+            content: '';
+            position: absolute;
+            top: -300px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -200px;
+            left: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.04) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+    }
+
+    /* ---- המהפך של הטבלה ---- */
+    .p-datatable {
+        background: #ffffff;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+        /* שורת הכותרות - אפור בהיר, טקסט עדין וברור */
+        .p-datatable-thead > tr > th {
+            background-color: #f8fafc;
+            color: #64748b;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 1.25rem 1.5rem;
+            border: none;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: right;
+        }
+
+        /* שורות התוכן */
+        .p-datatable-tbody > tr {
+            background: #ffffff;
+            transition: background-color 0.2s ease;
+            
+            > td {
+                padding: 1.25rem 1.5rem;
+                color: #334155;
+                font-size: 0.95rem;
+                border: none;
+                border-bottom: 1px solid #f1f5f9;
+                text-align: right;
+            }
+
+            &:hover {
+                background-color: #f9fafb;
+            }
+        }
+    }
+
+    /* איפוס פדינג ספציפי לשורה המורחבת כדי שהרקע האפור יישב טוב */
+    .p-datatable .p-datatable-tbody > tr > td.p-0 {
+        padding: 0 !important;
+    }
+
+    /* שדה חיפוש מודרני */
+    .p-inputtext {
+        font-family: inherit;
+        transition: all 0.2s;
+
+        &:focus {
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+    }
+
+    /* כפתור ייצוא */
+    .p-button-outlined {
+        background: #ffffff !important;
+        color: #64748b !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 12px !important;
+        font-weight: 600 !important;
+        
+        &:hover {
+            background: #f8fafc !important;
+            border-color: #cbd5e1 !important;
+        }
+    }
+
+    /* כפתור החץ להרחבת שורה */
+    .p-row-toggler {
+        transition: all 0.2s;
+    }
+
+    /* Paginator */
+    .p-paginator {
+        background: transparent !important;
+        border: none !important;
+        padding: 1rem 0 !important;
+
+        .p-paginator-pages .p-paginator-page.p-highlight {
+            background-color: #f5f3ff !important;
+            color: #7c3aed !important;
+            border-color: #e9d5ff !important;
+        }
+
+        .p-paginator-pages .p-paginator-page:hover {
+            background-color: #faf5ff !important;
+            border-color: #e9d5ff !important;
+        }
+    }
 }
 
-/* עיצוב כותרות הטבלה הראשית והפנימית (יישור לימין, רקע עדין) */
-:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
-    background-color: #f8fafc !important;
-    color: #64748b !important;
-    font-weight: 600 !important;
-    padding: 1.25rem 1rem !important;
-    border-bottom: 2px solid #e2e8f0 !important;
-    text-align: right !important; /* יישור RTL חובה */
-}
+/* עיצוב פס גלילה מודרני ודק */
+::ng-deep .p-datatable-wrapper {
+    &::-webkit-scrollbar {
+        height: 6px; /* גובה פס הגלילה האופקי */
+        width: 6px;
+    }
 
-/* עיצוב שורות התוכן */
-:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
-    padding: 1.25rem 1rem !important;
-    border-bottom: 1px solid #f1f5f9 !important;
-    text-align: right !important; /* יישור RTL חובה */
-}
+    &::-webkit-scrollbar-track {
+        background: #f1f5f9; /* צבע המסילה - אפור בהיר מאוד */
+        border-radius: 10px;
+    }
 
-/* איפוס פדינג ספציפי לשורה המורחבת כדי שהרקע האפור יישב טוב */
-:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td.p-0 {
-    padding: 0 !important;
-}
+    &::-webkit-scrollbar-thumb {
+        background: #cbd5e1; /* צבע ה"ידית" - אפור עדין */
+        border-radius: 10px;
+        transition: background 0.3s;
 
-/* כפתור החץ להרחבת שורה */
-:host ::ng-deep .p-row-toggler {
-    transition: all 0.2s;
+        &:hover {
+            background: #94a3b8; /* מתכהה מעט במעבר עכבר */
+        }
+    }
 }

@@ -56,6 +56,7 @@ export class GiftCatalog implements OnInit {
 
   // משתני State
   gifts = signal<Gift[]>([]);
+  filteredGifts = signal<Gift[]>([]);
   categories = signal<Category[]>([]);
   donors = signal<any[]>([]);
   price: number = 0;
@@ -64,7 +65,23 @@ export class GiftCatalog implements OnInit {
     { label: 'List', value: 'list', icon: 'pi pi-bars' },
     { label: 'Grid', value: 'grid', icon: 'pi pi-th-large' }
   ];
-addingToCartId: number | null = null;
+  
+  // משתני סינון וחיפוש
+  searchText: string = '';
+  selectedCategoryId: number | null = null;
+  categoryOptions: any[] = [];
+  selectedRaffleStatus: string = 'all';
+  raffleStatusOptions: any[] = [
+    { label: 'הכל', value: 'all' },
+    { label: 'מתנות שהוגרלו', value: 'raffled' },
+    { label: 'מתנות שלא הוגרלו', value: 'not-raffled' }
+  ];
+  
+  // משתני הגרלה
+  isRaffling = signal<boolean>(false);
+  private cdr = inject(ChangeDetectorRef);
+  
+  addingToCartId: number | null = null;
   visible: boolean = false;
   isEditMode: boolean = false;
 
@@ -78,7 +95,13 @@ addingToCartId: number | null = null;
     this.loadGifts();
 
     // שליפת נתוני הבסיס
-    this.categoryService.getAll().subscribe(data => this.categories.set(data));
+    this.categoryService.getAll().subscribe(data => {
+      this.categories.set(data);
+      this.categoryOptions = [
+        { label: 'כל הקטגוריות', value: null },
+        ...data.map(cat => ({ label: cat.name, value: cat.id }))
+      ];
+    });
     this.donorService.getAll().subscribe(data => this.donors.set(data));
     this.TicketPriceService.getAll().subscribe((data) => {
       this.price = data;
@@ -88,49 +111,91 @@ addingToCartId: number | null = null;
   loadGifts() {
     this.giftService.getAll().subscribe((data) => {
       this.gifts.set([...data]);
+      this.applyFilters();
     });
   }
-
- // הוסיפי משתנה חדש למחלקה
-isRaffling = signal<boolean>(false);
-private cdr = inject(ChangeDetectorRef); // הזרקה
-random() {
-  this.isRaffling.set(true); // הפעלת אנימציית טעינה בכפתור
   
-  // הצגת הודעה שההגרלה מתחילה
-  this.messageService.add({
-    severity: 'info',
-    summary: 'מבצע הגרלה',
-    detail: 'המערכת בוחרת זוכים, נא להמתין...',
-    life: 2000
-  });
-
-  this.giftService.random().subscribe({
-    next: () => {
-      // רענון הנתונים אוטומטית מהשרת לאחר הצלחה
-      this.loadGifts(); 
-      this.isRaffling.set(false);
-      
-      // הודעת הצלחה
-      this.messageService.add({
-        severity: 'success',
-        summary: 'ההגרלה הסתיימה',
-        detail: 'הזוכים עודכנו בהצלחה!',
-        life: 3000
-      });
-    },
-    error: (err) => {
-      this.isRaffling.set(false);
-      this.messageService.add({
-        severity: 'error',
-        summary: 'שגיאה',
-        detail: 'אירעה תקלה בביצוע ההגרלה',
-        life: 3000
-      });
-      console.error('Raffle failed:', err);
+  // פונקציית סינון
+  applyFilters() {
+    let filtered = [...this.gifts()];
+    
+    // סינון לפי קטגוריה
+    if (this.selectedCategoryId !== null) {
+      filtered = filtered.filter(gift => gift.categoryId === this.selectedCategoryId);
     }
-  });
-}
+    
+    // סינון לפי טקסט חיפוש
+    if (this.searchText.trim()) {
+      const search = this.searchText.toLowerCase();
+      filtered = filtered.filter(gift => 
+        (gift.name && gift.name.toLowerCase().includes(search)) ||
+        (gift.description && gift.description.toLowerCase().includes(search))
+      );
+    }
+    
+    // סינון לפי סטטוס הגרלה
+    if (this.selectedRaffleStatus === 'raffled') {
+      console.log('Filtering for raffled gifts');
+      console.log('Before raffle filter:', filtered);
+      filtered = filtered.filter(gift => gift.winnerEmail != null);
+      
+    } else if (this.selectedRaffleStatus === 'not-raffled') {
+      filtered = filtered.filter(gift => gift.winnerEmail == null);
+    }
+    
+    this.filteredGifts.set(filtered);
+  }
+  
+  // פונקציה שנקראת כאשר משתנה טקסט החיפוש
+  onSearchChange() {
+    this.applyFilters();
+  }
+  
+  // פונקציה שנקראת כאשר משתנה הקטגוריה
+  onCategoryChange() {
+    this.applyFilters();
+  }
+  
+  // פונקציה שנקראת כאשר משתנה סטטוס ההגרלה
+  onRaffleStatusChange() {
+    this.applyFilters();
+  }
+
+  random() {
+    this.isRaffling.set(true);
+    
+    this.messageService.add({
+      severity: 'info',
+      summary: 'מבצע הגרלה',
+      detail: 'המערכת בוחרת זוכים, נא להמתין...',
+      life: 2000
+    });
+
+    this.giftService.random().subscribe({
+      next: () => {
+        this.loadGifts();
+        this.applyFilters();
+        this.isRaffling.set(false);
+        
+        this.messageService.add({
+          severity: 'success',
+          summary: 'ההגרלה הסתיימה',
+          detail: 'הזוכים עודכנו בהצלחה!',
+          life: 3000
+        });
+      },
+      error: (err: any) => {
+        this.isRaffling.set(false);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'שגיאה',
+          detail: 'אירעה תקלה בביצוע ההגרלה',
+          life: 3000
+        });
+        console.error('Raffle failed:', err);
+      }
+    });
+  }
 
   // הפונקציה המעודכנת שטוענת את התמונה לתצוגה מקדימה לפני השמירה בשרת
   onFileSelected(event: any) {

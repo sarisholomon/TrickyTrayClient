@@ -44,6 +44,8 @@ export interface Gift {
     name: string | null;
     imgUrl: string;
     description: string | null;
+        winnerEmail: string | null;
+
     donorId: number;
     donor?: Donor | null;
     categoryId: number;
