@@ -1,25 +1,39 @@
 <!-- מצב דסקטופ: סיידבר מלא -->
 <p-menu *ngIf="layout === 'desktop'" [model]="items()" styleClass="main-sidebar border-none shadow-md">        <ng-template #start>
-            <div class="flex flex-col items-center py-7 px-5">
-                <div class="logo-wrapper mb-4">
-                    <!-- לוגו מכירה סינית מודרני -->
-                    <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <!-- רקע עיגול חיצוני -->
-                        <circle cx="28" cy="28" r="28" fill="url(#gradient1)" />
-                        <!-- כרטיס מתנה מסוגנן -->
-                        <rect x="14" y="18" width="28" height="20" rx="3" fill="white" opacity="0.95"/>
-                        <!-- סימן V מנצח -->
-                        <path d="M22 28L26 32L34 24" stroke="#6366F1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <!-- קישוט כוכב -->
-                        <circle cx="38" cy="15" r="3" fill="#E6C674" opacity="0.8"/>
-                        <circle cx="18" cy="15" r="2" fill="#E6C674" opacity="0.6"/>
-                        <!-- הגדרת גרדיאנט -->
+            <div class="flex flex-col items-center py-7 px-5">                <div class="logo-wrapper mb-4">
+                    <!-- לוגו כובע סיני - ברור, גדול וחד -->
+                    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <defs>
-                            <linearGradient id="gradient1" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
-                                <stop offset="0%" stop-color="#6366F1"/>
+                            <linearGradient id="hatGradient" x1="40" y1="10" x2="40" y2="65">
+                                <stop offset="0%" stop-color="#8B5CF6"/>
+                                <stop offset="50%" stop-color="#6366F1"/>
                                 <stop offset="100%" stop-color="#8B5CF6"/>
                             </linearGradient>
                         </defs>
+                        
+                        <!-- פומפום עליון -->
+                        <circle cx="40" cy="14" r="4.5" fill="#6366F1"/>
+                        <circle cx="40" cy="14" r="2.5" fill="white" opacity="0.4"/>
+                        
+                        <!-- מוט חיבור -->
+                        <rect x="38" y="18.5" width="4" height="6" rx="2" fill="#6366F1"/>
+                        
+                        <!-- חרוט עליון (משולש גדול) -->
+                        <path d="M40 24.5 L18 44 L62 44 Z" fill="url(#hatGradient)" opacity="0.25"/>
+                        <path d="M40 24.5 L18 44 L62 44 Z" stroke="#6366F1" stroke-width="5.5" stroke-linejoin="round" fill="none"/>
+                        
+                        <!-- קו הפרדה -->
+                        <line x1="20" y1="44" x2="60" y2="44" stroke="#6366F1" stroke-width="3.5" opacity="0.5"/>
+                        
+                        <!-- גג תחתון רחב -->
+                        <path d="M8 60 Q40 50 72 60" fill="url(#hatGradient)" opacity="0.25"/>
+                        <path d="M8 60 Q40 50 72 60" stroke="#6366F1" stroke-width="7.5" stroke-linecap="round"/>
+                        
+                        <!-- עיגולים בקצוות -->
+                        <circle cx="8" cy="60" r="5.5" fill="#6366F1"/>
+                        <circle cx="72" cy="60" r="5.5" fill="#6366F1"/>
+                        <circle cx="8" cy="60" r="3" fill="white" opacity="0.4"/>
+                        <circle cx="72" cy="60" r="3" fill="white" opacity="0.4"/>
                     </svg>
                 </div>
                 <div class="text-center">
