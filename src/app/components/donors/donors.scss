@@ -1,26 +1,46 @@
 :host ::ng-deep {
-    /* מיכל ראשי - נקי, רך וצף בעדינות */
     .card {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 16px;
-        padding: 2.5rem;
-        box-shadow: 0 4px 24px -4px rgba(15, 23, 42, 0.03);
-        margin: 1.5rem;
-    }
-
-    /* יישור ותיקון ה-Toolbar המובנה */
-    .p-toolbar {
-        background: transparent;
+        background: #f8fafc;
         border: none;
-        padding: 0 0 2rem 0;
+        border-radius: 24px;
+        margin: 1rem;
+        padding: 2rem !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        position: relative;
+        overflow: hidden;
+        
+        &::before {
+            content: '';
+            position: absolute;
+            top: -300px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -200px;
+            left: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.04) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
     }
 
     /* ---- המהפך של הטבלה ---- */
     .p-datatable {
+        background: #ffffff;
         border-radius: 12px;
         border: 1px solid #e2e8f0;
-        overflow: hidden; /* שומר על הפינות המעוגלות */
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 
         /* שורת הכותרות - אפור בהיר, טקסט עדין וברור */
         .p-datatable-thead > tr > th {
@@ -31,11 +51,12 @@
             padding: 1.25rem 1.5rem;
             border: none;
             border-bottom: 1px solid #e2e8f0;
-            text-align: right; /* קריטי ל-RTL */
+            text-align: right;
         }
 
         /* שורות התוכן */
         .p-datatable-tbody > tr {
+            background: #ffffff;
             transition: background-color 0.2s ease;
             
             > td {
@@ -47,73 +68,101 @@
                 text-align: right;
             }
 
-            /* הובר אלגנטי ולא צועק */
             &:hover {
-                background-color: #fbfbfc;
+                background-color: #f9fafb;
             }
         }
     }
 
-    /* ---- כפתורים ותיבות טקסט ---- */
-    
     /* שדה חיפוש מודרני */
     .p-inputtext {
-        border-radius: 8px;
-        border: 1px solid #cbd5e1;
-        padding: 0.75rem 1rem 0.75rem 2.5rem; /* מקום לאייקון בצד ימין ב-RTL */
         font-family: inherit;
         transition: all 0.2s;
-        width: 280px;
 
         &:focus {
-            border-color: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
         }
     }
 
-    /* כפתור הוספת תורם - חייב להיות מותאם למותג (סגול/אינדיגו, לא ירוק גנרי) */
-    .p-button {
-        border-radius: 8px;
-        font-weight: 500;
-        padding: 0.75rem 1.5rem;
-        transition: transform 0.1s, box-shadow 0.2s;
+    /* כפתור הוספת תורם */
+    p-button:has(.pi-plus) .p-button {
+        background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important;
+        border: 1px solid #7c3aed !important;
+        color: #ffffff !important;
+        font-weight: 700 !important;
+        padding: 0.625rem 1.25rem !important;
+        border-radius: 12px !important;
+        box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3) !important;
+        transition: all 0.3s ease !important;
         
-        /* כפתור ראשי */
-        &:not(.p-button-secondary):not(.p-button-danger):not(.p-button-text) {
-            background-color: #4f46e5;
-            border: none;
-            
-            &:hover {
-                background-color: #4338ca;
-                transform: translateY(-1px);
-                box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
-            }
+        &:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4) !important;
+            background: linear-gradient(135deg, #6d28d9 0%, #5b21b6 100%) !important;
         }
-
-        /* כפתור ייצוא (משני) */
-        &.p-button-secondary {
-            background-color: #ffffff;
-            color: #475569;
-            border: 1px solid #cbd5e1;
-            
-            &:hover {
-                background-color: #f8fafc;
-                color: #0f172a;
-            }
+        
+        &:active {
+            transform: translateY(0px) !important;
         }
     }
 
-    /* תגית מתנה מעוצבת (Badge) */
-    .gift-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        background: #eef2ff;
-        color: #4f46e5;
-        padding: 0.35rem 0.75rem;
-        border-radius: 999px; /* כדורי לחלוטין */
-        font-size: 0.85rem;
-        font-weight: 500;
+    /* כפתור ייצוא */
+    .p-button-outlined {
+        background: #ffffff !important;
+        color: #64748b !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 12px !important;
+        font-weight: 600 !important;
+        
+        &:hover {
+            background: #f8fafc !important;
+            border-color: #cbd5e1 !important;
+        }
+    }
+
+    /* Paginator */
+    .p-paginator {
+        background: transparent !important;
+        border: none !important;
+        padding: 1rem 0 !important;
+
+        .p-paginator-pages .p-paginator-page.p-highlight {
+            background-color: #f5f3ff !important;
+            color: #7c3aed !important;
+            border-color: #e9d5ff !important;
+        }
+
+        .p-paginator-pages .p-paginator-page:hover {
+            background-color: #faf5ff !important;
+            border-color: #e9d5ff !important;
+        }
+    }
+
+    /* עיצוב הדיאלוג */
+    .donor-dialog .p-dialog {
+        border-radius: 16px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .donor-dialog .p-dialog-header {
+        background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+        color: #ffffff;
+        padding: 1.5rem 2rem;
+        border-radius: 16px 16px 0 0;
+        border: none;
+    }
+
+    .donor-dialog .p-dialog-content {
+        padding: 2rem;
+        background: #ffffff;
+    }
+
+    .donor-dialog .p-dialog-footer {
+        background: #f8fafc;
+        padding: 1.25rem 2rem;
+        border-radius: 0 0 16px 16px;
+        border-top: 1px solid #e2e8f0;
     }
 }
 /* עיצוב ומירכוז הפוטר של דיאלוג המחיקה */

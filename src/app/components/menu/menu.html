@@ -1,6 +1,5 @@
 <!-- מצב דסקטופ: סיידבר מלא -->
-<div *ngIf="layout === 'desktop'" class="card flex justify-center p-3 h-full">
-    <p-menu [model]="items()" styleClass="main-sidebar border-none shadow-md">
+<p-menu *ngIf="layout === 'desktop'" [model]="items()" styleClass="main-sidebar border-none shadow-md">
 
         <ng-template #start>
             <div class="flex flex-col items-center py-7 px-5">
@@ -10,8 +9,8 @@
                     </svg>
                 </div>
                 <div class="text-center">
-                    <h2 class="text-xl font-bold text-slate-800 m-0 tracking-tight">מכירה <span class="text-indigo-600">סינית</span></h2>
-                    <p class="text-[12px] text-slate-400 font-medium mt-1">ניהול מכירות חכם</p>
+                    <h2 class="text-2xl font-bold text-slate-800 m-0 tracking-tight">מכירה <span class="text-indigo-600">סינית</span></h2>
+                    <p class="text-sm text-slate-400 font-medium mt-1">ניהול מכירות חכם</p>
                 </div>
             </div>
             <div class="divider mx-6 mb-2"></div>
@@ -19,16 +18,16 @@
 
         <ng-template #submenuheader let-item>
             <div class="px-6 py-2">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-slate-300">{{ item.label }}</span>
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">{{ item.label }}</span>
             </div>
         </ng-template>
 
         <ng-template #item let-item>
             <div class="px-3 mb-0.5">
-                <a pRipple class="nav-item flex items-center px-4 py-2.5 cursor-pointer transition-all rounded-lg"
+                <a pRipple class="nav-item flex items-center px-4 py-3 cursor-pointer transition-all"
                    [routerLink]="item.routerLink" [class]="item.linkClass">
-                    <span [class]="item.icon" class="text-lg opacity-60"></span>
-                    <span class="mr-3.5 font-medium text-[14px]">{{ item.label }}</span>
+                    <span [class]="item.icon" class="text-xl opacity-60"></span>
+                    <span class="mr-3.5 font-medium text-base">{{ item.label }}</span>
                     <p-badge *ngIf="item.badge" class="badge mr-auto" [value]="item.badge" />
                 </a>
             </div>
@@ -37,21 +36,20 @@
         <ng-template #end>
             <div *ngIf="userSignal() as currentUser" class="mt-auto px-3 pb-4">
                 <div class="divider mb-4 mx-3"></div>
-                <div class="user-profile flex items-center px-3 py-2 rounded-xl hover:bg-slate-50 transition-all cursor-pointer">
+                <div *ngIf="userSignal() as currentUser" class="user-profile flex items-center px-3 py-3 hover:bg-slate-50 transition-all cursor-pointer">
                     <p-avatar [label]="(currentUser.firstName?.charAt(0)?.toUpperCase())"
                               shape="circle"
-                              styleClass="bg-indigo-500 text-white text-sm font-bold w-9 h-9">
+                              styleClass="bg-indigo-500 text-white text-base font-bold w-11 h-11">
                     </p-avatar>
                     <div class="flex flex-col text-right mr-3 overflow-hidden">
-                        <span class="font-bold text-slate-700 text-[13.5px] truncate leading-tight">{{ currentUser.firstName }}</span>
-                        <span class="text-[11.5px] text-slate-400 truncate">{{ currentUser.email }}</span>
+                        <span class="font-bold text-slate-700 text-sm truncate leading-tight">{{ currentUser.firstName }}</span>
+                        <span class="text-xs text-slate-400 truncate">{{ currentUser.email }}</span>
                     </div>
-                    <i class="pi pi-chevron-down mr-auto text-[10px] text-slate-300"></i>
+                    <i class="pi pi-chevron-down mr-auto text-xs text-slate-300"></i>
                 </div>
             </div>
         </ng-template>
-    </p-menu>
-</div>
+</p-menu>
 
 <!-- מצב מובייל/טאבלט: בר עליון + תפריט המבורגר ו-Drawer -->
 <div *ngIf="layout === 'mobile'" class="relative">
@@ -70,7 +68,7 @@
         </div>
 
         <button type="button"
-            class="hamburger-btn inline-flex items-center justify-center px-2.5 py-1.5 rounded-full bg-indigo-500 text-white shadow-md border border-indigo-500 hover:bg-indigo-600 hover:shadow-lg active:scale-95 transition-transform transition-shadow"
+            class="hamburger-btn inline-flex items-center justify-center px-2.5 py-1.5 bg-indigo-500 text-white shadow-md border border-indigo-500 hover:bg-indigo-600 hover:shadow-lg active:scale-95 transition-transform transition-shadow"
                 [class.open]="isMobileMenuOpen"
                 (click)="toggleMobileMenu()"
                 aria-label="תפריט ניווט">
@@ -102,7 +100,7 @@
             </div>
 
             <button type="button"
-                    class="inline-flex items-center justify-center w-8 h-8 rounded-full border border-slate-200 bg-white text-slate-500 hover:bg-slate-50"
+                    class="inline-flex items-center justify-center w-8 h-8 border border-slate-200 bg-white text-slate-500 hover:bg-slate-50"
                     (click)="closeMobileMenu()">
                 <i class="pi pi-times text-sm"></i>
             </button>
@@ -119,7 +117,7 @@
 
                 <ng-template #item let-item>
                     <div class="px-2 mb-0.5">
-                        <a pRipple class="nav-item flex items-center px-3 py-2.5 cursor-pointer transition-all rounded-lg"
+                        <a pRipple class="nav-item flex items-center px-3 py-2.5 cursor-pointer transition-all"
                            [routerLink]="item.routerLink" [class]="item.linkClass" (click)="closeMobileMenu()">
                             <span [class]="item.icon" class="text-base opacity-60"></span>
                             <span class="mr-3 font-medium text-[14px]">{{ item.label }}</span>
@@ -131,7 +129,7 @@
                 <ng-template #end>
                     <div *ngIf="userSignal() as currentUser" class="mt-4 px-3 pb-4">
                         <div class="divider mb-3 mx-1"></div>
-                        <div class="user-profile flex items-center px-3 py-2 rounded-xl hover:bg-slate-50 transition-all cursor-pointer">
+                        <div class="user-profile flex items-center px-3 py-2 hover:bg-slate-50 transition-all cursor-pointer">
                             <p-avatar [label]="(currentUser.firstName?.charAt(0)?.toUpperCase())"
                                       shape="circle"
                                       styleClass="bg-indigo-500 text-white text-sm font-bold w-9 h-9">
