@@ -1,11 +1,25 @@
 <!-- מצב דסקטופ: סיידבר מלא -->
-<p-menu *ngIf="layout === 'desktop'" [model]="items()" styleClass="main-sidebar border-none shadow-md">
-
-        <ng-template #start>
+<p-menu *ngIf="layout === 'desktop'" [model]="items()" styleClass="main-sidebar border-none shadow-md">        <ng-template #start>
             <div class="flex flex-col items-center py-7 px-5">
-                <div class="logo-wrapper mb-3">
-                    <svg width="34" height="34" viewBox="0 0 31 33" fill="none">
-                        <path d="M15.1934 0L0.0391235 5.38288L2.35052 25.3417L15.1934 32.427L28.0364 25.3417L30.3478 5.38288L15.1934 0Z" fill="#6366F1" />
+                <div class="logo-wrapper mb-4">
+                    <!-- לוגו מכירה סינית מודרני -->
+                    <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- רקע עיגול חיצוני -->
+                        <circle cx="28" cy="28" r="28" fill="url(#gradient1)" />
+                        <!-- כרטיס מתנה מסוגנן -->
+                        <rect x="14" y="18" width="28" height="20" rx="3" fill="white" opacity="0.95"/>
+                        <!-- סימן V מנצח -->
+                        <path d="M22 28L26 32L34 24" stroke="#6366F1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <!-- קישוט כוכב -->
+                        <circle cx="38" cy="15" r="3" fill="#E6C674" opacity="0.8"/>
+                        <circle cx="18" cy="15" r="2" fill="#E6C674" opacity="0.6"/>
+                        <!-- הגדרת גרדיאנט -->
+                        <defs>
+                            <linearGradient id="gradient1" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#6366F1"/>
+                                <stop offset="100%" stop-color="#8B5CF6"/>
+                            </linearGradient>
+                        </defs>
                     </svg>
                 </div>
                 <div class="text-center">
