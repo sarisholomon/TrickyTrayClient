@@ -28,21 +28,17 @@ export class Cart implements OnInit {
   private ticketService = inject(TicketPriceService);
    private confirmationService = inject(ConfirmationService);
     private messageService = inject(MessageService);
-  // שימוש ב-Signals לניהול הסטייט
   cartItems = signal<CartItem[]>([]);
   currentPrice = signal<number>(0);
   
-  // Computed Signal: מחשב אוטומטית את הכמות בכל פעם ש-cartItems משתנה
   totalQuantity = computed(() => {
     return this.cartItems().reduce((acc, item) => acc + item.quantity, 0);
   });
 
-  // חישוב המחיר הכולל (כמות כפול מחיר יחידה)
   totalAmount = computed(() => {
     return this.totalQuantity() * this.currentPrice();
   });
 
-  // דגל לסיום תשלום בתוך הדיאלוג
   paymentFinished = false;
 removeItem(id:number){  
   console.log(id);
@@ -52,12 +48,10 @@ removeItem(id:number){
 }
 
   ngOnInit() {
-    // טעינת פריטי העגלה
     this.cartService.getAll().subscribe((data) => {
       this.cartItems.set(data);
     });
 
-    // טעינת מחיר הכרטיס (ישתמש ב-Cache מהשירות)
     this.ticketService.getAll().subscribe((price) => {
       this.currentPrice.set(price);
     });
@@ -80,7 +74,6 @@ removeItem(id:number){
         });
     }
 
-    // נקרא כאשר התשלום הסתיים בהצלחה בתוך קומפוננטת התשלום
     onPurchaseCompleted() {
       this.cartItems.set([]);
       this.paymentFinished = true;

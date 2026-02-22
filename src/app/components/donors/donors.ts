@@ -10,7 +10,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { InputTextModule } from 'primeng/inputtext';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef } from '@angular/core'; // הוסיפי ChangeDetectorRef
+import { ChangeDetectorRef } from '@angular/core'; 
 import { DonorService } from '../../services/donor-service';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { Donor } from '../../models/models';
@@ -29,11 +29,10 @@ import { Donor } from '../../models/models';
 
 })
 export class Donors implements OnInit {
-    // הזרקת התלויות החדשה (Angular 14+)
     private donorService = inject(DonorService);
     private messageService = inject(MessageService);
     private confirmationService = inject(ConfirmationService);
-    private cdr = inject(ChangeDetectorRef); // הזרקה של המזהה
+    private cdr = inject(ChangeDetectorRef); 
 
 
     donors: Donor[] = [];
@@ -41,7 +40,6 @@ export class Donors implements OnInit {
     selectedDonors!: Donor[] | null;
     submitted: boolean = false;
     donorDialog: boolean = false;
-    // הוסיפי את המשתנה הזה בתוך המחלקה, מעל ה-ngOnInit
 cols = [
     { field: 'name', header: 'שם' },
     { field: 'phoneNumber', header: 'טלפון' },
@@ -56,8 +54,6 @@ cols = [
     exportCSV(event: any) {
         this.table.exportCSV();
     }
-
-    // פונקציית עזר ליצירת תורם ריק
     createEmptyDonor(): Donor {
         return { 
             id: 0, 
@@ -72,7 +68,7 @@ cols = [
     loadDonors() {
         this.donorService.getAll().subscribe((data) => {
             this.donors = data;
-            this.cdr.detectChanges(); // הכרחת עדכון ה-UI
+            this.cdr.detectChanges(); 
             console.log(data);
             
         });
@@ -94,12 +90,11 @@ cols = [
 
         if (this.donor.name?.trim()) {
             if (this.donor.id !== 0) {
-                // עדכון תורם קיים
                 this.donorService.updateDonor(this.donor.id, this.donor).subscribe({
                     next: () => {
                         this.messageService.add({ severity: 'success', summary: 'הצלחה', detail: 'הפרטים עודכנו בהצלחה', life: 3000 });
-                        this.loadDonors(); // רענון הטבלה
-                        this.closeDialog(); // סגירה ואיפוס רק אחרי הצלחה!
+                        this.loadDonors(); 
+                        this.closeDialog(); 
                     },
                     error: (err) => {
                         this.messageService.add({ severity: 'error', summary: 'שגיאה', detail: 'אירעה שגיאה בעת העדכון', life: 3000 });
@@ -107,12 +102,11 @@ cols = [
                     }
                 });
             } else {
-                // יצירת תורם חדש
                 this.donorService.addDonor(this.donor).subscribe({
                     next: () => {
                         this.messageService.add({ severity: 'success', summary: 'הצלחה', detail: 'תורם חדש נוצר', life: 3000 });
-                        this.loadDonors(); // רענון הטבלה
-                        this.closeDialog(); // סגירה ואיפוס רק אחרי הצלחה!
+                        this.loadDonors(); 
+                        this.closeDialog(); 
                     },
                     error: (err) => {
                         this.messageService.add({ severity: 'error', summary: 'שגיאה', detail: 'אירעה שגיאה בעת יצירת התורם', life: 3000 });

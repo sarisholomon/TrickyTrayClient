@@ -8,7 +8,7 @@ import { AuthService } from '../../services/auth-service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CartService } from '../../services/cart-service';
-import { toSignal } from '@angular/core/rxjs-interop'; // <--- 1. ייבוא חשוב
+import { toSignal } from '@angular/core/rxjs-interop'; 
 import { TypeCostumer, User } from '../../models/models'
 @Component({
     selector: 'app-menu',
@@ -25,18 +25,11 @@ export class Menu {
 
     isMobileMenuOpen = false;
 
-    // <--- 2. המרת ה-Observable ל-Signal כדי שנוכל להשתמש בו בתוך computed
     userSignal = toSignal<User | null>(this.authService.currentUser$);
-    // הופכים את items לסיגנל מחושב שמגיב לשינויים אוטומטית
     items = computed<MenuItem[]>(() => {
-        // 1. קריאה לסיגנלים בתחילת הפונקציה כדי להירשם לשינויים
         const user = this.userSignal();
         const cartCount = user !== null ? this.cartService.totalQuantity() : 0;
-
-        // const isAdmin = user?.type == TypeCostumer.Admin;
         console.log(this.authService.isAdmin());
-
-
         return [
             { separator: true },
             {
@@ -65,7 +58,6 @@ export class Menu {
                         icon: 'pi pi-shopping-bag',
                         badge: cartCount.toString(),
                         routerLink: ['/cart'],
-                        // כאן אנחנו מוודאים שהתנאי מחושב מחדש
                         visible: user !== null && !this.authService.isAdmin()
                     },
                     {

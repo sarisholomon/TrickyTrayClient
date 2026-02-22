@@ -1,8 +1,8 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { GiftService } from '../../services/gift-service'; // תוודא שהנתיב נכון
-import { DonorService } from '../../services/donor-service'; // תוודא שהנתיב נכון
+import { GiftService } from '../../services/gift-service'; 
+import { DonorService } from '../../services/donor-service'; 
 import { CartService } from '../../services/cart-service'; 
 import { Gift, Donor, PurchasedGiftItem, UserPurchase } from '../../models/models';
 import { PurchaseService } from '../../services/purchase-service';

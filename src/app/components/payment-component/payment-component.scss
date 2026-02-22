@@ -1,12 +1,11 @@
 /* payment-component.scss */
 .payment-container {
   max-width: 500px;
-  margin: 0 auto; /* איפוס Margin כדי שלא יתפוס מקום מיותר בדיאלוג */
+  margin: 0 auto; 
   padding: 10px;
   font-family: sans-serif;
   color: #333;
   
-  /* חשוב: מאפשר גלילה פנימית אם הדיאלוג קטן מדי */
   overflow-y: visible; 
   height: auto;
 }

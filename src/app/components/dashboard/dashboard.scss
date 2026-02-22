@@ -16,7 +16,6 @@
   }
 }
 
-// רקע אנימטי
 .animated-bg {
   position: absolute;
   top: 0;
@@ -128,7 +127,6 @@
   }
 }
 
-// גריד הכרטיסים העליון
 .stats-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -247,7 +245,6 @@
   }
 }
 
-// גריד התוכן המרכזי
 .main-content-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -337,7 +334,6 @@
   }
 }
 
-// רשימת מתנות
 .gift-item {
   display: flex;
   align-items: center;
@@ -444,7 +440,6 @@
   }
 }
 
-// סטטוס הגרלה
 .status-content {
   flex: 1;
   display: flex;

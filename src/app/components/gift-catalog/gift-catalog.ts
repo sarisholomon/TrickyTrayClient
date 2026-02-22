@@ -42,7 +42,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./gift-catalog.scss']
 })
 export class GiftCatalog implements OnInit {
-  // הזרקת שירותים (Services)
   public giftService = inject(GiftService);
   private CartService = inject(CartService);
   private TicketPriceService = inject(TicketPriceService);
@@ -54,7 +53,6 @@ export class GiftCatalog implements OnInit {
   private router = inject(Router);
 
 
-  // משתני State
   gifts = signal<Gift[]>([]);
   filteredGifts = signal<Gift[]>([]);
   categories = signal<Category[]>([]);
@@ -66,7 +64,6 @@ export class GiftCatalog implements OnInit {
     { label: 'Grid', value: 'grid', icon: 'pi pi-th-large' }
   ];
   
-  // משתני סינון וחיפוש
   searchText: string = '';
   selectedCategoryId: number | null = null;
   categoryOptions: any[] = [];
@@ -77,7 +74,6 @@ export class GiftCatalog implements OnInit {
     { label: 'מתנות שלא הוגרלו', value: 'not-raffled' }
   ];
   
-  // משתני הגרלה
   isRaffling = signal<boolean>(false);
   private cdr = inject(ChangeDetectorRef);
   
@@ -87,14 +83,11 @@ export class GiftCatalog implements OnInit {
 
   currentGift: any = { id: 0, name: '', description: '', categoryId: 0, donorId: 0, imgUrl: '' };
 
-  // משתני העלאת תמונה
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null; // משתנה חדש שאחראי על התצוגה המקדימה!
 
   ngOnInit() {
     this.loadGifts();
-
-    // שליפת נתוני הבסיס
     this.categoryService.getAll().subscribe(data => {
       this.categories.set(data);
       this.categoryOptions = [
@@ -115,16 +108,13 @@ export class GiftCatalog implements OnInit {
     });
   }
   
-  // פונקציית סינון
   applyFilters() {
     let filtered = [...this.gifts()];
     
-    // סינון לפי קטגוריה
     if (this.selectedCategoryId !== null) {
       filtered = filtered.filter(gift => gift.categoryId === this.selectedCategoryId);
     }
     
-    // סינון לפי טקסט חיפוש
     if (this.searchText.trim()) {
       const search = this.searchText.toLowerCase();
       filtered = filtered.filter(gift => 
@@ -133,7 +123,6 @@ export class GiftCatalog implements OnInit {
       );
     }
     
-    // סינון לפי סטטוס הגרלה
     if (this.selectedRaffleStatus === 'raffled') {
       console.log('Filtering for raffled gifts');
       console.log('Before raffle filter:', filtered);
@@ -146,17 +135,14 @@ export class GiftCatalog implements OnInit {
     this.filteredGifts.set(filtered);
   }
   
-  // פונקציה שנקראת כאשר משתנה טקסט החיפוש
   onSearchChange() {
     this.applyFilters();
   }
   
-  // פונקציה שנקראת כאשר משתנה הקטגוריה
   onCategoryChange() {
     this.applyFilters();
   }
   
-  // פונקציה שנקראת כאשר משתנה סטטוס ההגרלה
   onRaffleStatusChange() {
     this.applyFilters();
   }
@@ -197,13 +183,11 @@ export class GiftCatalog implements OnInit {
     });
   }
 
-  // הפונקציה המעודכנת שטוענת את התמונה לתצוגה מקדימה לפני השמירה בשרת
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
       this.selectedFile = file;
 
-      // יצירת תצוגה מקדימה באמצעות FileReader
       const reader = new FileReader();
       reader.onload = (e) => {
         if (e.target?.result) {
@@ -214,7 +198,6 @@ export class GiftCatalog implements OnInit {
     }
   }
 
-  // פונקציה חדשה למחיקת התמונה שנבחרה (הכפתור x מעל התמונה ב-HTML)
   clearImage() {
     this.previewUrl = null;
     this.selectedFile = null;
@@ -256,7 +239,6 @@ export class GiftCatalog implements OnInit {
 
   addToCart(id: number) {
     if (!this.authService.isLoggedIn()) {
-      // במקום alert('נא להתחבר') - שלחי הודעה מעוצבת:
       this.messageService.add({
         severity: 'info',
         summary: 'התחברות נדרשת',
@@ -271,18 +253,13 @@ export class GiftCatalog implements OnInit {
     this.CartService.addCartItem(id).subscribe();
     setTimeout(() => {
         console.log(`Gift ${id} added to cart!`);
-        // TODO: Call your actual cart service here
         
-        // סיום האנימציה אחרי שניה וחצי (כדי שהמשתמש ייהנה מהאפקט)
      setTimeout(() => {
-        // 3. מכבים את האנימציה - המשתנה חוזר להיות ריק
         this.addingToCartId = null;
-        
-        // מעדכנים את התצוגה
-        this.cdr.detectChanges(); 
+                this.cdr.detectChanges(); 
     }, 3000);
         
-    }, 500); //
+    }, 500); 
   }
 
   showDialog(gift?: any) {

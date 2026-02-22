@@ -17,7 +17,7 @@ import { Table } from 'primeng/table';
 
 @Component({
     selector: 'app-table-row-expansion-demo',
-    templateUrl: './purchases.html', // הפניה לקובץ ה-HTML
+    templateUrl: './purchases.html', 
     standalone: true,
     imports: [CommonModule,ButtonModule, RatingModule, TableModule, TagModule, ToastModule, RippleModule, FormsModule],
     providers: [PurchaseService, MessageService],
@@ -55,14 +55,13 @@ cols = [
     { field: 'totalPrice', header: 'סכום כולל' }
 ];
 
-// 3. פונקציית הייצוא
 exportCSV() {
     this.table.exportCSV();
 }
   
     expandAll() {
     this.expandedRows = this.purchases.reduce((acc, p) => {
-        acc[p.purchaseId] = true; // שינוי מ-id ל-purchaseId
+        acc[p.purchaseId] = true; 
         return acc;
     }, {} as { [key: string]: boolean });
 }

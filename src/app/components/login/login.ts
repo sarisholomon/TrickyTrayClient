@@ -27,7 +27,7 @@ import { GoogleLoginComponent } from '../google-login/google-login';
   templateUrl: './login.html', 
   styleUrls: ['./login.scss'] 
 })
-export class LoginComponent implements OnInit {
+export class Login implements OnInit {
   loginForm!: FormGroup; 
   errorMessage: string = ''; 
 public router = inject(Router);

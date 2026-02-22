@@ -34,7 +34,6 @@
         }
     }
 
-    /* ---- המהפך של הטבלה ---- */
     .p-datatable {
         background: #ffffff;
         border-radius: 12px;
@@ -42,7 +41,6 @@
         overflow: hidden;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 
-        /* שורת הכותרות - אפור בהיר, טקסט עדין וברור */
         .p-datatable-thead > tr > th {
             background-color: #f8fafc;
             color: #64748b;
@@ -54,7 +52,6 @@
             text-align: right;
         }
 
-        /* שורות התוכן */
         .p-datatable-tbody > tr {
             background: #ffffff;
             transition: background-color 0.2s ease;
@@ -74,7 +71,6 @@
         }
     }
 
-    /* שדה חיפוש מודרני */
     .p-inputtext {
         font-family: inherit;
         transition: all 0.2s;
@@ -85,7 +81,6 @@
         }
     }
 
-    /* כפתור הוספת תורם */
     p-button:has(.pi-plus) .p-button {
         background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important;
         border: 1px solid #7c3aed !important;
@@ -107,7 +102,6 @@
         }
     }
 
-    /* כפתור ייצוא */
     .p-button-outlined {
         background: #ffffff !important;
         color: #64748b !important;
@@ -121,7 +115,6 @@
         }
     }
 
-    /* Paginator */
     .p-paginator {
         background: transparent !important;
         border: none !important;
@@ -139,7 +132,6 @@
         }
     }
 
-    /* עיצוב הדיאלוג */
     .donor-dialog .p-dialog {
         border-radius: 16px;
         box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -165,38 +157,35 @@
         border-top: 1px solid #e2e8f0;
     }
 }
-/* עיצוב ומירכוז הפוטר של דיאלוג המחיקה */
 :host ::ng-deep .custom-confirm-dialog .p-dialog-footer {
     display: flex;
     justify-content: center;
     gap: 1rem;
     padding-bottom: 1.5rem;
-    border-top: none; /* מסיר את הקו האפור כדי לתת מראה נקי יותר */
+    border-top: none; 
 }
 
-/* מסיר שוליים מיותרים שהרכיב שם כברירת מחדל */
 :host ::ng-deep .custom-confirm-dialog .p-dialog-footer button {
     margin: 0 !important;
 }
-/* עיצוב פס גלילה מודרני ודק */
 ::ng-deep .p-datatable-wrapper {
     &::-webkit-scrollbar {
-        height: 6px; /* גובה פס הגלילה האופקי */
+        height: 6px; 
         width: 6px;
     }
 
     &::-webkit-scrollbar-track {
-        background: #f1f5f9; /* צבע המסילה - אפור בהיר מאוד */
+        background: #f1f5f9; 
         border-radius: 10px;
     }
 
     &::-webkit-scrollbar-thumb {
-        background: #cbd5e1; /* צבע ה"ידית" - אפור עדין */
+        background: #cbd5e1; 
         border-radius: 10px;
         transition: background 0.3s;
 
         &:hover {
-            background: #94a3b8; /* מתכהה מעט במעבר עכבר */
+            background: #94a3b8;
         }
     }
 }

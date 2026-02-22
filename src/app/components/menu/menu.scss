@@ -23,7 +23,6 @@
         }
     }
 
-    /* קו מפריד מעוצב */
     .divider {
         height: 1px;
         background: linear-gradient(90deg, transparent 0%, #e2e8f0 50%, transparent 100%);
@@ -69,7 +68,6 @@
         transition: transform 0.3s ease, opacity 0.3s ease;
     }
 
-    /* עיצוב הלוגו */
     .logo-wrapper {
         animation: float 3s ease-in-out infinite;
         
@@ -78,7 +76,6 @@
         }
     }
 
-    /* עיצוב האווטאר והפרופיל */
     .user-profile {
         border: 1px solid transparent;
         position: relative;
@@ -120,7 +117,6 @@
     }
 }
 
-/* תפריט מובייל (Drawer) */
 ::ng-deep {
     .mobile-menu.p-menu {
         width: 100% !important;
@@ -220,7 +216,6 @@
     box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2), 0 8px 20px rgba(124, 58, 237, 0.3);
 }
 
-/* עיצוב ה-Drawer */
 .fixed.top-0.right-0 {
     background: #ffffff;
     backdrop-filter: blur(10px);
@@ -236,7 +231,6 @@
     }
 }
 
-/* עיצוב תפריט הפרופיל */
 .profile-dropdown {
     animation: slideDown 0.2s ease-out;
     overflow: hidden;

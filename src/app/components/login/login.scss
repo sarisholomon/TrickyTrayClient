@@ -1,19 +1,16 @@
-/* מרכוז כל הטופס למרכז המסך */
 .login-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f8f9fa; /* רקע אפור בהיר ונעים */
+    background-color: #f8f9fa; 
 }
 
-/* דואג ששדה הסיסמה והאימייל יתפסו את כל רוחב הכרטיס */
 :host ::ng-deep {
     .p-password, .p-inputtext, .p-button {
         width: 100%;
     }
 }
-/* דריסת צבע הפוקוס של שדות הקלט (Focus Ring) כדי שיתאים לאינדיגו של המותג */
 :host ::ng-deep .p-inputtext:focus,
 :host ::ng-deep .p-inputtext:enabled:focus,
 :host ::ng-deep .p-password-input:focus {
@@ -21,7 +18,6 @@
     box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.15) !important;
 }
 
-/* הכרחת שדה הסיסמה של PrimeNG לתפוס 100% רוחב */
 :host ::ng-deep .p-password {
     width: 100%;
     display: block;
@@ -30,7 +26,6 @@
     width: 100%;
 }
 
-/* ריכוך ההתראות (Messages) של PrimeNG למראה מודרני יותר */
 :host ::ng-deep .p-message {
     border-radius: 8px !important;
 }

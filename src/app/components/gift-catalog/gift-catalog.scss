@@ -54,7 +54,6 @@
     box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
 }
 
-/* כפתור הגרלה מותאם */
 :host ::ng-deep p-button:has(.pi-sparkles) .p-button {
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
     border: 1px solid #f59e0b !important;
@@ -84,7 +83,6 @@
     box-shadow: 0 0 0 0.2rem rgba(124, 58, 237, 0.15) !important;
 }
 
-/* עיצוב שדה החיפוש */
 .relative input[type="text"] {
     padding-right: 2.5rem;
     font-size: 0.95rem;
@@ -99,7 +97,6 @@
     }
 }
 
-/* עיצוב סינון הקטגוריות */
 :host ::ng-deep .category-filter {
     .p-select {
         border: 1px solid #e2e8f0;
@@ -122,7 +119,6 @@
         font-size: 0.95rem;
     }
 }
-/* עיצוב כפתורי Grid/List */
 :host ::ng-deep .view-toggle {
     .p-selectbutton {
         background: #ffffff;
@@ -163,7 +159,6 @@
         }
     }
 }
-/* דריסה חזקה לפגינציה */
 :host ::ng-deep .p-paginator {
     --highlight-bg: #f5f3ff !important;
     --highlight-text-color: #7c3aed !important;
@@ -190,50 +185,46 @@
         color: #7c3aed !important;
     }
 }
-/* עיצוב מודרני לכפתור המעבר בין תצוגות */
 :host ::ng-deep .p-selectbutton {
-    background: #f1f5f9; /* רקע אפור-תכלת עדין */
-    border-radius: 12px; /* פינות עגולות */
-    padding: 4px; /* מרווח פנימי קטן */
-    border: 1px solid #e2e8f0; /* מסגרת עדינה */
+    background: #f1f5f9; 
+    border-radius: 12px; 
+    padding: 4px; 
+    border: 1px solid #e2e8f0; 
     display: inline-flex;
 
     .p-button {
         background: transparent;
         border: none;
-        color: #64748b; /* צבע אייקון לא נבחר (אפור) */
+        color: #64748b; 
         transition: all 0.2s ease-in-out;
-        border-radius: 10px; /* פינות עגולות לכפתורים הפנימיים */
-        padding: 0.5rem 1rem; /* ריווח פנימי */
+        border-radius: 10px; 
+        padding: 0.5rem 1rem; 
         
         &:not(:last-child) {
-            margin-left: 2px; /* מרווח קטן בין הכפתורים */
+            margin-left: 2px; 
         }
 
         &:hover:not(.p-highlight) {
-            background: #e2e8f0; /* רקע בהיר במעבר עכבר */
+            background: #e2e8f0; 
             color: #475569;
         }
 
-        /* עיצוב המצב הנבחר (הפעיל) */
         &.p-highlight {
-            background: #ffffff; /* רקע לבן */
-            color: #4f46e5; /* צבע אינדיגו לאייקון הנבחר */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* צללית עדינה */
+            background: #ffffff; 
+            color: #4f46e5; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); 
             font-weight: bold;
         }
 
-        /* הסרת מסגרת הפוקוס של הדפדפן */
         &:focus {
             box-shadow: none;
         }
     }
 }
-/* עיצוב קפסולה "צפה" ואלסטית */
 :host ::ng-deep .super-cool-toggle.p-selectbutton {
-    background: #f1f5f9; /* רקע אפור בהיר מאוד לקפסולה כולה */
+    background: #f1f5f9; 
     padding: 4px;
-    border-radius: 999px; /* עיגול מלא (Pill shape) */
+    border-radius: 999px; 
     border: 1px solid #e2e8f0;
     display: inline-flex;
     box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
@@ -241,62 +232,52 @@
     .p-button {
         background: transparent;
         border: none;
-        color: #94a3b8; /* צבע אייקון לא פעיל */
-        width: 44px;  /* כפתורים עגולים */
+        color: #94a3b8; 
+        width: 44px;  
         height: 44px;
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 999px !important; /* חובה לעגל גם את הכפתור הפנימי */
+        border-radius: 999px !important; 
         
-        /* הקסם: אנימציית קפיץ אלסטית */
         transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 
-        /* מצב הובר על כפתור לא פעיל */
         &:hover:not(.p-highlight) {
             color: #4f46e5;
             background: rgba(255, 255, 255, 0.6);
         }
 
-        /* המצב הנבחר (החתיך!) */
         &.p-highlight {
-            background: #ffffff; /* הכפתור עצמו הופך ללבן */
-            color: #4f46e5 !important; /* האייקון לאינדיגו */
-            /* צללית רכה שנותנת תחושת ריחוף */
+            background: #ffffff; 
+            color: #4f46e5 !important; 
             box-shadow: 0 4px 12px -2px rgba(79, 70, 229, 0.2), 
                         0 2px 6px -1px rgba(0, 0, 0, 0.08);
-            transform: scale(1.05); /* קפיצה קטנה החוצה */
+            transform: scale(1.05); 
             
             i {
                 filter: drop-shadow(0 2px 4px rgba(79, 70, 229, 0.2));
             }
         }
 
-        /* ביטול פוקוס מכוער */
         &:focus {
             box-shadow: none !important;
         }
         
-        /* הסתרת טקסט אם נשאר */
         .p-button-label { display: none; }
     }
 }
-/* --- אנימציית הוספה לסל מתוקנת (עיגול מושלם) --- */
 
-/* הגדרת תנועת הג'לי - קופצנית ועדינה יותר */
 @keyframes jellyPop {
     0% { transform: scale(1); }
-    40% { transform: scale(1.2); box-shadow: 0 0 20px rgba(16, 185, 129, 0.5); } /* גדל וזוהר */
-    60% { transform: scale(0.9); } /* מתכווץ */
-    80% { transform: scale(1.05); } /* באונס קטן */
+    40% { transform: scale(1.2); box-shadow: 0 0 20px rgba(16, 185, 129, 0.5); } 
+    60% { transform: scale(0.9); } 
+    80% { transform: scale(1.05); } 
     100% { transform: scale(1); box-shadow: none; }
 }
 
-/* קלאס להצלחה ברשימה (כפתור רחב) */
 :host ::ng-deep .add-to-cart-success button.p-button {
-    background-color: #10b981 !important; /* ירוק הצלחה */
+    background-color: #10b981 !important; 
     border-color: #10b981 !important;
-    /* מוודאים שהאנימציה חלה על הכפתור עצמו */
     animation: jellyPop 0.7s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
 
     .p-button-label, .p-button-icon {
@@ -304,14 +285,11 @@
     }
 }
 
-/* עיצוב כפתור עגול חסין כיווץ */
 :host ::ng-deep .p-button.p-button-rounded {
-    /* השילוש הקדוש למניעת עיוות */
-    flex: 0 0 48px !important;    /* 0 growth, 0 shrink, 48px basis */
-    width: 48px !important;       /* רוחב קשיח */
-    height: 48px !important;      /* גובה קשיח */
+    flex: 0 0 48px !important;    
+    width: 48px !important;       
+    height: 48px !important;      
     
-    /* מוודאים עיגול מושלם */
     border-radius: 50% !important; 
     padding: 0 !important;
     display: inline-flex !important;
@@ -319,7 +297,6 @@
     justify-content: center !important;
     box-sizing: border-box !important;
 
-    /* מרכזים את האייקון */
     .p-button-icon {
         margin: 0 !important;
         font-size: 1.25rem !important;
@@ -327,7 +304,6 @@
     }
 }
 
-/* התאמת האנימציה כדי שלא תשבור את העיגול */
 @keyframes jellyPopCircle {
     0% { transform: scale(1); }
     30% { transform: scale(1.2, 0.9); }
@@ -339,17 +315,14 @@
     background-color: #10b981 !important;
     border-color: #10b981 !important;
     border-radius: 50% !important;
-    /* הפעלת האנימציה על הכפתור העגול */
     animation: jellyPopCircle 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) forwards !important;
 }
 @media (max-width: 626px) {
-    /* צמצום המרווחים של הכרטיס הראשי */
     :host ::ng-deep .p-dataview-list .flex-row {
         padding: 0.75rem !important;
         gap: 0.75rem !important;
     }
 
-    /* הקטנת התמונה משמעותית */
     :host ::ng-deep .w-40.h-28 {
         width: 80px !important;
         height: 60px !important;
@@ -357,7 +330,6 @@
         flex-shrink: 0 !important;
     }
 
-    /* התאמת הטקסט - שיהיה קומפקטי */
     :host ::ng-deep .flex-1.flex-col {
         gap: 0.25rem !important;
         
@@ -371,41 +343,38 @@
         }
     }
 
-    /* סידור המחיר והכפתורים - גרסה קטנה במיוחד */
     :host ::ng-deep .flex-col.items-end {
         flex-direction: column !important;
         align-items: flex-end !important;
-        gap: 0.25rem !important; /* צמצום רווח בין מחיר לכפתור */
+        gap: 0.25rem !important;
         min-width: fit-content;
 
         span.text-xl {
-            font-size: 1rem !important; /* מחיר קטן יותר */
+            font-size: 1rem !important; 
             margin: 0 !important;
         }
 
-        /* הקטנת כפתור "לסל" / "נוסף" */
         p-button::ng-deep .p-button {
-            padding: 0.25rem 0.5rem !important; /* ריפוד מינימלי */
-            height: 28px !important;            /* גובה נמוך מאוד */
+            padding: 0.25rem 0.5rem !important; 
+            height: 28px !important;            
             min-width: 50px !important;
             border-radius: 6px !important;
 
             .p-button-label {
-                font-size: 0.7rem !important;   /* טקסט קטן */
+                font-size: 0.7rem !important;  
                 font-weight: 700 !important;
             }
             .p-button-icon {
-                font-size: 0.65rem !important;  /* אייקון קטן */
+                font-size: 0.65rem !important;  
                 margin-left: 4px !important;
             }
         }
 
-        /* הקטנת כפתורי אדמין (עריכה/מחיקה) */
         .flex.gap-2 {
             gap: 0.25rem !important;
             
             p-button::ng-deep .p-button.p-button-rounded {
-                width: 26px !important;  /* כפתורים עגולים זעירים */
+                width: 26px !important;  
                 height: 26px !important;
                 flex: 0 0 26px !important;
                 
@@ -415,14 +384,12 @@
             }
         }
     }
-      /* תיקון לזוכה */
     :host ::ng-deep .text-xs.font-medium.text-amber-700 {
         font-size: 9px !important;
         padding: 1px 4px !important;
     }
 }
 
-/* עיצוב מתנות עם זוכה - תצוגת גריד */
 :host ::ng-deep .grid > div:has(.pi-crown) {
     position: relative;
     
@@ -470,7 +437,6 @@
     }
 }
 
-/* עיצוב מתנות עם זוכה - תצוגת רשימה */
 :host ::ng-deep .p-dataview-list .flex-row:has(.pi-crown) {
     background: linear-gradient(135deg, rgba(251, 191, 36, 0.05) 0%, rgba(245, 158, 11, 0.08) 100%) !important;
     position: relative;
@@ -505,7 +471,6 @@
     }
 }
 
-/* עיצוב עדין לדיאלוג */
 :host ::ng-deep .p-dialog {
   border-radius: 16px;
   overflow: hidden;
@@ -607,7 +572,6 @@
   }
 }
 
-/* עיצוב אזור העלאת תמונה */
 :host ::ng-deep {
   .border-dashed {
     transition: all 0.2s ease;
@@ -628,7 +592,6 @@
   }
 }
 
-/* אנימציה להעלאת תמונה */
 @keyframes fadeInScale {
   from {
     opacity: 0;
